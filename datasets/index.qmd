@@ -1,6 +1,5 @@
 ---
 title: 'Datasets'
-weight: 7
 ---
 
 
@@ -9,90 +8,90 @@ Esta página contiene los conjuntos de datos o archivos que se utilizan en los t
 
 ## A
 
-[Algal_traits.csv](/datasets/Algal_traits.csv)
+[Algal_traits.csv](/datasets/files/Algal_traits.csv)
 
 ## B
 
-[Bac.counts.csv](/datasets/Bac.counts.csv)
+[Bac.counts.csv](/datasets/files/Bac.counts.csv)
 
-[Bac.factors.csv](/datasets/Bac.factors.csv)
+[Bac.factors.csv](/datasets/files/Bac.factors.csv)
 
-[Bats_data.csv](/datasets/Bats_data.csv)
+[Bats_data.csv](/datasets/files/Bats_data.csv)
 
 ## C
 
-[Cairns_Mangroves_30m.tif](/datasets/Cairns_Mangroves_30m.tif)
+[Cairns_Mangroves_30m.tif](/datasets/files/Cairns_Mangroves_30m.tif)
 
-[Crabs.csv](/datasets/Crabs.csv)
+[Crabs.csv](/datasets/files/Crabs.csv)
 
 ## E
 
-[Estuaries.csv](/datasets/Estuaries.csv)
+[Estuaries.csv](/datasets/files/Estuaries.csv)
 
-[Estuary_fish.csv](/datasets/Estuary_fish.csv)
+[Estuary_fish.csv](/datasets/files/Estuary_fish.csv)
 
 ## G
 
-[Geo_data.csv](/datasets/Geo_data.csv)
+[Geo_data.csv](/datasets/files/Geo_data.csv)
 
-[Greenhouse.csv](/datasets/Greenhouse.csv)
+[Greenhouse.csv](/datasets/files/Greenhouse.csv)
 
 ## H
 
-[Harbour_metals.csv](/datasets/Harbour_metals.csv)
+[Harbour_metals.csv](/datasets/files/Harbour_metals.csv)
 
-[Herbivore_specialisation.csv](/datasets/Herbivore_specialisation.csv)
+[Herbivore_specialisation.csv](/datasets/files/Herbivore_specialisation.csv)
 
 ## I
 
-[Interaction_plots.csv](/datasets/Interaction_plots.csv)
+[Interaction_plots.csv](/datasets/files/Interaction_plots.csv)
 
 ## L
 
-[Landsat_TIR.tif](/datasets/Landsat_TIR.tif)
+[Landsat_TIR.tif](/datasets/files/Landsat_TIR.tif)
 
-[Leafshape.csv](/datasets/Leafshape.csv)
+[Leafshape.csv](/datasets/files/Leafshape.csv)
 
 ## M
 
-[mauna_loa_co2.csv](/datasets/mauna_loa_co2.csv)
+[mauna_loa_co2.csv](/datasets/files/mauna_loa_co2.csv)
 
-[Mink.csv](/datasets/Mink.csv)
+[Mink.csv](/datasets/files/Mink.csv)
 
-[multiband.tif](/datasets/multiband.tif)
+[multiband.tif](/datasets/files/multiband.tif)
 
 ## P
 
-[Pilot.csv](/datasets/Pilot.csv)
+[Pilot.csv](/datasets/files/Pilot.csv)
 
-[Plant_height.csv](/datasets/Plant_height.csv)
+[Plant_height.csv](/datasets/files/Plant_height.csv)
 
-[Prawns_MR.csv](/datasets/Prawns_MR.csv)
+[Prawns_MR.csv](/datasets/files/Prawns_MR.csv)
 
 ## R
 
-[ReefFish.csv](/datasets/ReefFish.csv)
+[ReefFish.csv](/datasets/files/ReefFish.csv)
 
-[Revegetation.csv](/datasets/Revegetation.csv)
+[Revegetation.csv](/datasets/files/Revegetation.csv)
 
-[River_pH.csv](/datasets/River_pH.csv)
+[River_pH.csv](/datasets/files/River_pH.csv)
 
 ## S
 
-[Sessile.csv](/datasets/Sessile.csv)
+[Sessile.csv](/datasets/files/Sessile.csv)
 
-[Snail_feeding.csv](/datasets/Snail_feeding.csv)
+[Snail_feeding.csv](/datasets/files/Snail_feeding.csv)
 
 ## T
 
-[tree_curtis1998.tre](/datasets/tree_curtis1998.tre)
+[tree_curtis1998.tre](/datasets/files/tree_curtis1998.tre)
 
-[Turtles.csv](/datasets/Turtles.csv)
+[Turtles.csv](/datasets/files/Turtles.csv)
 
 
 ## W
 
-[Weather_vars.csv](/datasets/Weather_vars.csv)
+[Weather_vars.csv](/datasets/files/Weather_vars.csv)
  
 
 **Año:** 2016

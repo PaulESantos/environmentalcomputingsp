@@ -4,25 +4,17 @@ project:
 website:
   page-navigation: true
   title: "Environmental Computing" 
-  site-url: https://openscapes.github.io/approach-guide
+  site-url: https://environmentalcomputingsp.netlify.app
   
-  repo-url: https://github.com/openscapes/approach-guide
+  repo-url: https://github.com/PaulESantos/environmentalcomputingsp
   repo-actions: [edit, issue]
   favicon: images/favicon.png
   page-footer: 
     right: "Made with [Quarto](https://quarto.org/)."
     left: "Environmental Computing"
-        
+    
   sidebar:
     logo: images/hexsticker_EC.png
-    align: center
-    tools: 
-      - icon: globe
-        href: https://openscapes.org
-        text: "Environmental Computing - Spanish"
-      - icon: globe
-        href: https://environmentalcomputing.net
-        text: "Environmental Computing - English"
   
     style: "docked"
     search: true
@@ -108,6 +100,10 @@ website:
           - statistics/t-tests/paired-t-test/index.qmd                            
           - statistics/t-tests/two-sample-t-test/index.qmd                        
           - statistics/time-series/index.qmd
+      - section: datasets/index.qmd 
+        contents:
+          - datasets/index.qmd
+
 format:
   html:
     theme:
