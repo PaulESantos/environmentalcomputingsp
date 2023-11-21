@@ -1,0 +1,51 @@
+---
+title: 'Statistics'
+weight: 6
+---
+
+Estas páginas contienen algunas introducciones a una amplia gama de análisis estadísticos comúnmente utilizados en las ciencias ambientales.
+
+Algunas pruebas de hipótesis simples con la estadística *t*:
+
+* [Pruebas t de una muestra](t-tests/one-sample-t-test) - contrastando un parámetro de muestra con un parámetro de población.
+* [Pruebas t de muestras independientes](t-tests/two-sample-t-test) - contrastando las medias de dos muestras.
+* [Pruebas t pareadas](t-tests/paired-t-test) - contrastando dos grupos cuando los datos están apareados.
+
+[Modelos lineales](linear-models):
+
+* [Regresión lineal](linear-models/linear-regression)
+* [Análisis de varianza: un factor](linear-models/anova/anova-single/)
+* [Análisis de varianza: factorial](linear-models/anova/anova-factorial/)
+* [Comprensión de las interacciones](linear-models/interactions)
+
+[Modelos lineales generalizados](glms):
+
+* [Modelos lineales generalizados 1](glms/glm-1): Introducción y datos binomiales.
+* [Modelos lineales generalizados 2](glms/glm-2): Datos de conteo.
+
+[Modelos mixtos](mixed-models):
+
+* [Modelos mixtos 1](mixed-models/mixed-model-1): Modelos mixtos lineales con un efecto aleatorio.
+* [Modelos mixtos 2](mixed-models/mixed-model-2): Modelos mixtos lineales con varios efectos aleatorios.
+* [Modelos mixtos 3](mixed-models/mixed-model-3): Modelos mixtos lineales generalizados.
+
+[Modelos aditivos generalizados](gams)
+
+[Análisis de datos categóricos](categorical):
+
+* [Pruebas de bondad de ajuste](categorical/goodness-of-fit).
+* [Tablas de contingencia](categorical/contingency-tables).
+
+[Análisis de potencia](power-analysis): cálculo de potencia y determinación del tamaño de muestra.
+
+[Introducción a mvabund](mvabund): análisis basado en modelos de datos de abundancia multivariada.
+
+[Pronóstico con series temporales](time-series).
+
+[Meta-análisis](meta-analysis):
+
+* [Meta-análisis 1](meta-analysis/meta-analysis-1): Introducción y cálculo de tamaños de efecto.
+* [Meta-análisis 2](meta-analysis/meta-analysis-2): Modelos de efecto fijo y efecto aleatorio.
+* [Meta-análisis 3](meta-analysis/meta-analysis-3): Modelos más complejos.
+
+**Última actualización:** `r format(Sys.time(), "%b %Y")`

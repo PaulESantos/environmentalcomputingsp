@@ -1,0 +1,256 @@
+---
+weight: 7
+title: "Power Analyses"
+---
+
+### ¿Qué es el análisis de potencia y por qué es importante?
+Recopilas datos para responder una pregunta, generalmente con el objetivo de detectar un efecto particular (por ejemplo, efecto del tratamiento). La potencia de tu prueba es *la probabilidad de detectar un efecto (es decir, obtener un valor p < 0.05) con el diseño experimental que tienes y el tamaño de efecto que esperas o consideras significativo*.
+
+Comenzaré simulando un conjunto de datos que tiene un efecto (una diferencia entre el grupo de control y el grupo de tratamiento), y veremos si podemos detectar el efecto. Realizaremos una simple [prueba t de dos muestras](../t-tests/two-sample-t-test) como ejemplo.
+
+
+
+```{r}
+set.seed(1)
+
+N <- 20 # the sample size
+
+trt.effect <- 0.2 # difference between control and treatment means
+sigma <- 0.5 # standard deviation of control and treatment groups
+
+mean.con <- 0 # mean of control group
+
+mean.trt <- mean.con + trt.effect # mean of treatment group
+
+control <- rnorm(N, mean.con, sigma) # 20 data points for the control group taken from a normal distribution with known sample size, mean and s.d.
+
+treatment <- rnorm(N, mean.trt, sigma) # data for the treatment group
+
+t.test(control, treatment)
+```
+
+Podemos ver las diferencias entre los grupos con un diagrama de caja y probar esas diferencias con una prueba t:
+
+
+```{r}
+boxplot(cbind(control, treatment))
+t.test(control, treatment)
+```
+
+Sabemos que hay un efecto del tratamiento, con un tamaño de efecto de 0.2, pero la prueba no pudo detectarlo. Esto se conoce como error de tipo II. Repitamos el mismo experimento con exactamente la misma configuración.
+
+
+```{r}
+#
+set.seed(3)
+N <- 20
+trt.effect <- 0.2
+sigma <- 0.5
+mean.con <- 0
+mean.trt <- mean.con + trt.effect
+control <- rnorm(N, mean.con, sigma)
+treatment <- rnorm(N, mean.trt, sigma)
+boxplot(cbind(control, treatment))
+t.test(control, treatment)
+```
+
+Esta vez detectamos un efecto. Esto siempre ocurre, sin importar cuál sea tu diseño experimental, si hay un efecto presente, tienes alguna posibilidad de detectarlo, esto se llama potencia. Para no perder tiempo y dinero, solo debemos realizar experimentos que tengan alta potencia, es decir, alta probabilidad de detectar un efecto si existe. Podemos calcular la potencia de este experimento.
+
+### Análisis de potencia simple con 'pwr'
+
+Existen varios paquetes que realizan análisis de potencia en R. [pwr](https://cran.r-project.org/web/packages/pwr/index.html) realiza cosas simples hasta `lm` y [simR](https://cran.r-project.org/web/packages/simr/index.html) realiza modelos más complejos [modelos mixtos](../mixed-models) y [glms](../glms).
+
+Primero, descarga e instala el paquete.
+
+
+```{r, warning=FALSE}
+library(pwr)
+```
+
+Para realizar cálculos de potencia en pwr, debes dejar uno de los valores como NULL y completar los demás. Luego te proporcionará el valor para el que dejaste en blanco.
+
+Aquí usaré la función `pwr.t.test` y dejaré en blanco el valor de potencia. Calculará la potencia para el diseño experimental dado el tamaño de muestra y el tamaño de efecto especificados. Ten cuidado; la variable d, que en el archivo de ayuda se llama tamaño de efecto, es nuestro efecto de tratamiento (diferencia entre medias) dividido por la desviación estándar.
+
+
+```{r,}
+pwr.t.test(n = 20, d = trt.effect / sigma, sig.level = 0.05, power = NULL)
+```
+
+¡Ups! La potencia es solo del 25%. Esto significa que, dado el efecto que esperamos y con este tamaño de muestra, solo detectaremos ese efecto el 25% del tiempo. Entonces, probablemente no valga la pena hacer este experimento. Podríamos aumentar el tamaño de muestra para aumentar la potencia.
+
+Ahora podemos utilizar nuestros cálculos de potencia para determinar qué tamaño de muestra nos dará una buena potencia, siendo el 80% el umbral habitual. Repetimos el cálculo pero ahora dejando en blanco la variable N y estableciendo la potencia en 0.8.
+
+
+```{r}
+pwr.t.test(n = NULL, d = trt.effect / sigma, sig.level = 0.05, power = 0.8)
+```
+
+Esto nos indica que necesitamos un tamaño de muestra (para cada grupo) de 100 para lograr una potencia del 80% para detectar nuestro efecto. Esto obviamente es importante saberlo si las medidas replicadas son costosas o requieren mucho tiempo para recopilar.
+
+También podemos trazar la potencia para varios tamaños de muestra. Aquí tienes un código que calcula y traza la potencia para tamaños de muestra desde 2 hasta 200.
+
+
+```{r}
+nvals <- seq(2, 200, length.out = 200)
+powvals <- sapply(nvals, function(x) pwr.2p.test(h = trt.effect / sigma, n = x, sig.level = 0.05)$power)
+
+plot(nvals, powvals,
+  xlab = "sample size", ylab = "power",
+  main = "Power curve for sample size for difference in proportions",
+  lwd = 2, col = "red", type = "l"
+)
+
+abline(h = 0.8)
+```
+
+
+El paquete *pwr* tiene varias funciones, pero todas funcionan de manera similar.
+
+Función         | Descripción
+---------------|-------------
+`pwr.2p.test`    | dos proporciones (n iguales)
+`pwr.2p2n.test`  | dos proporciones (n desiguales)
+`pwr.anova.test` | ANOVA de un factor equilibrado
+`pwr.chisq.test` | prueba de chi-cuadrado
+`pwr.f2.test`    | modelo lineal general
+`pwr.p.test`     | proporción (una muestra)
+`pwr.r.test`     | correlación
+`pwr.t.test`     | pruebas t (una muestra, dos muestras, emparejadas)
+`pwr.t2n.test`   | prueba t (dos muestras con n desiguales)
+
+
+Generalmente es un poco complicado especificar el tamaño de efecto, puedes encontrar una buena guía para este paquete [aquí](http://www.statmethods.net/stats/power.html).
+
+Ten en cuenta que especificar el tamaño de efecto no es una pregunta estadística, es una pregunta ecológica sobre qué tamaño de efecto es significativo para tu estudio en particular. Por ejemplo, ¿quieres poder detectar una disminución del 10% en la abundancia de un animal raro o te conformarías con un diseño de muestreo capaz de detectar una disminución del 25%?
+
+### Análisis con modelos lineales y mixtos con 'simr'
+
+Si estás llevando a cabo un experimento con factores aleatorios y necesitas realizar un [modelo mixto](../mixed-models/) y tu análisis de potencia debe reflejar eso, esto es mucho más complicado que los ejemplos anteriores y deberemos utilizar métodos de simulación. El paquete [simR](https://cran.r-project.org/web/packages/simr/index.html) está diseñado para esto.
+
+Descarga e instala el paquete.
+
+```{r,message=FALSE, warning=FALSE}
+library(simr)
+simrOptions(progress = FALSE)
+```
+
+**Análisis de potencia con un estudio piloto.**
+Hemos realizado un estudio piloto y ahora queremos decidir cómo asignar el muestreo para el estudio completo. El estudio busca un efecto de la modificación del estuario en la abundancia de una especie marina. Supongamos que tenemos los recursos para realizar un máximo de 72 muestras y queremos maximizar la potencia para una prueba de la variable categórica 'modificación'.
+
+
+![](Mixed_models_1_image.jpg)
+
+Tenemos un conjunto de datos piloto 'pilot' que tiene un efecto fijo continuo de la temperatura, un efecto fijo de la modificación y un efecto aleatorio para el sitio (anidado dentro de la modificación). La variable de respuesta es la abundancia de una especie de interés.
+
+Descarga estos datos piloto, [Pilot.csv](/datasets/Pilot.csv), impórtalos en R y cambia la variable de modificación a un factor (etiquetado como 1, 2 y 3, pero no como un entero).
+
+
+```{r}
+Pilot <- read.csv(file = "Pilot.csv", header = TRUE)
+Pilot$modification <- factor(Pilot$modification)
+```
+
+Graficar la abundancia en función del sitio y los niveles del factor de modificación nos muestra que tenemos datos donde los sitios varían bastante dentro de cada modificación.
+
+
+```{r}
+
+par(mfrow = c(1, 2))
+boxplot(abundance ~ modification, data = Pilot, main = "modification")
+boxplot(abundance ~ site, data = Pilot, main = "site")
+```
+
+Estos datos de conteo con un efecto aleatorio de sitio se modelan mejor con un [modelo lineal mixto generalizado](../mixed-models/mixed-model-3) utilizando `glmer` del paquete lme4.
+
+
+```{r}
+library(lme4)
+
+Pilot.mod <- glmer(abundance ~ temperature + modification + (1 | site), family = "poisson", data = Pilot)
+
+summary(Pilot.mod)
+```
+
+Hay dos coeficientes que especifican los efectos de la modificación (ya que hay tres categorías de modificación). Para realizar un análisis de potencia, debemos especificar tamaños de efecto que sean ecológicamente significativos. Ten en cuenta que estos están en la escala del modelo, para un modelo `poisson` están en la escala logarítmica (y multiplicativos).
+
+
+```{r}
+fixef(Pilot.mod)["modification2"] <- 0.1
+fixef(Pilot.mod)["modification3"] <- 0.2
+```
+
+Ahora podemos usar la función `powerSim` para calcular la probabilidad de que un experimento con este tamaño de muestra pueda detectar un efecto de modificación, esto es la 'potencia'. Quiero utilizar una prueba de razón de verosimilitudes (es decir, usar la función `anova`) para probar un efecto de modificación, así que lo especifico con el argumento `lr`.
+
+
+```{r}
+powerSim(Pilot.mod, fixed("modification", "lr"), nsim = 50)
+# this is a small number of sims for demonstration, the default of 1000 is more appropriate
+```
+
+Así que esperamos tener un poder de alrededor del 45% para una prueba de razón de verosimilitud para 'modificación' con el número actual de observaciones. Esto es bastante bajo, nos gustaría ver un poder por encima del 80%, así que veamos cómo afecta el aumento del tamaño de la muestra.
+
+**¿Cómo podemos aumentar el poder?**
+Aumentar las observaciones es deseable para aumentar el poder, pero en este diseño de muestreo, tenemos varias formas de agregar observaciones a tus datos. Podrías muestrear más sitios, pero mantener el número de muestras por sitio igual, o podrías mantener el número de sitios igual y muestrear más dentro de cada sitio.
+
+
+```{r}
+xtabs(~ modification + site, data = Pilot)
+```
+
+Actualmente hay 2 sitios por categoría de modificación y 3 observaciones por sitio. Intentemos aumentar el número de sitios. Hacemos esto utilizando la función `extend` para explorar cómo afectará el aumento del tamaño de la muestra al poder. Al utilizar `along=site`, agregaremos más sitios. Con nuestro presupuesto de 72 observaciones y 3 observaciones por sitio, tendríamos 24 sitios.
+
+```{r}
+full1 <- extend(Pilot.mod, along = "site", n = 24)
+
+xtabs(~site, data = attributes(full1)$newData)
+
+powerSim(full1, fixed("modification", "lr"), nsim = 50)
+```
+
+Así que obtenemos alrededor del 90% de poder, suena genial. Para ver si agregar más observaciones por sitio haría que fuera mejor o peor, utilizamos el argumento `within`.
+
+
+```{r}
+full2 <- extend(Pilot.mod, within = "site", n = 12)
+
+xtabs(~site, data = attributes(full2)$newData)
+
+powerSim(full2, fixed("modification", "lr"), nsim = 50)
+```
+
+
+Eso solo nos da alrededor del 60% de poder. Entonces, para estos datos, diseño de muestreo y pregunta, es mejor agregar más sitios. Por supuesto, también puedes hacer combinaciones, tal vez duplicar los sitios y duplicar las observaciones por sitio.
+
+
+```{r}
+full3 <- extend(Pilot.mod, within = "site", n = 6)
+full3 <- extend(full3, along = "site", n = 12)
+
+xtabs(~site, data = attributes(full3)$newData)
+
+powerSim(full3, fixed("modification", "lr"), nsim = 50)
+```
+
+
+Esto nos da un 75% de poder, que está a medio camino entre los otros. Entonces, en este caso, nuevamente es mejor agregar más sitios que más observaciones por sitio. Esto no siempre es cierto y depende en gran medida de la variabilidad dentro y entre sitios, de tu diseño experimental y de tu pregunta.
+
+### Algunas notas
+
+El análisis de poder proporciona la probabilidad de detectar un efecto particular (de una determinada magnitud) a un nivel alfa particular (generalmente 0.05) si este efecto está presente. Si estás interesado en múltiples preguntas a partir de los mismos datos, para realizar un análisis de poder generalmente debes elegir una pregunta de interés principal.
+
+Debes especificar el nivel del efecto que deseas poder detectar. Si utilizas el nivel estimado de un estudio piloto, esto se conoce como un cálculo de "poder observado" y no es un uso válido del análisis de poder.
+
+### Más información
+
+[Algunos ejemplos adicionales de estudios piloto del paquete simR](https://cran.r-project.org/web/packages/simr/vignettes/examples.html)
+
+[Análisis de poder desde cero sin estudio piloto](https://cran.r-project.org/web/packages/simr/vignettes/fromscratch.html)
+
+Más información sobre [especificar el tamaño del efecto](http://www.statmethods.net/stats/power.html)
+
+**Autor**: Gordana Popovic
+
+**Año**: 2016
+
+**Última actualización**: `r format(Sys.time(), "%b %Y")`
+

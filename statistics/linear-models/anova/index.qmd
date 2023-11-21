@@ -1,0 +1,9 @@
+---
+weight: 3
+title: "ANOVA"
+---
+
+
+El análisis de varianza (ANOVA) es una de las técnicas más utilizadas en las ciencias biológicas y ambientales. El ANOVA se utiliza para contrastar una variable dependiente continua *y* en diferentes niveles de una o más variables independientes categóricas *x*. Las variables independientes se denominan factor o tratamiento, y las diferentes categorías dentro de ese tratamiento se denominan niveles. En este módulo, comenzaremos con el diseño más simple, aquellos con un solo factor.
+
+Donde se utilizaría una prueba *t-test* de muestras independientes para comparar las medias de grupos en dos niveles, el ANOVA se utiliza para la comparación de medias de grupos >2, o cuando hay dos o más variables predictoras (ver [ANOVA: factorial](/statistics/linear-models/anova/anova-factorial)). La lógica de esta prueba es esencialmente la misma que la prueba *t-test*: compara la variación entre grupos con la variación dentro de los grupos para determinar si las diferencias observadas se deben al azar o no.

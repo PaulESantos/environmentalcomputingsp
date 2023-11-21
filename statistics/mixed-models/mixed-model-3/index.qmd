@@ -1,0 +1,245 @@
+---
+weight: 3
+title: "Modelos mixtos generalizados"
+---
+**Modelos lineales mixtos generalizados**
+
+Debes leer [Modelos mixtos 1](/statistics/mixed-models/mixed-model-1/) y [Modelos mixtos 2](/statistics/mixed-models/mixed-model-2/) como introducción a los modelos mixtos para datos continuos, así como las páginas de ayuda sobre [Modelos lineales generalizados](/statistics/glms/) como introducción para modelar datos discretos.
+
+Esta página combinará ambos conceptos para permitirte modelar datos discretos (por ejemplo, presencia/ausencia) con efectos aleatorios utilizando modelos lineales mixtos generalizados (GLMMs).
+
+
+**Propiedades de los modelos mixtos**
+
+**Suposiciones**. Las suposiciones de los modelos lineales mixtos generalizados son una combinación de las suposiciones de los GLMs y los modelos mixtos.
+
+1. Las observaciones $y$ son independientes, condicionales a algunos predictores $x$.
+2. La respuesta $y$ proviene de una distribución conocida de la familia exponencial, con una relación conocida entre la media y la varianza.
+3. Existe una relación lineal entre una función conocida (enlace) de la media de $y$ y los predictores $x$ y los efectos aleatorios $z$.
+4. Los efectos aleatorios $z$ son independientes de $y$.
+5. Los efectos aleatorios $z$ siguen una distribución normal.
+
+### Ejecutando el análisis
+
+Analizaremos el mismo conjunto de datos que se utilizó en los dos primeros tutoriales sobre modelos mixtos. Este conjunto de datos tenía como objetivo probar el efecto de la contaminación del agua en la abundancia de algunos invertebrados marinos submareales mediante la comparación de muestras de estuarios modificados y prístinos. En los dos primeros tutoriales, analizamos el recuento total de invertebrados, que asumimos que era continuo debido a que los recuentos totales eran grandes. Aquí analizaremos los recuentos y las presencias/ausencias de especies individuales, lo cual requiere modelos lineales mixtos generalizados.
+
+Utilizaremos el paquete [lme4](https://cran.r-project.org/web/packages/lme4/index.html) para todos nuestros modelos de efectos mixtos. Nos permite modelar datos continuos y discretos con uno o más efectos aleatorios. Sin embargo, hay algunas limitaciones para los datos discretos.
+
+**Lo que puede hacer lme4**
+* Modelar datos binarios (por ejemplo, presencia/ausencia).
+* Modelar recuentos con distribución de Poisson.
+
+**Lo que no puede hacer lme4**
+* Modelar recuentos sobre-dispersos (desafortunadamente, estos son muy comunes en ecología).
+* Proporcionar buenos gráficos de residuos (los necesitamos para verificar las suposiciones).
+
+Primero, carga el paquete:
+
+```{r,warning=FALSE,message=FALSE}
+library(lme4)
+```
+
+Descarga el conjunto de datos de muestra, [Estuaries.csv](/datasets/Estuaries.csv), y cárgalo en R.
+
+```{r,warning=FALSE,message=FALSE}
+Estuaries <- read.csv("Estuaries.csv", header = T)
+```
+
+```{r, echo = FALSE}
+set.seed(2)
+```
+
+En este ejemplo, tenemos un efecto fijo (Modificación; modificado vs prístino) y un efecto aleatorio (Estuario). Para probar si hay un efecto de modificación en los recuentos individuales de especies y en la presencia/ausencia, necesitamos utilizar modelos lineales mixtos generalizados con la función `glmer`.
+
+
+![](Mixed_models_3_image.jpg)
+
+Considera los recuentos de hidroides (la variable Hydroid).
+
+```{r,echo=FALSE}
+Estuaries$Hydroid
+```
+
+Al observar los datos, puedes ver que los recuentos son pequeños, con muchos ceros, por lo que no queremos tratarlos como continuos. Los modelaremos como recuentos con una distribución de Poisson, y también como datos de presencia/ausencia.
+
+Para modelar la presencia/ausencia, primero creamos una variable HydroidPres que es 1 (VERDADERO) cuando los hidroides están presentes y 0 (FALSO) en caso contrario.
+
+
+```{r}
+Estuaries$HydroidPres <- Estuaries$Hydroid > 0
+```
+
+**Datos binarios**
+
+Para ajustar un modelo para la presencia o ausencia de hidroides, usaríamos `glmer` con `family=binomial`.
+
+
+```{r}
+fit.bin <- glmer(HydroidPres ~ Modification + (1 | Estuary), family = binomial, data = Estuaries)
+```
+
+**Comprobando suposiciones** Como de costumbre, podemos examinar los gráficos de residuos para comprobar las suposiciones.
+
+```{r}
+par(mfrow = c(1, 2))
+plot(residuals(fit.bin) ~ fitted(fit.bin), main = "residuals v.s. Fitted")
+qqnorm(residuals(fit.bin))
+```
+
+
+Desafortunadamente, para datos binarios, los gráficos de residuos son bastante difíciles de interpretar. En el gráfico de residuos frente a los valores ajustados, todos los 0 están en una línea (inferior izquierda) y todos los 1 están en una línea (superior derecha) debido a la discreción de los datos. Esto nos impide poder buscar patrones. Tenemos el mismo problema con el gráfico de cuantiles normales.
+
+Al echar un breve vistazo a nuestras suposiciones, las suposiciones 1 y 4 no las podemos comprobar, pero serán verdaderas si muestreamos de forma aleatoria. Las suposiciones 2 y 3 debemos comprobarlas con los gráficos de residuos, pero dada su limitación no estamos seguros. La suposición 5 es difícil de comprobar en general y no es crucial.
+
+**Prueba de hipótesis para efectos fijos**
+
+Para modelos mixtos lineales generalizados (GLMM), necesitamos utilizar el bootstrap paramétrico incluso para la inferencia de efectos fijos. Esto se debe a que los valores p de la función `anova` son bastante aproximados para GLMM, incluso para efectos fijos. A veces, la función `glmer` mostrará advertencias o errores, por lo que he agregado un `tryCatch` a este código para manejar eso.
+
+
+```{r, error=FALSE, message=FALSE, warning=FALSE}
+nBoot <- 1000
+lrStat <- rep(NA, nBoot)
+ft.null <- glmer(HydroidPres ~ 1 + (1 | Estuary), family = binomial, data = Estuaries) # modelo nulo
+ft.alt <- glmer(HydroidPres ~ Modification + (1 | Estuary), family = binomial, data = Estuaries) # modelo alternativo
+
+lrObs <- 2 * logLik(ft.alt) - 2 * logLik(ft.null) # estadística de prueba observada
+
+for (iBoot in 1:nBoot)
+{
+  Estuaries$HydroidPresSim <- unlist(simulate(ft.null)) # datos remuestreados
+  tryCatch(
+    { # a veces el código glmer no converge
+
+      bNull <- glmer(HydroidPresSim ~ 1 + (1 | Estuary), family = binomial, data = Estuaries) # modelo nulo
+      bAlt <- glmer(HydroidPresSim ~ Modification + (1 | Estuary), family = binomial, data = Estuaries) # modelo alternativo
+      lrStat[iBoot] <- 2 * logLik(bAlt) - 2 * logLik(bNull) # estadística de prueba remuestreada
+    },
+    warning = function(war) {
+      lrStat[iBoot] <- NA
+    },
+    error = function(err) {
+      lrStat[iBoot] <- NA
+    }
+  ) # si el código no converge, se omite la simulación
+}
+mean(lrStat > lrObs, na.rm = T) # p-valor para el test del efecto Estuary
+
+```
+
+Tenemos evidencia de un efecto de modificación en la presencia de hidroides.
+
+**Datos de conteo**
+
+lme4 puede modelar datos de conteo que siguen una distribución de Poisson. Si los datos no se ajustan a la relación media/varianza de Poisson, entonces las cosas se vuelven mucho más complicadas, y no abordaremos esa situación aquí.
+
+Para modelar los conteos de hidroides, usaríamos `glmer` con `family=poisson`.
+
+```{r}
+fit.pois <- glmer(Hydroid ~ Modification + (1 | Estuary), family = poisson, data = Estuaries)
+```
+
+Para verificar las suposiciones:
+
+```{r}
+par(mfrow = c(1, 2))
+plot(residuals(fit.pois) ~ fitted(fit.pois), main = "Residuals vs. Fitted")
+qqnorm(residuals(fit.pois))
+```
+
+Una vez más, los gráficos de residuos no son muy útiles, pero al menos nos dan una idea de si la suposición de varianza es razonable. No hay una forma de abanico evidente, por lo que un modelo de Poisson parece estar bien.
+
+**Prueba de hipótesis para efectos fijos**
+
+Una vez más, podemos utilizar el remuestreo paramétrico para probar si hay un efecto de Modificación.
+
+
+```{r}
+nBoot <- 1000
+lrStat <- rep(NA, nBoot)
+ft.null <- glmer(Hydroid ~ 1 + (1 | Estuary), family = poisson, data = Estuaries) # modelo nulo
+ft.alt <- glmer(Hydroid ~ Modification + (1 | Estuary), family = poisson, data = Estuaries) # modelo alternativo
+
+lrObs <- 2 * logLik(ft.alt) - 2 * logLik(ft.null) # estadística de prueba observada
+for (iBoot in 1:nBoot)
+{
+  Estuaries$HydroidSim <- unlist(simulate(ft.null)) # datos remuestreados
+  tryCatch(
+    {
+      bNull <- glmer(HydroidSim ~ 1 + (1 | Estuary), family = poisson, data = Estuaries) # modelo nulo
+      bAlt <- glmer(HydroidSim ~ Modification + (1 | Estuary), family = poisson, data = Estuaries) # modelo alternativo
+      lrStat[iBoot] <- 2 * logLik(bAlt) - 2 * logLik(bNull) # estadística de prueba remuestreada
+    },
+    warning = function(war) {
+      lrStat[iBoot] <- NA
+    },
+    error = function(err) {
+      lrStat[iBoot] <- NA
+    }
+  ) # si el código no converge, se omite la simulación
+}
+mean(lrStat > lrObs, na.rm = TRUE) # Valor p para la prueba del efecto Estuary
+
+```
+
+Tenemos evidencia de un efecto de la modificación en la abundancia de hidroideos.
+
+**Un ejemplo no Poisson**
+
+A menudo, los datos de conteo no se ajustan a una distribución de Poisson. Observa lo que sucede si intentas modelar los conteos del briozoo *Schizoporella errata* de ese mismo conjunto de datos.
+
+```{r}
+fit.pois2 <- glmer(Schizoporella.errata ~ Modification + (1 | Estuary), family = poisson, data = Estuaries)
+par(mfrow = c(1, 2))
+plot(residuals(fit.pois) ~ fitted(fit.pois), main = "residuals vs. Fitted")
+qqnorm(residuals(fit.pois))
+```
+
+Aquí podemos ver una forma de abanico distinta en el gráfico de residuos frente a los valores ajustados. Desafortunadamente, lme4 no puede manejar esta situación (sobredispersión) y no hay una manera fácil de modelar estos datos. Si esto ocurre en tus datos, prueba el paquete [glmmADMB](http://glmmadmb.r-forge.r-project.org/).
+
+**Prueba de hipótesis para efectos aleatorios**
+
+Como antes, podrías realizar pruebas de hipótesis sobre los efectos aleatorios utilizando un remuestreo paramétrico. Consulta [Modelos mixtos 1](/statistics/mixed-models/mixed-model-1/) y [Modelos mixtos 2](/statistics/mixed-models/mixed-model-2/) para ver el código que podrías modificar para esta situación.
+
+  
+
+### Comunicación de los resultados
+
+**Escrita.** Los resultados de los modelos lineales mixtos generalizados se comunican de manera similar a los resultados de los modelos lineales. En la sección de resultados, debes mencionar que estás utilizando modelos mixtos con el paquete de R lme4 y enumerar tus efectos aleatorios y fijos. También debes mencionar cómo realizaste la inferencia, es decir, pruebas de razón de verosimilitud (usando `anova`) o bootstrap paramétrico. En la sección de resultados para un predictor, basta con escribir una línea, por ejemplo: "Hay evidencia sólida (p < 0.001) de un efecto negativo de la modificación en la abundancia total". Para múltiples predictores, es mejor mostrar los resultados en una tabla.
+
+**Visual.** La mejor manera de comunicar visualmente los resultados dependerá de tu pregunta. Para un modelo mixto simple con un efecto aleatorio, una gráfica de los datos brutos con las medias del modelo superpuestas es una posibilidad.
+
+
+
+```{r,message=FALSE}
+library(Hmisc)
+fit.pois <- glmer(Hydroid ~ Modification + (1 | Estuary), family = poisson, data = Estuaries)
+means <- fitted(fit.pois) # esto dará la estimación en cada punto de datos
+ModEst <- unique(Estuaries[c("Estuary", "Modification")]) # encuentra qué Estuaries están modificados
+cols <- as.numeric(ModEst[order(ModEst[, 1]), 2]) + 3 # asignar color por modificación
+boxplot(Hydroid ~ Estuary, data = Estuaries, col = cols, xlab = "Estuario", ylab = "Recuento de hidroideos")
+legend("topleft",
+  inset = .02,
+  c("Modificado", "Prístino"), fill = unique(cols), horiz = TRUE, cex = 0.8
+)
+
+Est.means <- summarize(means, Estuaries$Estuary, mean)$means # extraer medias por Estuary
+stripchart(Est.means ~ sort(unique(Estuary)), data = Estuaries, pch = 18, col = "red", vertical = TRUE, add = TRUE) # trazar medias por estuario
+
+```
+  
+
+### Más ayuda
+
+Puedes escribir `?glmer` en R para obtener ayuda con esta función.
+
+[Capítulo de libro en borrador](http://lme4.r-forge.r-project.org/book/Ch2.pdf) de los autores de lme4.
+
+<p style="margin-left:.5in;text-indent:-.5in">Faraway, JJ (2005) *Extending the linear model with R: generalized linear, mixed effects and nonparametric regression models*. CRC Press.</p>
+
+<p style="margin-left:.5in;text-indent:-.5in">Zuur, A, EN Ieno y GM Smith (2007) *Analysing ecological data*. Springer Science & Business Media.</p>
+
+**Autor**: Gordana Popovic
+
+**Año**: 2016
+
+**Última actualización**: `r format(Sys.time(), "%b %Y")`

@@ -1,0 +1,185 @@
+---
+weight: 3
+title: "Usando bucles"
+---
+
+¿Te encuentras cortando y pegando código de R con frecuencia?
+
+Esto generalmente creará problemas para ti más adelante. Uno de los principios de una buena codificación es tratar de reducir al mínimo la repetición. Hay dos enfoques para organizar tu código y ahorrarte trabajo. El primero es usar [funciones](../writing-functions/) y el segundo, cubierto aquí, es usar bucles.
+
+A menudo, queremos realizar tareas repetitivas en las ciencias ambientales. Por ejemplo, es posible que deseemos recorrer una lista de archivos y hacer lo mismo una y otra vez. Hay muchos paquetes en R con funciones que harán todo el trabajo duro por ti (por ejemplo, echa un vistazo a [dplyr](https://cran.r-project.org/web/packages/dplyr/index.html), [tidyr](https://blog.rstudio.org/2014/07/22/introducing-tidyr/) y [reshape2](https://cran.r-project.org/web/packages/reshape2/) cubiertos [aquí](/../data-manipulation/)). El enfoque de dplyr funciona bien si tus datos son "ordenados" y están en un marco de datos. Si tus datos están en muchos archivos diferentes, entonces un bucle puede ser una solución más rápida.
+
+### Sintaxis básica de los bucles
+
+La sintaxis de los bucles es relativamente simple: los componentes esenciales son `for(){}` donde la parte `for()` indica cuántas veces se realizan las operaciones dentro de `{}`.
+
+Considera el siguiente bucle. La primera vez que recorremos el bucle, el valor de *i* será igual a 1 y este valor se mostrará con la función `print`. Luego se repetirá con *i* = 2, hasta *i = 10*, realizando la tarea que se encuentra dentro de `{}` cada vez.
+
+
+```{r}
+for (i in 1:10) {
+  print(i)
+}
+```
+
+
+Podemos cambiar el rango de números (1:10) a cualquier cosa que deseemos, no tienen que ser una secuencia de enteros o incluso números. También puedes cambiar *i* a cualquier valor que desees.
+
+
+```{r}
+nums <- c(3.2, 890, 0.0001, 400)
+
+for (bat in nums) {
+  print(bat)
+}
+
+chars <- c("a", "o", "u", "z")
+
+for (bat in chars) {
+  print(bat)
+}
+```
+
+
+De mayor interés para nosotros es cambiar lo que está dentro de `{}` o la operación que estamos realizando en nuestros datos. Podemos insertar cualquier cosa que deseemos aquí. Aquí hay un bucle que imprimirá el cuadrado y la raíz cuadrada de los números del 1 al 10.
+
+
+```{r,eval=F}
+for (i in 1:10) {
+  print(i^2)
+  print(sqrt(i))
+}
+```
+
+
+A menudo, querremos mantener los resultados que obtenemos de nuestro bucle. La primera opción es crear un vector o marco de datos vacío y agregar los resultados a él. Esto tarda más en ejecutarse, pero no importa realmente con bucles simples, aunque puede aumentar los tiempos de espera para estructuras de bucle más largas y complicadas.
+
+Aquí hay un código que almacenará el cuadrado de los números del 1 al 10 en un nuevo vector llamado x.
+
+
+```{r}
+x <- vector() # makes a blank vector
+
+for (i in 1:10) {
+  y <- i^2 # performs an operation
+  x <- append(x, y) # overwrites 'x' with y appended to it
+}
+```
+
+
+Aquí hay un código que almacenará tanto el cuadrado como la raíz cuadrada de los números del 1 al 10 en dos columnas de un nuevo marco de datos llamado x2.
+
+
+```{r}
+x2 <- data.frame(col1 = vector(), col2 = vector()) # makes a blank data frame with two columns
+
+for (i in 1:10) {
+  col1 <- i^2 # performs first operation
+  col2 <- sqrt(i) # performs second operation
+  x2 <- rbind(x2, cbind(col1, col2)) # overwrites 'x2' values including the new row
+}
+```
+
+
+La segunda opción es crear un vector o marco de datos vacío de dimensiones conocidas y luego colocar los resultados directamente en él. Por ejemplo, si tuviéramos un bucle con 10 elementos, podríamos almacenar los resultados de cada operación en un vector con una longitud 10.
+
+
+```{r}
+x <- vector(length = 10) # makes a blank vector with a length of 10
+
+for (i in 1:10) {
+  y <- i^2
+  x[i] <- y # places the output in position i in the vector x
+}
+```
+
+
+Alternativamente, guarda los resultados de múltiples operaciones en un nuevo data frame.
+
+
+```{r}
+
+x2 <- data.frame(col1 = vector(length = 10), col2 = vector(length = 10)) # makes a blank data frame with two columns and 10 rows
+
+for (i in 1:10) {
+  col1 <- i^2 # performs first operation
+  col2 <- sqrt(i) # performs second operation
+  x2[i, 1] <- col1 # places the first result into row i, column 1
+  x2[i, 2] <- col2 # places the second result into row i, column 2
+}
+```
+  
+
+### Un ejemplo ecológico
+ 
+
+![](Subsetting_data_image.jpg)
+
+
+Ahora podemos utilizar tus nuevas habilidades de bucle en un contexto ecológico. Al igual que en el tutorial de [Subconjuntos de datos](/../data-manipulation/subsetting-data), utilizaremos un conjunto de datos donde se muestrearon murciélagos en un bosque en regeneración en el sureste de Australia, que ha sido adelgazado para reducir la densidad de árboles.
+
+
+```{r}
+Bats <- read.csv(file = "Bats_data.csv", header = T, stringsAsFactors = F)
+str(Bats)
+```
+
+
+Al analizar la estructura de estos datos, tenemos dos variables de respuesta: actividad (número de llamadas de murciélagos registradas en una noche) y forrajeo (número de llamadas de alimentación de murciélagos registradas en una noche). Estos datos se recolectaron durante un total de 173 noches de estudio y en 47 sitios diferentes. Hay ocho posibles variables predictoras en el marco de datos, una de las cuales es un factor (Tratamiento.adelgazado), y siete de las cuales son variables continuas (Área.adelgazada, Tiempo.desde.adelgazamiento, Exclusión.adelgazada, Distancia.agua.murray, Distancia.agua.arroyo, Promedio.T, Promedio.H).
+
+Digamos que estamos explorando nuestros datos y nos gustaría saber qué tan bien se correlaciona la actividad de los murciélagos con nuestras covariables continuas. Nos gustaría calcular el coeficiente de correlación de Pearson para la actividad y cada una de las covariables por separado. El coeficiente de correlación de Pearson, calculado con la función `cor`, varía de -1 (correlación negativa perfecta) a 1 (correlación positiva perfecta), siendo 0 ninguna correlación. Almacenaremos todas nuestras correlaciones en un nuevo data frame llamado Correlations.
+
+Primero, usa `select` de dplyr para hacer una subconjunto de los datos con la variable de respuesta (actividad) y las 5 variables predictoras.
+
+
+```{r,warning=F,message=F}
+library(dplyr)
+
+Bats_subset <- select(Bats, Activity, Area.thinned:Distance.creek.water)
+```
+
+A continuación, crea un data frame vacío con dos columnas (el nombre de la variable y la correlación) y el número de filas necesario para almacenar todas las correlaciones.
+
+
+```{r}
+rows <- ncol(Bats_subset) - 1 # the number of rows needed in our output dataframe
+
+Correlations <- data.frame(
+  variable = character(length = rows),
+  correlation = numeric(length = rows),
+  stringsAsFactors = F
+)
+```
+
+
+Finalmente, podemos utilizar un bucle para calcular cada una de las correlaciones y almacenar la salida en nuestro nuevo data frame.
+
+```{r}
+for (i in 1:rows) {
+  temp1 <- colnames(Bats_subset[i + 1]) # retrieves the name of predictor variable
+  temp2 <- cor(Bats_subset[, 1], Bats_subset[, i + 1], method = "pearson")
+  # calculates the correlation between activity and predictor variable
+  Correlations[i, 1] <- temp1 # places the variable name into row i, column 1
+  Correlations[i, 2] <- temp2 # places the correlation into row i, column 2
+}
+```
+
+```{r,echo=F}
+Correlations
+```
+
+
+Ahora podemos ver de un vistazo que la actividad está más fuertemente correlacionada (negativamente) con el área adelgazada y que no está correlacionada en absoluto con el tiempo desde el adelgazamiento o la temperatura media. Es posible que luego deseemos investigar más a fondo algunas de estas relaciones con modelos y pruebas estadísticas apropiadas.
+
+### Ayuda adicional
+
+[Tutorial de DataCamp sobre bucles](https://www.datacamp.com/community/tutorials/tutorial-on-loops-in-r#gs.8KE0Nx4)
+
+Puedes encontrar más ejemplos buenos de bucles, listas y declaraciones if/else en el sitio GitHub del grupo de usuarios de R de BEES [Bucles y listas por Mitch](https://github.com/mitchest/BEES-ecocomp/blob/master/introToLoops.R).
+
+**Autor**: Rachel V. Blakey
+
+**Año:** 2016
+
+**Última actualización:** `r format(Sys.time(), "%b %Y")`
+

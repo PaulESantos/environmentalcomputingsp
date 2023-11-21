@@ -1,0 +1,9 @@
+---
+weight: 6
+title: "Análisis de datos categóricos"
+---
+
+Algunas pruebas comúnmente utilizadas para contrastar las frecuencias de observaciones entre variables categóricas.
+
+* [Pruebas de bondad de ajuste](goodness-of-fit)  
+* [Tablas de contingencia](contingency-tables)  

@@ -1,0 +1,223 @@
+---
+title: "Resumiendo datos"
+---
+
+Resumir nuestros datos suele ser el primer paso en la exploración de datos y es necesario para comprender los patrones en la magnitud y variabilidad de nuestras mediciones.
+
+
+![](Summarising_data_image.jpg)
+
+
+Utilizaremos el paquete [dplyr](https://cran.r-project.org/web/packages/dplyr/index.html), que tiene muchas funciones convenientes para resumir datos, así que comencemos cargando el paquete.
+
+
+```{r, message=FALSE, warning =FALSE}
+library(dplyr)
+```
+
+
+Al igual que en la página de ayuda sobre [Subconjunto de datos](/../data-manipulation/subsetting-data/), utilizaremos un conjunto de datos en el que se muestrearon murciélagos en un bosque en regeneración del sureste de Australia que se había adelgazado para reducir la densidad de árboles. Descarga el conjunto de datos, [Bats_data.csv](/datasets/Bats_data.csv), e impórtalo en R.
+
+
+```{r}
+Bats <- read.csv(file = "Bats_data.csv", header = T, stringsAsFactors = F)
+```
+  
+
+### Resumir datos con dplyr
+
+**Obtener medidas resumidas de una sola variable**
+
+Podemos usar la función `summarise` con una variedad de funciones resumen incorporadas de R para obtener estadísticas resumidas de nuestros datos.
+
+Por ejemplo, para obtener la actividad media de los murciélagos en todas las mediciones nocturnas del estudio, usaría la función de resumen `mean` dentro de la función `summarise` de la siguiente manera, especificando el marco de datos (Bats), la variable de la que quiero obtener la media (Activity) y un nombre para la nueva variable (Mean.Activity):
+
+
+```{r}
+summarise(Bats, Mean.Activity = mean(Activity))
+```
+
+Podemos agregar tantas otras medidas como deseemos, incluyendo una amplia gama de funciones resumen (descritas con #).
+
+
+```{r}
+
+summarise(Bats,
+  mean.activity = mean(Activity), # media
+  min.Activity = min(Activity), # mínimo
+  max.Activity = max(Activity), # máximo
+  med.Activity = median(Activity), # mediana
+  sd.Activity = sd(Activity), # desviación estándar
+  var.Activity = var(Activity), # varianza
+  n.Activity = n(), # tamaño de la muestra
+  se.Activity = sd.Activity / sqrt(n.Activity), # error estándar
+  IQR.Activity = IQR(Activity) # rango intercuartílico
+) 
+
+```
+
+
+Si estamos analizando factores, especialmente si están ordenados de alguna manera, es posible que algunas de las otras funciones resumen de dplyr sean útiles. Por ejemplo:
+
+
+```{r}
+summarise(Bats,
+  first.site = first(Site), # primer valor en la variable Site
+  last.Site = last(Site), # último valor en la variable Site
+  third.Site = nth(Site, 3), # valor n-ésimo de Site
+  n.Sites = n_distinct(Site) # número de sitios distintos
+) 
+```
+
+
+**Obteniendo medidas resumidas de grupos de filas**
+
+Muy a menudo estamos interesados en mediciones de valores promedio y variabilidad en diferentes categorías, por lo que necesitamos calcular medidas resumidas para variables dentro de cada categoría.
+Por ejemplo, en este conjunto de datos, es posible que deseemos comparar la actividad de murciélagos en diferentes bosques que varían en su historial de adelgazamiento. Los sitios pertenecen a cuatro categorías de historial de adelgazamiento: sitios de crecimiento denso que fueron adelgazados recientemente ("a corto plazo") y a medio plazo ("a medio plazo"), sitios que nunca fueron adelgazados ("sin adelgazar") y bosques abiertos maduros ("referencia").
+
+Para resumir cualquier variable para cada una de estas categorías, utilizamos la función `group_by` en dplyr.
+
+
+```{r}
+Bats_by_Treatment <- group_by(Bats, Treatment.thinned)
+```
+
+En orden de conservar nuestro conjunto de datos original tal como está, he utilizado la función para crear un nuevo conjunto de datos llamado "Bats_by_Treatment". Ahora puedo utilizar exactamente el mismo código que usamos anteriormente para resumir los datos para cada uno de los grupos.
+
+
+```{r}
+Treatment.summary <- summarise(Bats_by_Treatment,
+  mean.Activity = mean(Activity), # media
+  min.Activity = min(Activity), # mínimo
+  max.Activity = max(Activity), # máximo
+  med.Activity = median(Activity), # mediana
+  sd.Activity = sd(Activity), # desviación estándar
+  var.Activity = var(Activity), # varianza
+  n.Activity = n(), # tamaño de la muestra
+  se.Activity = sd.Activity / sqrt(n.Activity), # error estándar
+  IQR.Activity = IQR(Activity) # rango intercuartílico
+)
+```
+
+
+Ten en cuenta que el marco de datos de entrada ahora es "Bats_by_Treatment", en lugar de "Bats".
+
+Los nuevos datos resumidos se han colocado en un nuevo objeto (Treatment.summary), que pertenece a la clase "tbl" específica de dplyr. Para convertir esto a la clase de marco de datos más ampliamente utilizada, podemos usar `as.data.frame`.
+
+
+```{r}
+Treatment.summary <- as.data.frame(Treatment.summary)
+```
+
+Visualiza este nuevo marco de datos para ver las estadísticas resumidas para cada una de las cuatro categorías de bosque.
+
+```{r,eval =F}
+View(Treatment.summary)
+```
+
+
+También puedes combinar el agrupamiento y la sumarización en un código más ordenado utilizando el operador de tubería `%>%`. Por ejemplo, el código anterior podría reemplazarse por:
+
+
+```{r}
+Treatment.summary <- Bats %>%
+  group_by(Treatment.thinned) %>%
+  summarise(
+    mean.Activity = mean(Activity), # media
+    min.Activity = min(Activity), # mínimo
+    max.Activity = max(Activity), # máximo
+    med.Activity = median(Activity), # mediana
+    sd.Activity = sd(Activity), # desviación estándar
+    var.Activity = var(Activity), # varianza
+    n.Activity = n(), # tamaño de la muestra
+    se.Activity = sd.Activity / sqrt(n.Activity), # error estándar
+    IQR.Activity = IQR(Activity) # rango intercuartílico
+  ) 
+```
+  
+
+**Problemas con datos faltantes**
+
+Las cosas pueden salir mal en el campo y no siempre recopilamos todos los datos que necesitamos en cada sitio.
+
+Para mostrarte cómo esto afecta a la función `summarise`, podemos crear una nueva variable (Activity2), que es una copia de Activity pero con algunos de los datos de actividad (las primeras cuatro filas) ahora faltantes.
+
+
+```{r}
+Bats$Activity2 <- Bats$Activity
+Bats$Activity2[1:4] <- rep(NA, 4)
+```
+
+A continuación, intentemos resumir los datos:
+
+```{r}
+summarise(Bats, mean.Activity = mean(Activity2))
+```
+
+
+Verás que obtenemos un NA como resultado. Para obtener la media de todos los valores que están presentes, podemos agregar un argumento, `na.rm=TRUE`, para eliminar las filas que son **NA**.
+
+
+```{r}
+summarise(Bats, mean.Activity = mean(Activity2, na.rm = TRUE))
+```
+
+
+Justo recuerda que esto disminuirá el tamaño de tu muestra. Esto funcionará para las funciones de resumen, excepto para la función `n` que cuenta el número de valores en un vector. Para contar los datos no faltantes, puedes usar este fragmento de código (un poco más complicado) para obtener el nuevo tamaño de muestra.
+
+
+```{r}
+length(Bats$Activity2[!is.na(Bats$Activity2)])
+```
+
+
+Esto calcula el número de valores, `length`, del vector de valores de actividad de murciélagos, Bats$Activity2, donde no son NA, `!is.na`. Revisar [Subsetting data](/../data-manipulation/subsetting-data/) puede ayudarte a entender esta afirmación.
+
+### Comunicando los resultados
+
+**Escrito** Si estuviéramos escribiendo un artículo sobre la actividad de murciélagos en diferentes tratamientos de adelgazamiento forestal, podríamos usar nuestros datos resumidos para hacer algunas observaciones generales al comienzo de nuestra sección de resultados, antes de un análisis más profundo. Por ejemplo: "Los murciélagos fueron dos veces más activos en bosques maduros abiertos (referencia) (365 ? 27) en comparación con el crecimiento regenerado no adelgazado (166 ? 21) (media ? EE). Sin embargo, la actividad de los murciélagos fue similar en los bosques adelgazados a mediano plazo (385 ? 36) y a corto plazo (350 ? 27) y en los bosques de referencia".
+
+**Visual** Presentar medias y errores estándar de datos categóricos nos brinda una forma de comunicar visualmente un efecto del tratamiento (siempre y cuando esté respaldado por un análisis estadístico adecuado). Aquí hemos utilizado el paquete ggplot2 para crear un gráfico de barras simple con medias ? error estándar (barras de error).
+
+
+```{r,warning=F,echo=F}
+library(ggplot2)
+
+plot1 <- ggplot(data = Treatment.summary, aes(x = Treatment.thinned, y = mean.Activity)) +
+  geom_bar(stat = "identity", colour = "black", fill = "white", position = position_identity()) +
+  theme_bw() +
+  theme(
+    legend.position = "none",
+    panel.grid.major = element_blank(),
+    panel.grid.minor = element_blank(),
+    axis.title.x = element_text(vjust = -0.3, size = 12),
+    axis.title.y = element_text(vjust = 0.8, size = 12),
+    axis.text.x = element_text(size = 12),
+    axis.text.y = element_text(size = 12)
+  ) +
+  scale_y_continuous(name = "Total bat activity") +
+  scale_x_discrete(name = "Thinning treatment") +
+  geom_errorbar(aes(ymin = mean.Activity - se.Activity, ymax = mean.Activity + se.Activity),
+    width = .2,
+    position = position_dodge(0.9)
+  )
+
+print(plot1)
+```
+  
+
+### Ayuda adicional
+
+Este tutorial se basó en el excelente [Data wrangling with dplyr and tidyr cheat sheet](https://www.rstudio.com/wp-content/uploads/2015/02/data-wrangling-cheatsheet.pdf) producido por Rstudio. Las imágenes fueron obtenidas del mismo documento.
+
+Puedes escribir `?dplyr` para obtener ayuda con este paquete.
+
+[Introduction to dplyr](https://cran.r-project.org/web/packages/dplyr/vignettes/dplyr.html)
+
+Si deseas aprender más sobre el lenguaje ggplot para graficar, echa un vistazo a nuestras hojas de trabajo sobre gráficos, comenzando con [Plotting with ggplot: the basics](/../graphics).
+
+**Autor**: Rachel V. Blakey
+
+**Año:** 2016
+
+**Última actualización:** `r format(Sys.time(), "%b %Y")`

@@ -1,0 +1,174 @@
+---
+title: 'Escalamiento multidimensional'
+weight: 1
+---
+
+El escalamiento multidimensional (MDS, por sus siglas en inglés) es un enfoque popular para representar gráficamente las relaciones entre objetos (por ejemplo, parcelas o muestras) en un espacio multidimensional. La reducción de dimensiones mediante MDS se logra tomando el conjunto original de muestras y calculando una medida de disimilitud (distancia) para cada comparación pareja de muestras. Las muestras se representan gráficamente generalmente en dos dimensiones de manera que la distancia entre los puntos en el gráfico aproxime su disimilitud multivariada lo más cercanamente posible.
+
+Una de las aplicaciones más comunes de MDS en las ciencias ambientales es examinar la similitud de diferentes comunidades ecológicas basadas en su composición de especies. En estos análisis, se registra la abundancia de todas las especies dentro de muestras replicadas (parcelas o cuadrantes en el campo, sitios diferentes, etc.) y los datos en bruto toman la forma de una matriz de especies (las variables) por muestras.
+
+
+
+![](MDS_image.jpg)
+
+
+Considera un ejemplo en el que los investigadores querían contrastar la especificidad de alimentación de herbívoros marinos en cinco especies de macroalgas. Se recolectaron veinte individuos replicados de cada una de las siete especies de macroalgas en el puerto de Sydney, y se registró la abundancia de siete especies de crustáceos herbívoros en cada réplica (una matriz de datos de 100 muestras por 7 variables, datos de [Poore *et al*. 2000)](http://www.int-res.com/abstracts/meps/v208/p183-196/).
+
+
+El escalamiento multidimensional puede crear un gráfico de ordenación a partir de cualquier medida de similitud o disimilitud entre muestras, y existen muchas medidas diferentes para calcular la disimilitud entre muestras. La más básica de estas es la distancia *euclidiana* (es decir, simplemente la distancia en línea recta entre dos puntos en el espacio multivariado). Sin embargo, para contrastes de composición de especies, la medida de distancia más comúnmente utilizada es la métrica de disimilitud de *Bray-Curtis*. La razón de su popularidad es que, en comparación con otras medidas, *Bray-Curtis* maneja mejor la gran proporción de ceros (por ejemplo, ausencias de especies) que se encuentran comúnmente en conjuntos de datos ecológicos. Esta medida no considera las ausencias compartidas como similares, lo cual tiene sentido biológicamente.
+
+
+
+In addition to the choice of distance measure there are a number of different classes of MDS. Here we focus on what is referred to as non-metric MDS (nMDS), a non-parametric rank-based method that is comparatively robust to non-linear relationships between the calculated dissimilarity measure and the projected distance between objects. 
+  
+
+Además de la elección de la medida de distancia, existen diferentes clases de MDS. Aquí nos enfocamos en lo que se conoce como `MDS no métrico (nMDS)`, un método no paramétrico basado en rangos que es comparativamente robusto frente a relaciones no lineales entre la medida de disimilitud calculada y la distancia proyectada entre objetos.
+  
+
+### Ejecutando el análisis
+ 
+Tus datos deben estar formateados de manera que cada muestra sea una fila y cada variable sea una columna. Descarga el conjunto de datos [herbivore specialisation](/datasets/Herbivore_specialisation.csv) y impórtalo en R para verel formato adecuado:
+
+
+```{r}
+Herbivores <- read.csv(file = "Herbivore_specialisation.csv", header = TRUE)
+```
+
+Las dos primeras columnas son variables categóricas que etiquetan las muestras como provenientes de cada uno de los cinco hábitats o como recolectadas durante el día o la noche. La tercera columna es el número de réplica por combinación de hábitat y día/noche. La cuarta columna es la biomasa del hábitat muestreado y el resto de las columnas son los conteos de cada especie herbívora en cada muestra.
+
+Para contrastar la composición de especies entre hábitats o tiempo de muestreo, primero necesitamos crear un dataframe con solo los valores de abundancia para cada muestra (columnas 5 a 11).
+
+
+```{r}
+Herb_community <- Herbivores[5:11]
+```
+
+Crear un gráfico MDS implica dos pasos:
+* crear una matriz de disimilaridad con la métrica elegida que mida la similitud entre cada par de muestras
+* crear un gráfico de ordenación a partir de esa matriz de disimilaridad
+
+Esto se puede hacer con el paquete [vegan](https://cran.r-project.org/web/packages/vegan/index.html). Primero, instala y carga el paquete.
+
+
+
+```{r, message=FALSE, warning=FALSE}
+library(vegan)
+```
+
+
+La función `metaMDS` combina estos dos pasos en una sola función.
+
+
+```{r}
+Herb_community.mds <- metaMDS(comm = Herb_community, distance = "bray", trace = FALSE, autotransform = FALSE)
+```
+
+donde:
+
+- `comm = Herb_community` especifica el dataframe que contiene los datos de la comunidad, 
+
+- `distance = "bray"` indica que deseas utilizar una medida de distancia Bray-Curtis y 
+
+- `trace = FALSE` indica que deseas ignorar la salida en progreso de los resultados.
+
+- `autotransform = FALSE` evita que vegan transforme automáticamente los datos (consulta más abajo para obtener consejos sobre la transformación).
+
+Llamando a la función `plot` en las coordenadas x-y del resultado de `metaMDS`, se crea un gráfico de ordenación MDS.
+
+
+
+```{r}
+plot(Herb_community.mds$points)
+```
+
+Esto no es informativo hasta que representemos las muestras de cada tipo de hábitat (especies de macroalgas) con diferentes colores.
+
+Para hacer esto, podemos extraer las coordenadas `x` e `y` del gráfico MDS en un nuevo marco de datos.
+
+```{r}
+MDS_xy <- data.frame(Herb_community.mds$points)
+```
+
+Luego, podemos agregar nuestros factores de hábitat y día vs noche a esas coordenadas (es decir, las dos primeras columnas del conjunto de datos original).
+
+
+```{r}
+MDS_xy$Habitat <- Herbivores$Habitat
+MDS_xy$DayNight <- Herbivores$DayNight
+```
+
+Para representar esos puntos, codificados por colores según el hábitat, podemos utilizar:
+
+
+```{r}
+library(ggplot2)
+ggplot(MDS_xy, aes(MDS1, MDS2, color = Habitat)) +
+  geom_point() +
+  theme_bw()
+```
+  
+### Interpretación de los resultados
+
+La interpretación de un gráfico MDS es bastante sencilla y es la misma que para cualquier otro gráfico de ordenación; los objetos que están más cerca entre sí en el gráfico son más similares que aquellos que están más alejados. MDS organiza los puntos en el gráfico de manera que las distancias entre cada par de puntos se correlacionen de la mejor manera posible con la disimilitud entre esas dos muestras. Los valores en los dos ejes no te dicen nada acerca de las variables de una muestra determinada: el gráfico es simplemente un espacio bidimensional para organizar los puntos.
+
+Si hay algún agrupamiento de muestras de acuerdo a categorías de muestras, entonces tienes patrones interesantes en tu conjunto de datos multivariado. En el gráfico de arriba, es más probable que las muestras de cada hábitat sean similares a las muestras del mismo hábitat que a las muestras de otros hábitats (visualizadas como grupos de diferentes colores). Esto significa que la composición de especies de los herbívoros difiere entre sus plantas alimenticias. Recuerda que esto no es una prueba estadística, solo una visualización que te ayuda a buscar patrones.
+
+En contraste, si coloreamos nuestras muestras según la hora del día, verás que estos dos grupos de muestras están mezclados en el gráfico. Esto sugiere que no hay diferencia en la composición de especies entre las dos horas de muestreo.
+
+```{r}
+ggplot(MDS_xy, aes(MDS1, MDS2, color = DayNight)) +
+  geom_point() +
+  theme_bw()
+```
+  
+
+## Supuestos a verificar
+
+Como enfoque basado en clasificación NMDS, es comparativamente robusto ante la no linealidad entre la distancia entre objetos en el espacio y su disimilitud multivariada.
+
+**Stress.** No es un supuesto del proceso, pero el factor más importante a considerar después de generar un gráfico de MDS es el "Stress". Este proporciona una medida del grado en que la distancia entre las muestras en el espacio dimensional reducido (generalmente 2 dimensiones) se corresponde con la distancia multivariada real entre las muestras. Valores de estrés más bajos indican una mayor conformidad y, por lo tanto, son deseables. Valores de `Stress` altos indican que no hubo una disposición bidimensional de los puntos que refleje sus similitudes. Una regla general es que los valores de `Stress` idealmente deberían ser inferiores a 0.2 o incluso 0.1.
+
+Puedes obtener el valor de estrés de tu gráfico con:
+
+```{r}
+Herb_community.mds$stress
+```
+
+
+Si el valor de `Stress` es mayor que 0.2, se recomienda incluir una dimensión adicional, pero recuerda que los cerebros humanos no están muy preparados para visualizar objetos en más de 2 dimensiones.
+
+**Transformación y estandarización.** La transformación de conjuntos de datos antes de crear un gráfico de MDS a menudo es deseable, no para cumplir con supuestos de normalidad, sino para reducir la influencia de valores extremos. Por ejemplo,
+
+
+```{r,eval=FALSE}
+Herb_community.sq <- sqrt(Herb_community)
+Herb_community.sq.mds <- metaMDS(comm = Herb_community.sq, distance = "bray", trace = FALSE)
+```
+
+
+También se puede realizar la estandarización de muestras o variables (por su media o totales) para crear gráficos donde todas las variables tengan igual influencia, o gráficos donde las diferencias entre las muestras se basen únicamente en valores relativos y no en su magnitud. El paquete `vegan` proporciona varios métodos comunes de estandarización utilizados para conjuntos de datos de comunidades en la función `decostand`.
+
+Recuerda que cualquiera de estas modificaciones realmente cambia tu pregunta. Si el ejemplo anterior se realizó con muestras estandarizadas por abundancia total, entonces el gráfico representaría una comparación de composición de especies sin influencia de las diferentes abundancias encontradas en los hábitats.
+
+También ten en cuenta que la ordenación basada en distancias ha sido criticada por no tener en cuenta las relaciones de varianza y media que son comunes en conjuntos de datos de abundancia como el utilizado aquí, y por carecer de un modelo estadístico subyacente - consulta a Hui *et al.* (2014) "Model-based approaches to unconstrained ordination" en *Methods in Ecology and Evolution* 6:399-411. [link](http://onlinelibrary.wiley.com/doi/10.1111/2041-210X.12236/abstract).
+
+
+### Comunicación de los resultados
+
+**Visual.** Los resultados de un MDS se presentan mejor visualmente como un gráfico de ordenación bidimensional (como el anterior). Raramente se utiliza un gráfico tridimensional.
+
+**Escrito.** La descripción escrita de los análisis de MDS (a menudo en la leyenda de la figura) debería mencionar qué métrica de disimilitud se utilizó, si los datos fueron transformados o estandarizados, y presentar el valor de estrés. En un análisis formal, los gráficos de MDS suelen ir acompañados de alguna prueba estadística multivariada de disimilitud entre grupos de tratamiento/observación, por ejemplo, a través de la función `adonis` en vegan.
+  
+### Más ayuda
+
+Escribe `?metaMDS` para obtener ayuda sobre esta función en R.
+
+<p style="margin-left: .5in; text-indent: -.5in;">Quinn, GP y MJ Keough (2002) *Experimental design and data analysis for biologists*. Cambridge University Press. Capítulo 18. Escalamiento multidimensional y análisis de conglomerados.</p>
+
+<p style="margin-left: .5in; text-indent: -.5in;">McKillup, S (2012) *Statistics explained. An introductory guide for life scientists.* Cambridge University Press. Capítulo 22. Conceptos introductorios del análisis multivariado.</p>
+
+**Autor:** Andrew Letten
+
+**Año:** 2016
+
+**Última actualización:** `r format(Sys.time(), "%b %Y")`

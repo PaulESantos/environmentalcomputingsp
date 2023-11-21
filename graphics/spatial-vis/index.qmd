@@ -1,0 +1,11 @@
+---
+title: 'Datos espaciales'
+weight: 5
+---
+
+R cuenta con una amplia variedad de funciones y paquetes para visualizar datos espaciales. Esta página enlazará con una serie de tutoriales para manejar datos espaciales y crear mapas.
+
+* [Creación de mapas simples con ggmap](simple-maps/)
+* [Creación de mapas a partir de shapefiles]
+
+![](images/Visualising_spatial_data_intro_image.jpg)

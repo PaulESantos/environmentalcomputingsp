@@ -1,0 +1,36 @@
+---
+weight: 2
+title: "Modelos Lineales"
+---
+
+Estas páginas contienen algunas introducciones respecto de los modelos lineales comúnmente utilizados que prueban la respuesta de una variable dependiente continua frente a una o más variables predictoras que pueden ser continuas o categóricas. Ten en cuenta que estos se denominan diferentes técnicas (por ejemplo, regresión vs. ANOVA) debido al uso común en la literatura que encontrarás; todos ellos involucran el mismo marco de modelado lineal.
+
+
+```{r,echo=F}
+Plant_height <- read.csv(file = "data/Plant_Height.csv", 
+                         header = TRUE)
+
+model <- lm(loght ~ temp,
+            data = Plant_height)
+
+plot(loght ~ temp, 
+     data = Plant_height, 
+     col = "darkgreen", 
+     xlab = "Temperatura (C)", 
+     ylab = "log(Altura de la planta)",
+     pch = 16)
+
+abline(model, col = "red")
+```
+
+* [Regresión lineal](linear-regression/)
+* [Análisis de varianza: factor único](anova/anova-single/)
+* [Análisis de varianza: factorial](anova/anova-factorial/)  
+* [Comprensión de las interacciones](interactions)
+* [Interpretación de coeficientes en modelos lineales](../glms/interpret-glm-coeffs/)
+
+**Autor**: Alistair Poore
+ 
+**Año**: 2016
+
+**Última actualización**: `r format(Sys.time(), "%b %Y")`

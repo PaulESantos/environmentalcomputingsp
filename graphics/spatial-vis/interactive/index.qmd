@@ -1,0 +1,117 @@
+---
+title: 'Mapas interactivos en R'
+weight: 3
+---
+
+
+Ser capaz de producir mapas interactivos sobre la marcha puede acelerar considerablemente el análisis exploratorio y es una herramienta útil para mostrar datos que serían menos informativos en un [mapa estático](../simple-maps).
+
+Leaflet es una biblioteca de JavaScript de código abierto que se utiliza para crear mapas interactivos en sitios web. En esta publicación, vamos a ver el [paquete leaflet para R](https://github.com/rstudio/leaflet) y ¡crear algunos mapas interactivos geniales!
+
+## Instalación
+
+El paquete `leaflet` de R se puede instalar desde CRAN ejecutando:
+
+
+```{r, eval = F}
+install.packages("leaflet")
+```
+
+## Fundamentos
+
+¡Crear un mapa interactivo básico es simple!
+
+```{r basic, fig.width=8}
+library(leaflet)
+leaflet() %>%
+  addTiles()
+```
+
+El paquete Leaflet de R ha sido diseñado para ser utilizado con el operador pipe (`%>%`), lo que facilita la adición de capas y controles como una barra de escala y un mini mapa.
+
+Sin embargo, la mayoría de las veces tendremos un área o un sitio de estudio en el que estamos interesados y que queremos ver:
+
+
+```{r b2,fig.width=8}
+leaflet() %>%
+  addTiles() %>%
+  addScaleBar() %>%
+  setView(lng = 151.2, lat = -33.86, zoom = 10) %>%
+  addMiniMap()
+```
+
+## Marcadores
+
+Veamos algunos datos de ocurrencia de especies de [GBIF](https://www.gbif.org/) utilizando el paquete [rgbif](https://github.com/ropensci/rgbif):
+Mostraremos todas las observaciones de eucaliptos dentro de la región de los Macquarie Marshes:
+
+
+```{r b3,fig.width=8}
+
+# install.packages('gbif')
+library(rgbif)
+gbif_query <- occ_search(
+  genusKey = 7493935,
+  geometry = rgbif::gbif_bbox2wkt(minx = 147.8, miny = -30.6, maxx = 147.4, maxy = -31)
+)
+euc <- gbif_query$data
+euc$label <- paste(euc$name, "|", euc$vernacularName, "|", euc$year, "-", month.abb[euc$month])
+## 
+base <- leaflet() %>%
+  addTiles() %>%
+  addScaleBar() %>%
+  setView(lat = mean(euc$decimalLatitude), lng = mean(euc$decimalLongitude), zoom = 10)
+
+base %>% addMarkers(
+  lng = euc$decimalLongitude, lat = euc$decimalLatitude,
+  label = euc$label
+)
+```
+
+
+## Agrupamiento de marcadores
+
+¡Bien! pero está un poco desordenado, podemos agregar agrupamiento especificando el argumento `clusterOptions` para intentar solucionar este problema:
+
+
+```{r b4,fig.width=8}
+base %>%
+  addMarkers(
+    lng = euc$decimalLongitude, lat = euc$decimalLatitude,
+    clusterOptions = markerClusterOptions(),
+    label = euc$label
+  )
+```
+
+## Colorear marcadores
+
+También puedes agregar marcadores circulares que pueden tener colores personalizados y agregar una leyenda:
+
+
+```{r b5,fig.width=8}
+color_function <- colorFactor("RdYlBu", domain = NULL)
+
+base %>%
+  addCircleMarkers(
+    lng = euc$decimalLongitude, lat = euc$decimalLatitude,
+    color = color_function(euc$name),
+    label = euc$label
+  ) %>%
+  addLegend(pal = color_function, values = euc$name)
+```
+
+## ¡Otras cosas para probar!
+
+* `addMeasure()` agrega una regla y un control de estimación de área al mapa.
+* `addProviderTiles()` Otros tiles (mapas base) se pueden agregar utilizando esta función. ¡Prueba: `leaflet() %>% addProviderTiles(provider = providers$CartoDB)`!
+* `addLayersControl()` agrega un selector para elegir múltiples capas si las has agregado.
+* `addRasterImage()` ¡crea una superposición de imagen a partir de datos ráster!
+* `addGeoJSON()` agrega polígonos GeoJSON al mapa interactivo.
+
+## Recursos:
+
+* [Guía de leaflet de RStudio](https://rstudio.github.io/leaflet/)
+* [rgbif](https://github.com/ropensci/rgbif)
+
+**Autor**: John Wilshire
+

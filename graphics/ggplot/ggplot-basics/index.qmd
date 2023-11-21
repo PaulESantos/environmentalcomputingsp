@@ -1,0 +1,142 @@
+---
+title: 'Fundamentos de ggplot2'
+weight: 1
+---
+
+
+```{r, echo=FALSE, warning=F}
+library(ggplot2)
+g1 <- ggplot(iris, aes(Sepal.Length, Petal.Length, colour = Species)) +
+  geom_point() +
+  theme_classic()
+print(g1 + labs(y = "Petal length (cm)", x = "Sepal length (cm)"))
+```
+ 
+
+### Creación de un grafico con ggplot
+
+Primero, necesitarás instalar el paquete ggplot2 en tu máquina y luego cargar el paquete con la función `library` como de costumbre.
+
+
+```{r}
+library(ggplot2)
+```
+
+El punto de partida para crear un gráfico es utilizar la función `ggplot` con la siguiente estructura básica:
+
+
+```{r,eval=FALSE}
+plot1 <- ggplot(data, aes(x_variable, y_variable)) +
+  geom_graph.type()
+
+print(plot1)
+```
+
+`data` es un data frame que contiene las variables que deseas representar en el gráfico.
+
+`aes` especifica qué variables se deben representar. Este código suele causar confusión al crear un objeto ggplot. Aunque `aes` significa estética, en ggplot no se refiere al aspecto visual del gráfico, sino a los datos que deseas ver en el gráfico. Especifica qué se presenta en el gráfico en lugar de cómo se presenta.
+
+`+ geom_` especifica qué tipo de gráfico quieres crear, ggplot no funcionará a menos que agregues esto.
+
+Algunos ejemplos comúnmente utilizados incluyen:
+* scatterplot (gráfico de dispersión) - `+ geom_point()`
+* boxplot (gráfico de caja) - `+ geom_boxplot()`
+* histograma - `+ geom_histogram()`
+* gráfico de barras - `+ geom_bar()`
+
+Asegúrate de tener un paréntesis abierto y cerrado después del código `geom_`. Esto le indica a R que haga el gráfico con el formato estándar básico para este tipo de gráfico.
+
+El tipo de gráfico que deseas hacer debe coincidir con las clases de las variables de entrada. Por ejemplo, un `scatterplot` requeriría que ambas variables sean numéricas. O un `boxplot` requeriría que la variable *x* sea un factor y la variable *y* sea numérica. Puedes verificar la clase de cualquier variable con la función `class`, o todas las variables en un data frame con la función `str`.
+
+Una práctica útil al crear objeto con ggplot es asignar el gráfico que has creado a un objeto (por ejemplo, plot1 en el código anterior) y luego imprimirlo por separado. A medida que tu ggplot se vuelve más complicado, esto facilitará mucho las cosas.
+  
+
+### Ejemplos de gráficos
+
+ 
+![](ggplot1_basics_image.jpg)
+
+
+En estos ejemplos, utilizaremos un conjunto de datos que ya está en R con la longitud y el ancho de partes florales de tres especies de `iris`. Primero, carga el conjunto de datos:
+
+
+```{r}
+data(iris)
+```
+
+Para contrastar las longitudes del pétalo entre las tres especies de iris con un **diagrama de caja**, usaríamos:
+
+
+```{r}
+plot1 <- ggplot(iris, aes(Species, Petal.Length)) +
+  geom_boxplot()
+print(plot1)
+```
+
+
+Observa cómo `aes` incluye las variables *x* y luego *y* que deseas graficar, y cómo `+ geom_boxplot()` especifica un diagrama de caja.
+
+Para graficar un **histograma de frecuencia** de la longitud del pétalo, usaríamos:
+
+
+```{r, message=F}
+plot2 <- ggplot(iris, aes(Petal.Length)) +
+  geom_histogram()
+print(plot2)
+```
+
+Para generar un **gráfico de dispersión** y visualizar la relación entre la longitud del pétalo y la longitud del sépalo, usaríamos:
+
+```{r}
+plot3 <- ggplot(iris, aes(Sepal.Length, Petal.Length)) +
+  geom_point()
+print(plot3)
+```
+
+Estos puntos podrían ser coloreados según los niveles de una variable categórica. Para hacer esto, agrega `colour="variable.categórica"` dentro de los paréntesis de `aes`. Para colorear por especie, usaríamos:
+
+```{r}
+plot4 <- ggplot(iris, aes(Sepal.Length, Petal.Length, colour = Species)) +
+  geom_point()
+print(plot4)
+```
+  
+
+### Añadiendo un tema básico
+ 
+La apariencia general del ggplot se puede modificar con diferentes temas predefinidos. Esto se puede hacer agregando `+ theme_bw()` o `+ theme_classic()` al final de tu línea de código. Al igual que con `geom()`, asegúrate de que haya paréntesis abiertos y cerrados después del nombre del tema.
+
+
+```{r}
+plot5 <- ggplot(iris, aes(Sepal.Length, Petal.Length, colour = Species)) +
+  geom_point() +
+  theme_bw()
+print(plot5)
+
+plot6 <- ggplot(iris, aes(Sepal.Length, Petal.Length, colour = Species)) +
+  geom_point() +
+  theme_classic()
+print(plot6)
+```
+  
+
+### Más ayuda
+
+Para personalizar aún más la estética del gráfico, incluyendo el color y el formato, consulta nuestras otras páginas de ayuda de ggplot:  
+* [Modificar la apariencia general](/graphics/ggplot/ggplot-appearance/)  
+* [Agregar títulos y nombres de ejes](/graphics/ggplot/ggplot-labels/)  
+* [Colores y símbolos](/graphics/ggplot/ggplot-colour-shapes/).   
+
+La ayuda de todas las funciones de ggplot se puede encontrar en [The master ggplot help site](https://ggplot2.tidyverse.org).
+
+Se puede descargar una útil hoja de referencia con funciones comúnmente utilizadas [aquí](https://raw.githubusercontent.com/rstudio/cheatsheets/main/data-visualization.pdf).
+
+<p style="margin-left: .5in; text-indent: -.5in;">Chang, W (2012) *R Graphics cookbook.* O'Reilly Media. - una guía de ggplot con mucha ayuda en línea [aquí](http://www.cookbook-r.com/Graphs/)</p>
+  
+
+**Autor**: Fiona Robinson
+ 
+**Año**: 2016
+
+**Última actualización**: `r format(Sys.time(), "%b %Y")`
+

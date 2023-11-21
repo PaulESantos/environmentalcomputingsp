@@ -1,0 +1,10 @@
+---
+weight: 1
+title: "T-tests"
+---
+
+Algunas pruebas de hipótesis simples con la estadística t:
+
+* [Pruebas t de una muestra](one-sample-t-test) para contrastar un parámetro de muestra con un parámetro de población
+* [Pruebas t de muestras independientes](two-sample-t-test) para contrastar las medias de dos muestras
+* [Pruebas t emparejadas](paired-t-test) para contrastar dos grupos de valores donde cada par se mide en el mismo objeto.

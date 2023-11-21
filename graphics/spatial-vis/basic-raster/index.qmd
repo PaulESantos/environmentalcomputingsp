@@ -1,0 +1,584 @@
+---
+title: 'Los fundamentos de los Rasters'
+weight: 1
+---
+
+
+Este tutorial se centra en introducir los conceptos básicos de lo que es un raster, y luego cómo importar datos raster a R y realizar algunas manipulaciones básicas. Si solo necesitas crear un mapa de ubicación de sitios o algo similar, es posible que sea mejor comenzar con [este tutorial](../simple-maps/).
+
+### Empecemos configuración
+
+Verifica si puedes ver los datos que vamos a utilizar (tu directorio de trabajo debe ser la ubicación de este archivo)
+
+
+```{r, eval=FALSE}
+file.exists("Cairns_Mangroves_30m.tif")
+file.exists("SST_feb_2013.img")
+file.exists("SST_feb_mean.img")
+```
+
+Instala los paquetes que vamos a necesitar: el paquete `raster` es la biblioteca principal para objetos raster en R, `dismo` tiene algunos envoltorios útiles para diversas funciones de muestreo (además de otras cosas interesantes relacionadas con la SDM), y `rgdal` tiene muchos controladores para leer y escribir varios formatos de datos espaciales.
+
+
+
+```{r, eval=FALSE}
+install.packages(c("raster", "dismo", "rgdal"))
+```
+
+Verifica que puedas cargarlos
+
+```{r, eval=TRUE, message=FALSE, warning=FALSE}
+library(raster)
+library(dismo)
+library(rgdal)
+```
+
+
+### ¿Qué es un raster?
+Ahora estamos listos para comenzar, pero primero, ¿qué es un raster? Bueno, simplemente, es una cuadrícula de coordenadas en las que podemos definir ciertos valores, y mostramos los elementos de la cuadrícula correspondiente según esos valores. Los datos raster son esencialmente una matriz, pero un raster es especial en el sentido de que definimos la forma y el tamaño de cada elemento de la cuadrícula, y generalmente dónde debe ubicarse la cuadrícula en algún espacio conocido (es decir, un sistema de coordenadas geográficas proyectadas).
+
+
+![ ](teaser_plot.png)
+
+### Comprensión de los datos raster
+
+Crea un objeto raster y consultalo
+
+```{r, eval=FALSE}
+dummy_raster <- raster(ncol = 10, nrow = 10) # vamos a crear un raster pequeño
+nrow(dummy_raster) # número de píxeles
+ncol(dummy_raster) # número de píxeles
+ncell(dummy_raster) # número total de píxeles
+# plot(dummy_raster) # no se muestra el gráfico porque el raster está vacío
+hasValues(dummy_raster) # puedes verificar si tu raster tiene datos
+values(dummy_raster) <- 1 # asignar un valor de píxel al raster, en este caso 1
+plot(dummy_raster) # todo el raster tiene un valor de píxel de 1
+```
+
+Crea un raster de números aleatorios para poder ver qué está sucediendo de manera más sencilla.
+
+
+```{r, eval=FALSE}
+values(dummy_raster) <- runif(ncell(dummy_raster)) # se asigna un número aleatorio a cada píxel
+plot(dummy_raster) # ahora el raster tiene píxeles con números aleatorios
+values(dummy_raster) <- runif(ncell(dummy_raster))
+plot(dummy_raster)
+dummy_raster[1, 1] # podemos consultar rasters (y seleccionar los valores de la matriz) utilizando la indexación estándar de R
+dummy_raster[1, ]
+dummy_raster[, 1]
+
+```
+
+Utiliza esto para consultar interactivamente el raster - presiona "esc" para salir
+
+```{r, eval=FALSE}
+click(dummy_raster)
+```
+
+¿Qué tiene de especial un objeto raster?
+
+```{r, eval=FALSE}
+str(dummy_raster) # observa el CRS y la extensión, además de otros atributos
+crs(dummy_raster) # verifica el sistema de coordenadas en el formato PROJ.4 por defecto
+xmax(dummy_raster) # verifica la extensión máxima
+xmin(dummy_raster)
+ymax(dummy_raster)
+ymin(dummy_raster)
+extent(dummy_raster)
+res(dummy_raster) # resolución
+xres(dummy_raster) # ancho de píxel
+yres(dummy_raster) # altura de píxel
+
+```
+
+
+#### Ejercicios
+* Crea un raster con una cara sonriente (pista: crea un raster en blanco y luego utiliza la indexación para cambiar los valores secuencialmente).
+* Extrae algunos datos de vectores y matrices del raster (pista: utiliza la indexación o funciones como ```?as.matrix```).
+* Genera un ubconjunto el raster en un trozo más pequeño (más complicado - consulta ```?crop```).
+
+### Trabajando con datos reales de raster
+
+Importa los datos de manglares de Cairns y échales un vistazo
+
+
+
+```{r, eval=FALSE}
+mangrove <- raster("Cairns_Mangroves_30m.tif")
+crs(mangrove) # obtener la proyección
+plot(mangrove, col = topo.colors("2")) # observa dos valores de píxel, 0 (no manglar) y 1 (manglar)
+NAvalue(mangrove) <- 0 # crear un único conjunto de datos binario donde los manglares tienen un valor de ráster 1
+plot(mangrove, col = "mediumseagreen")
+
+```
+
+La leyenda es un poco extraña - podemos cambiarla a una leyenda categórica haciendo esto, pero generalmente nos quedaremos con la barra continua predeterminada para reducir el desorden en el código
+
+
+```{r, eval=FALSE}
+cols <- c("white", "red")
+plot(mangrove, col = cols, legend = F)
+legend(x = "bottomleft", legend = c("no mangrove", "mangrove"), fill = cols)
+```
+
+Procesamiento sencillo
+
+```{r, eval=FALSE}
+agg_mangrove <- aggregate(mangrove, fact = 10) 
+
+par(mfrow = c(2, 2))
+plot(mangrove, col = "mediumseagreen")
+plot(agg_mangrove, col = "firebrick")
+plot(agg_mangrove, col = "firebrick")
+plot(mangrove, col = "mediumseagreen", add = TRUE) 
+```
+
+Crea un búfer sencillo
+
+```{r eval=FALSE}
+buf_mangrove <- buffer(agg_mangrove, width = 1000) # buffer
+plot(buf_mangrove, col = "peachpuff")
+plot(mangrove, col = "mediumseagreen", add = T) 
+```
+
+Ten en cuenta que en este punto, podríamos jugar con los márgenes si nos importara, por ejemplo. ```par(mar = c(2,1,2,1), oma = c(2,1,2,1))```.
+
+Convierte el raster en datos de puntos, y luego importa los datos de puntos como raster
+
+
+```{r, eval=FALSE}
+pts_mangrove <- rasterToPoints(mangrove)
+str(pts_mangrove)
+
+par(mfrow = c(2, 2))
+plot(mangrove)
+plot(rasterFromXYZ(pts_mangrove)) 
+
+NAvalue(mangrove) <- -999
+pts_mangrove <- rasterToPoints(mangrove)
+plot(rasterFromXYZ(pts_mangrove))
+
+NAvalue(mangrove) <- 0 
+dev.off()
+```
+
+
+
+Exporta tus datos - vamos a probar con el raster agregado
+
+```{r, eval=FALSE}
+KML(agg_mangrove, "agg_mangrove.kml", overwrite = TRUE)
+writeRaster(agg_mangrove, "agg_mangrove.tif", format = "GTiff")
+```
+
+¿Y los rasters de múltiples bandas? El paquete raster los maneja de la misma manera, solo que el atributo ```nbands()``` es >1 - piensa en un array en lugar de una matriz.
+
+```{r, eval=FALSE}
+multiband <- raster("multiband.tif")
+nbands(multiband)
+nrow(multiband)
+ncol(multiband)
+ncell(multiband)
+```
+
+Crear nuestro propio raster multibanda?
+
+```{r, eval=FALSE}
+for (i in 1:4) {
+  assign(x = paste0("band", i), value = raster(ncol = 10, nrow = 10))
+}
+values(band1) <- runif(100)
+values(band2) <- runif(100)
+values(band3) <- runif(100)
+values(band4) <- runif(100)
+multiband_stack <- stack(list(band1, band2, band3, band4))
+nlayers(multiband_stack)
+plot(multiband_stack)
+```
+
+Generando una imagen RGB?
+
+```{r, eval=FALSE}
+plotRGB(multiband_stack, r = 1, g = 2, b = 3)
+range(multiband_stack)
+plotRGB(multiband_stack, r = 1, g = 2, b = 3, scale = 1) 
+plotRGB(multiband_stack, r = 3, g = 2, b = 1, scale = 1)
+plotRGB(multiband_stack, r = 2, g = 3, b = 4, scale = 1)
+```
+
+Otras funciones de procesamiento útiles
+
+```{r, eval=FALSE}
+?crop
+?merge
+?trim
+?interpolate
+?reclassify
+?rasterToPolygons
+```
+
+
+Algunas funciones de análisis útiles
+
+```{r, eval=FALSE}
+?zonal 
+?focal 
+?calc 
+?distance 
+?sampleRandom
+?sampleRegular
+?sampleStratified
+```
+
+Hoy no entraremos en detalles sobre los sistemas de coordenadas y proyección, pero de manera *muy* breve, ```CRS()``` y ```crs()``` son las funciones/objetos clave.
+
+
+```{r, eval=FALSE}
+crs(mangrove)
+proj4string(mangrove)
+
+latlong <- "+init=epsg:4326"
+CRS(latlong)
+eastnorth <- "+init=epsg:3857"
+CRS(eastnorth)
+
+latlongs_mangrove <- rasterToPoints(mangrove, spatial = T)
+latlongs_mangrove
+projected_pts_mangrove <- spTransform(latlongs_mangrove, CRS(eastnorth))
+projected_pts_mangrove
+```
+
+#### Ejercicios
+
+```{r, eval=FALSE, echo=FALSE}
+# este es solo el código de cómo realizaron el subconjunto, no es necesario para el tutorial
+tir_orig <- raster("LC80910802013275LGN00_TIR.jpg")
+ext <- extent(tir_orig)
+centx <- mean(c(ext[1], ext[2]))
+centy <- mean(c(ext[3], ext[4]))
+new_ext <- c(centx - 10000, centx + 10000, centy - 10000, centy + 10000)
+tir <- crop(tir_orig, new_ext)
+writeRaster(x = tir, filename = "Landsat_TIR.tif", format = "GTiff")
+```
+
+* Importa el raster `"Landsat_TIR.tif"`, que es una imagen TIR (infrarrojo térmico) del satélite Landsat 8 capturada sobre un área de cultivo.
+* Supongamos que modelamos los valores TIR mediante regresión lineal para calcular la temperatura real en el suelo, y beta0 fue 0.5 y beta1 fue 0.1 (es decir, y = 0.1x + 0.5). Haz un mapa de temperatura (pista: ```?calc```, y deberás escribir una función).
+* Agrega un título y etiquetas de ejes al gráfico, y utiliza colores que tengan sentido para la temperatura.
+* Crea un raster coincidente (en extensión y número de píxeles, para la solución más fácil) con códigos de zona (para cada píxel), y luego calcula la temperatura media/desviación estándar en esas zonas (pista: ```?values``` y ```?zonal```).
+
+
+```{r, eval=FALSE, echo=FALSE}
+tir <- raster("Landsat_TIR.tif")
+temp <- function(x) {
+  0.1 * x + 0.5
+}
+tir_temp <- calc(tir, fun = temp)
+plot(tir_temp)
+plot(tir_temp,
+  col = rev(heat.colors(10)), legend.args = list(text = "Temperature (degC)", side = 4, line = 2.5),
+  main = "Temperature dirived from Landsat TIR band", xlab = "Easting", ylab = "Northing"
+)
+
+temp_zones <- tir_temp
+values(temp_zones) <- rep(1:100, length.out = ncell(temp_zones))
+zonal_mean_temps <- zonal(x = tir_temp, z = temp_zones, fun = "mean")
+zonal_sd_temps <- zonal(x = tir_temp, z = temp_zones, fun = "sd")
+```
+
+### Ampliando el análisis de rasters
+
+Ahora hagamos un recorrido rápido por los tipos de análisis que podemos realizar, y con suerte, descubramos una comprensión más profunda del análisis de rasters en R.
+
+Carga algunos datos de SST (temperatura de la superficie del mar) - Feb 2013 para el globo (como un dato aparte, verifica [este enlace](http://oceancolor.gsfc.nasa.gov/cms/) para obtener más conjuntos de datos globales marinos geniales:
+
+
+```{r, eval=TRUE}
+sst_feb <- raster("SST_feb_2013.img")
+plot(sst_feb)
+```
+
+Recórtalos al Pacífico para poder comparar los datos de manglar
+
+```{r, eval=FALSE}
+pacific_extent <- extent(mangrove) + 80 
+pacific_extent 
+sst_feb_crop <- crop(sst_feb, pacific_extent) 
+plot(sst_feb_crop)
+```
+
+
+Carga los datos de SST promedio a largo plazo para febrero
+
+
+```{r, eval=FALSE}
+sst_feb_mn <- raster("SST_feb_mean.img")
+plot(sst_feb_mn)
+sst_mn_crop <- crop(sst_feb_mn, pacific_extent)
+plot(sst_mn_crop)
+```
+
+
+Ahora vamos a crear un mapa de anomalía de SST
+
+```{r, eval=FALSE}
+sst_anomaly <- sst_feb_crop - sst_mn_crop 
+plot(sst_anomaly) 
+plot(sst_anomaly, col = rev(heat.colors("100"))) 
+contour(sst_anomaly, add = T) 
+```
+
+```{r, eval=TRUE, echo=FALSE}
+mangrove <- raster("Cairns_Mangroves_30m.tif")
+sst_feb_mn <- raster("SST_feb_mean.img")
+pacific_extent <- extent(mangrove) + 80
+sst_feb_crop <- crop(sst_feb, pacific_extent)
+sst_mn_crop <- crop(sst_feb_mn, pacific_extent)
+sst_anomaly <- sst_feb_crop - sst_mn_crop
+```
+
+Consultar valores individuales,
+
+```{r, eval=FALSE}
+minValue(sst_anomaly) 
+maxValue(sst_anomaly) 
+plot(sst_anomaly == maxValue(sst_anomaly))
+```
+
+o gráficos/estadísticas para toda la imagen,
+
+```{r, eval=FALSE}
+plot(sst_anomaly > 1)
+par(mar = c(3, 3, 3, 3))
+hist(sst_anomaly, main = "February SST Anomaly", xlab = "sst anomaly")
+```
+
+
+¡o vamos a ser un poco más ingeniosos!
+
+
+```{r, eval=TRUE}
+max_anom <- which.max(sst_anomaly)
+max_xy <- xyFromCell(sst_anomaly, max_anom)
+plot(sst_anomaly,
+  col = rev(heat.colors("100")),
+  main = "2013 Feb SST anomaly + hottest point"
+)
+points(max_xy, pch = 8, cex = 2)
+```
+
+
+¿Muestrear puntos condicionalmente? Claro. Sin embargo, más adelante veremos una mejor forma de hacerlo.
+
+
+```{r, eval=FALSE}
+xy <- xyFromCell(sst_anomaly, sample(1:ncell(sst_anomaly), 20)) 
+points(xy)
+extract(sst_feb, xy)
+```
+
+Prueba también ```?getValues```. Bueno, recapitulemos cómo escribir de nuevo en el disco
+
+```{r, eval=FALSE}
+
+writeRaster(sst_anomaly, "sst_anomaly.tif", format = "GTiff")
+KML(sst_anomaly, "sst_anomaly.kml")
+save(sst_anomaly, file = "sst_anomaly_feb.RData")
+save(sst_feb_mn, file = "sst_feb_mn.RData") 
+```
+
+
+¿Qué sucede con esos dos comandos ```save()```? Algo más que debes entender sobre la forma en que el paquete ```raster``` maneja los archivos ráster es que, para los rásteres más grandes, no se almacena todo el archivo en la memoria, sino que es solo un puntero al archivo. Puedes probar si lo es o no.
+
+
+```{r, eval=FALSE}
+inMemory(sst_feb_mn) 
+inMemory(sst_anomaly) 
+```
+
+
+Vimos ```stack()``` anteriormente, y podemos usarlo para imágenes de múltiples bandas, pero también para apilar diferentes fuentes de información. ```brick()``` funciona de la misma manera, excepto que los objetos ```RasterBrick``` están diseñados para datos más pequeños, y un ```RasterBrick``` solo puede apuntar a un archivo, a diferencia de los objetos ```RasterStack```, que pueden apuntar a varios archivos.
+
+
+```{r, eval=FALSE}
+sst_stack <- stack(sst_mn_crop, sst_feb_crop, sst_anomaly)
+plot(sst_stack)
+nlayers(sst_stack)
+plot(sst_stack, 2)
+names(sst_stack)[2] <- "SST_feb_2013"
+names(sst_stack)[3] <- "SST_anomaly"
+```
+
+
+Así que podemos ver por qué eso podría ser útil para diversas aplicaciones de teledetección y modelado.
+
+### Modelado e interpolación
+
+Ahora veamos un ejemplo rápido de lo que podemos hacer con rásteres en el contexto del modelado de distribución de especies y el modelado espacial. Primero, extraigamos algunos puntos aleatorios; asegúrate de haber ejecutado ```library(dismo)```.
+
+```{r, eval=FALSE}
+rpoints_sst <- randomPoints(sst_stack, 500) 
+plot(sst_stack, 2)
+points(rpoints_sst, pch = 16, cex = 0.7)
+sst_samp <- extract(sst_stack, rpoints_sst) 
+str(sst_samp)
+sst_samp <- data.frame(sst_samp,
+  lat = rpoints_sst[, 2], lon = rpoints_sst[, 1]
+)
+plot(sst_samp$SST_anomaly ~ sst_samp$SST_feb_2013)
+# abline(lm(sst_samp$SST_anomaly ~ sst_samp$SST_feb_2013))
+# plot(mgcv::gam(sst_samp$SST_anomaly ~ s(sst_samp$SST_feb_2013)), resid = T)
+```
+
+¿Y si tuviéramos algunos datos biológicos reales en esos puntos? Bueno, inventemos algunos y luego ajustemos un modelo a ellos.
+
+
+```{r, eval=FALSE}
+sst_samp$shark_abund <- rpois(n = nrow(sst_samp), lambda = round(sst_samp$SST_feb_2013))
+plot(sst_samp$shark_abund ~ sst_samp$SST_feb_2013)
+shark_glm <- glm(sst_samp$shark_abund ~ sst_samp$SST_feb_2013 + sst_samp$SST_anomaly,
+  data = sst_samp, family = "poisson"
+)
+summary(shark_glm)
+```
+
+Por lo general, usaríamos ```predict()``` en un objeto de ajuste de modelo, y también podemos usarlo de manera similar para predecir datos ráster.
+
+```{r, eval=FALSE}
+head(predict(shark_glm, type = "response"))
+shark_predict <- predict(shark_glm, new_data = sst_samp, type = "response")
+plot(shark_predict,
+  col = rev(rainbow(n = 10, start = 0, end = 0.3)),
+  main = "Shark abundance as a function of SST"
+)
+```
+
+```{r, eval=TRUE, echo=F}
+sst_stack <- stack(sst_mn_crop, sst_feb_crop, sst_anomaly)
+names(sst_stack)[2] <- "SST_feb_2013"
+names(sst_stack)[3] <- "SST_anomaly"
+rpoints_sst <- randomPoints(sst_stack, 500)
+sst_samp <- extract(sst_stack, rpoints_sst)
+sst_samp <- data.frame(sst_samp, lat = rpoints_sst[, 2], lon = rpoints_sst[, 1])
+sst_samp$shark_abund <- rpois(n = nrow(sst_samp), lambda = round(as.numeric(sst_samp$SST_feb_2013)))
+shark_glm <- glm(sst_samp$shark_abund ~ sst_samp$SST_feb_2013 + sst_samp$SST_anomaly,
+  data = sst_samp, family = "poisson"
+)
+shark_predict <- predict(shark_glm,new_data = sst_samp, type = "response")
+plot(shark_predict,
+  col = rev(rainbow(n = 10, start = 0, end = 0.3)),
+  main = "Shark abundance as a function of SST"
+)
+```
+
+
+Vamos a intentar algo diferente, digamos el riesgo de ataque. ¿No se trata solo de la abundancia, sino también de algo más, como su nivel de agresividad o promedio?
+
+
+```{r, eval=TRUE}
+sst_samp$shark_aggression <- sst_samp$lat * -1 
+sst_samp$shark_attack <- scale(sst_samp$shark_abund * sst_samp$shark_aggression)
+attack_lm <- lm(shark_attack ~ SST_feb_2013 + SST_anomaly,
+  data = sst_samp
+)
+shark_attack <- predict(sst_stack, attack_lm, type = "response")
+plot(shark_attack,
+  col = rev(rainbow(n = 10, start = 0, end = 0.3)),
+  main = "Shark attack index!"
+)
+```
+
+
+Este es un ejemplo rápido y tonto. Si fuéramos menos perezosos, podríamos crear una nueva pila de imágenes con las predicciones de abundancia y los valores de latitud, extraer las muestras aleatorias nuevamente y volver a ajustar el modelo y las predicciones.
+
+#### Ejercicios
+* Intenta generar algunas estadísticas (valores o gráficos) para la anomalía de la SST en diferentes regiones, ya sea en todo el mundo o en Australia.
+* Prueba algunas operaciones matemáticas de bandas o algunas declaraciones condicionales utilizando múltiples raster o un RasterStack.
+* Crea otro escenario de SDM, ya sea utilizando datos descargados o datos totalmente simulados.
+* Si solo tuviéramos los datos físicos en algunos puntos y quisiéramos convertirlos en un mapa de SST ponderado geográficamente o interpolado, podrías muestrear algunos de los puntos y luego usar `library(gstat)` para probar una interpolación IDW (ponderada por distancia inversa). Realiza algunas interpolaciones, variando la cantidad de puntos utilizados, y observa cómo afecta a tu producto interpolado.
+
+
+
+```{r, eval=FALSE, echo=FALSE}
+plot(sst.feb)
+rpoints.sst.feb <- randomPoints(sst.feb, 500)
+points(rpoints.sst.feb)
+rpoints.sst.feb <- data.frame(rpoints.sst.feb, extract(sst.feb, rpoints.sst.feb))
+names(rpoints.sst.feb)[3] <- "SST"
+# modelo idw
+sst.idw.fit <- gstat(id = "SST", formula = SST ~ 1, locations = ~ x + y, data = rpoints.sst.feb, nmax = 5, set = list(idp = 1))
+sst.idw <- interpolate(sst.feb, sst.idw.fit)
+par(mfrow = c(1, 2))
+plot(sst.feb)
+plot(sst.idw) 
+sst.idw <- mask(sst.idw, sst.feb)
+plot(sst.feb)
+plot(sst.idw)
+```
+
+```{r, eval=FALSE, echo=FALSE}
+
+coordinates(rpoints.sst.feb) <- ~ x + y
+proj4string(rpoints.sst.feb) <- proj4string(sst.feb)
+# kriging
+sst.vario <- variogram(object = SST ~ 1, data = rpoints.sst.feb) 
+sst.vario.fit <- fit.variogram(sst.vario, vgm(psill = 0.3, model = "Gau", range = 100)) # ?vgm
+# (Exp)ponential, (Sph)rical, (Gau)ssian, (Mat)ern, (Spl)ine, (Lin)ear etc.
+sst.ordkirg.fit <- gstat(id = "SST", formula = SST ~ 1, model = sst.vario.fit, data = rpoints.sst.feb)
+sst.ordkrig <- interpolate(sst.feb, sst.ordkirg.fit)
+sst.ordkrig <- mask(sst.ordkrig, sst.feb)
+plot(sst.feb)
+plot(sst.ordkrig)
+```
+
+
+### Algo más para investigar
+
+Algunos de los paquetes comúnmente utilizados para el análisis de datos espaciales.
+
+
+```{r, eval=FALSE}
+library(sp) 
+library(maps)
+library(rasterVis)
+library(maptools)
+library(mapproj)
+library(rgeos) 
+```
+
+
+También podrías intentar obtener datos climáticos bioclimáticos utilizando la función `getData()` del paquete `raster`, o obtener varios tipos de mapas utilizando la función `gmap()` del paquete `dismo` o la función `map` del paquete `maps`. Si visitas la página de GitHub de este tutorial, encontrarás algunas respuestas a los ejercicios, además de algunos extras relacionados con las sugerencias anteriores.
+
+
+```{r, eval=FALSE, echo=FALSE}
+par(mfrow = c(1, 1))
+rain <- getData("worldclim", var = "prec", res = 10, lon = 5, lat = 45) 
+plot(rain)
+nlayers(rain)
+rpoints.rain <- randomPoints(rain, 500) 
+plot(rain, 1) 
+points(rpoints.rain, pch = 16, cex = 0.7)
+samp.rain <- extract(rain, rpoints.rain)
+head(samp.rain)
+```
+
+```{r, eval=FALSE, echo=FALSE}
+install.packages("XML")
+library(XML)
+Aus <- gmap("Australia") 
+plot(Aus)
+AusSat <- gmap("Australia", type = "satellite") 
+plot(AusSat)
+```
+
+```{r, eval=FALSE, echo=FALSE}
+install.packages("maps")
+library(maps)
+map(database = "world", col = "grey")
+```
+
+
+**Autor**: Mitchell Lyons
+
+**Año**: 2017
+
+**Última actualización**: `r format(Sys.time(), "%b %Y")`

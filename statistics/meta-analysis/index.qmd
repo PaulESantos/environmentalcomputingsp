@@ -1,0 +1,14 @@
+---
+weight: 10
+title: "Meta-Análisis"
+---
+
+EL meta-análisis se utilizan cada vez más en ecología, evolución y ciencias ambientales para encontrar patrones generales entre muchos estudios, resolver controversias entre estudios conflictivos y generar nuevas hipótesis. Estos tutoriales ofrecen una introducción para realizar meta-análisis con el paquete R [metafor](http://www.metafor-project.org/doku.php).
+
+* [Meta-análisis 1](meta-analysis-1): Introducción y cálculo de tamaños de efecto
+* [Meta-análisis 2](meta-analysis-2): Modelos de efecto fijo y efecto aleatorio
+* [Meta-análisis 3](meta-analysis-3): Modelos más complejos
+
+
+
+![](images/4666102_orig.jpg)

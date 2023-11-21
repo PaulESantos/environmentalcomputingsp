@@ -1,0 +1,137 @@
+---
+weight: 3
+title: "Interpretación de los GLMs"
+---
+
+En los modelos lineales, la interpretación de los parámetros del modelo es lineal. Por ejemplo, si estás modelando la altura de las plantas en función de la altitud y el coeficiente para la altitud es -0.9, entonces la altura de las plantas disminuirá en 1.09 unidades por cada aumento de 1 unidad en la altitud.
+
+Para los modelos lineales generalizados, la interpretación no es tan directa. Aquí explicaremos cómo interpretar los coeficientes en los modelos lineales generalizados (GLMs). Primero, deberás leer nuestras páginas sobre GLMs para datos [binarios](/statistics/glms/glm-1/) y [de conteo](/statistics/glms/glm-2/), así como nuestra página sobre [la interpretación de coeficientes en modelos lineales](/statistics/glms/interpret-glm-coeffs/).
+  
+
+### GLMs de Poisson y binomial negativo
+ 
+En los GLMs de Poisson y binomial negativo, utilizamos una función de enlace logarítmico. El modelo real que ajustamos con una covariable $x$ se ve así:
+
+$$ Y \sim \text{Poisson} (\lambda) $$
+
+
+$$  log(\lambda) = \beta_0 + \beta_1 x $$
+
+aquí $\lambda$ es la media de Y. Entonces, si tenemos un valor inicial de la covariable $x_0$, el valor predicho de la media $\lambda_0$ se calcula de la siguiente manera:
+
+$$  log(\lambda_0) = \beta_0 + \beta_1 x_0 $$
+
+Si ahora aumentamos la covariable en 1, obtenemos una nueva media $\lambda_1$,
+
+$$  log(\lambda_1) = \beta_0 + \beta_1 (x_0 +1) = \beta_0 + \beta_1 x_0 +\beta_1 = log(\lambda_0) + \beta_1$$
+
+Por lo tanto, el logaritmo de la media de Y aumenta en $\beta_1$ cuando aumentamos x en 1. Pero en realidad no nos interesa cómo cambia el logaritmo de la media, nos gustaría saber cómo cambia Y en promedio. Si tomamos el exponencial de ambos lados,
+
+$$  \lambda_1 = \lambda_0 exp(\beta_1)$$
+
+
+Entonces, la media de Y se multiplica por $exp(\beta_1)$ cuando aumentamos $x$ en 1 unidad.
+
+
+```{r}
+N <- 120
+x <- rnorm(N)
+mu <- exp(1 + 0.2 * x)
+Y <- rpois(N, lambda = mu)
+glm1 <- glm(Y ~ x, family = poisson)
+glm1$coefficients
+exp(glm1$coefficients[2])
+```
+
+### GLMs binomiales
+
+#### Regresión logística
+
+Las cosas se vuelven mucho más complicadas en los GLMs binomiales. El modelo aquí es en realidad un modelo de log-odds (probabilidades), por lo que necesitamos comenzar con una explicación de eso. Las probabilidades de un evento son la probabilidad de éxito dividida por la probabilidad de fracaso. Entonces, si la probabilidad de éxito es $p$, las probabilidades son:
+
+$$\text{Odds} = \frac{p}{1-p}$$
+
+A medida que $p$ aumenta, también lo hacen las probabilidades. La ecuación para una regresión logística se ve así:
+
+$$ Y \sim \text{binomial}(p) $$
+
+$$ \log\left(\frac{p}{1-p}\right) = \beta_0 + \beta_1 x $$
+
+
+Omitiendo algunos cálculos que son muy similares a los anteriores, podemos obtener una interpretación para el coeficiente de $x$ en el modelo en términos de las odds. Cuando aumentamos $x$ en una unidad, las odds se multiplican por $exp(\beta_1)$. Las odds no son la cosa más intuitiva de interpretar, pero aumentan cuando $p$ aumenta, por lo que si tu coeficiente $\beta_1$ es positivo, aumentar $x$ aumentará tu probabilidad.
+
+
+```{r}
+bY <- Y > 0 
+bin1 <- glm(bY ~ x, family = binomial)
+summary(bin1)
+```
+
+Cuando incrementamos $x$ en una unidad, las probabilidades de Y se multiplican por $exp(\beta_1) = 2.11$.
+
+#### Logaritmos complementarios (log-log)
+
+Posiblemente un modelo más intuitivo sea una regresión binomial con una función de enlace log-log. Esta función de enlace se basa en la suposición de que tienes algunos recuentos, que siguen una distribución de Poisson, pero hemos decidido convertirlos en presencia/ausencia.
+
+$$ Y \sim \text{binomial} (p) $$
+$$  log(-log(1-p)) = \beta_0 + \beta_1 x $$
+
+En ese caso, puedes interpretar tus coeficientes de manera similar a la regresión de Poisson. Cuando aumentas $x$ en 1 unidad, la media de tu recuento subyacente (que has convertido en presencia/ausencia) se multiplica por $exp( \beta_1 )$.  
+
+```{r, warning=F}
+library(mvabund)
+bin2 <- manyglm(bY ~ x, family = binomial(link = "cloglog"))
+coef(bin2)
+```
+
+La interpretación es ahora la misma que en el caso de Poisson, cuando aumentamos $x$ en 1 unidad, la media del recuento subyacente se multiplica por $exp( \beta_1 )$.
+  
+
+#### Modelo binomial logarítmico
+
+Es posible utilizar una función de enlace logarítmico con la distribución binomial `family = binomial(link = log)`. En este caso, puedes interpretar los coeficientes como multiplicadores de las probabilidades por $exp( \beta_1 )$, sin embargo, estos modelos pueden darte probabilidades predichas mayores que 1 y a menudo no convergen (no dan una respuesta).
+  
+
+### Desplazamientos
+
+A veces sabemos que el efecto de una variable en la respuesta es proporcional, de modo que cuando duplicamos dicha variable, esperamos que la respuesta se duplique en promedio. El caso más común en el que se ve esto es con la intensidad de muestreo.
+
+
+![](glm_coefficients_image.jpg)
+
+Si muestreamos suelo y contamos criaturas, suponiendo que todas las demás cosas son iguales, esperarías el doble de criaturas en el doble de cantidad de suelo. Si tienes una variable como esta, es tentador dividir tu respuesta (conteo) por la cantidad de suelo para estandarizar los datos. Desafortunadamente, esto tomará los conteos, que sabemos cómo modelar con glms, y los convertirá en algo que no sabemos cómo modelar. Afortunadamente, esta situación se resuelve fácilmente utilizando desplazamientos (offsets). Primero, vamos a simular algunos datos para la cantidad de suelo, la profundidad (nuestra variable predictora) y los datos de conteo (con una distribución de Poisson) donde los conteos dependen de cuánto suelo se muestreó.
+
+
+```{r}
+soil <- exp(rbeta(N, shape1 = 8, shape2 = 1))
+depth <- rnorm(N)
+mu <- soil * exp(0.5 + 0.5 * depth)
+count <- rpois(N, lambda = mu)
+```
+
+Ahora, podemos modelar los conteos con la profundidad como nuestra variable predictora y la cantidad de suelo como un desplazamiento (offset).
+
+
+```{r}
+off_mod <- glm(Y ~ depth + offset(log(soil)), family = poisson)
+summary(off_mod)
+```
+
+
+Si ignoráramos la cantidad de suelo, podríamos llegar a conclusiones erróneas. Si la cantidad de suelo está correlacionada con otra variable en tu modelo, omitir el desplazamiento afectará el coeficiente de esa variable, como se discute en la interpretación condicional/marginal [aquí](/statistics/linear-models/linear-regression/interpret-lm-coeffs/). El desplazamiento también a menudo explicará gran parte de la variación en la respuesta, por lo que incluirlo te dará un mejor modelo en general. ¿Qué pasa si no estás seguro si la relación es exactamente proporcional? En ese caso, simplemente incluye la variable en tu modelo como un coeficiente y el modelo decidirá la mejor relación entre ella y tu respuesta.
+
+
+```{r}
+coef_mod <- glm(Y ~ depth + log(soil), family = poisson)
+summary(coef_mod)
+```
+
+
+El coeficiente estimado por el modelo es cercano a 1, lo cual sería equivalente a un desplazamiento.
+
+**Autor**: Gordana Popovic
+
+**Año**: 2016
+
+**Última actualización**: `r format(Sys.time(), "%b %Y")`
+

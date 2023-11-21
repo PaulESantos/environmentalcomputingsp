@@ -1,0 +1,133 @@
+---
+weight: 2
+title: "Datos de recuento"
+---
+
+**Datos de recuento**
+
+Esto es una continuación de [Modelos lineales generalizados 1](/statistics/glms/glm-1), que introdujo los GLM y proporcionó instrucciones para datos binarios. Lee eso primero para entender cuándo se utilizan los GLM. En esta página, cubriremos el uso de los GLM para datos de recuento y presentaremos brevemente cómo se pueden utilizar para otros tipos de datos que puedas tener.
+
+### Ejecución del análisis
+
+![](GLM2_counts_image.jpg)
+
+Para este ejemplo práctico, tenemos recuentos de diferentes grupos de animales en sitios de control y sitios donde se ha llevado a cabo la regeneración del matorral (tratamiento). Queremos saber si las actividades de regeneración del matorral han afectado el recuento de babosas.
+
+Descarga el conjunto de datos de muestra, [Revegetation.csv](/datasets/Revegetation.csv), e impórtalo en R para ver cómo se organizan los datos:
+
+```{r}
+Reveg <- read.csv("Revegetation.csv", header = T)
+```
+
+Si visualizas el histograma de frecuencias de los recuentos de babosas, verás que está muy sesgado, con muchos valores pequeños y pocos recuentos grandes (el nombre de la variable, Soleolifera, es el nombre de orden de las babosas terrestres).
+
+
+```{r,out.width = '500px'}
+hist(Reveg$Soleolifera)
+```
+
+
+La distribución predeterminada para datos de recuento es la distribución de Poisson. La distribución de Poisson asume que la varianza es igual a la media. Esta es una suposición bastante restrictiva que a menudo se viola en los datos de recuento ecológicos. Es posible que necesitemos utilizar la distribución negativa binomial, que es más flexible.
+
+Podemos utilizar un GLM para probar si los recuentos de babosas (del orden Soleolifera) difieren entre los sitios de control y los sitios regenerados. Para ajustar el GLM, utilizaremos la función `manyglm` en lugar de `glm` para tener acceso a gráficos de residuos más útiles.
+
+Para ajustar el GLM, carga el paquete `mvabund` y luego ajusta el siguiente modelo:
+
+```{r}
+library(mvabund)
+ft.sol.pois <- manyglm(Soleolifera ~ Treatment, family = "poisson", data = Reveg)
+```
+
+
+donde Soleolifera es la variable de respuesta y Treatment es la variable predictora (con dos niveles, control y regenerado).
+
+### Suposiciones a verificar
+
+Antes de ver los resultados, debemos revisar el gráfico de residuos para verificar las suposiciones.
+
+
+```{r,out.width = '500px'}
+plot(ft.sol.pois)
+```
+
+Es difícil decir si hay alguna no linealidad en este gráfico, esto se debe a que el predictor es binario (tratamiento vs reforestado). Al observar la suposición de varianza, parece que hay una forma de abanico. Los residuos están más dispersos a la derecha que a la izquierda, a esto lo llamamos sobredispersión.
+
+Esto nos indica que la suposición de varianza de la distribución de Poisson puede ser demasiado restrictiva y deberíamos probar una distribución diferente. En cambio, podemos ajustar una distribución binomial negativa en `manyglm` cambiando el argumento `family` a `family="negative binomial"`.
+
+
+```{r}
+ft.sol.nb <- manyglm(Soleolifera ~ Treatment, family = "negative binomial", data = Reveg)
+```
+
+Observa nuevamente el gráfico de residuos:
+
+```{r,out.width = '500px'}
+plot(ft.sol.nb)
+```
+
+Esto parece haber mejorado el gráfico de residuos. Ya no hay una fuerte forma de abanico, así que podemos proceder y examinar los resultados.
+
+### Interpretación de los resultados
+
+Si todas las verificaciones de suposiciones están bien, podemos observar los resultados que nos proporcionó el modelo con las mismas dos funciones de inferencia utilizadas para los modelos lineales: `summary` y `anova`.
+
+
+```{r}
+anova(ft.sol.nb)
+summary(ft.sol.nb)
+```
+
+Ambas pruebas indican una fuerte evidencia de un efecto del tratamiento (p\<0.01). Para extraer la ecuación del modelo, podemos observar los coeficientes obtenidos del ajuste.
+
+
+```{r}
+ft.sol.nb$coefficients
+```
+
+La función de enlace predeterminada para modelos de Poisson y binomial negativo es $log()$. Si escribimos la media de conteo como $\lambda$
+
+$$ \log(\lambda) = -0.92 + 2.12 \times \text{Treatment}$$
+
+
+### Comunicación de los resultados
+
+**Escrita.** Los resultados de los GLM se comunican de la misma manera que los resultados de los modelos lineales. Para un predictor, basta con escribir una línea, por ejemplo: "Hay evidencia sólida de un efecto positivo de la regeneración de arbustos en la abundancia de babosas del orden Soleolifera (p \< 0.001)". Para múltiples predictores, es mejor mostrar los resultados en una tabla. También debes indicar qué distribución se utilizó (por ejemplo, binomial negativa) y si se utilizó remuestreo para inferencia. "Utilizamos un modelo lineal generalizado binomial negativo debido a la sobredispersión evidente en los datos. La inferencia se realizó utilizando remuestreo bootstrap con 1000 remuestras (valor predeterminado al usar `manyglm`)".
+
+**Visual.** En este ejemplo, un diagrama de caja sería una forma efectiva de visualizar las diferencias en los recuentos de babosas entre los sitios de control y los sitios revegetados.
+
+
+
+```{r,out.width = '500px'}
+boxplot(Soleolifera ~ Treatment, ylab = "Count", xlab = "Treatment", data = Reveg)
+```
+
+### Otros tipos de datos
+
+Si tienes datos continuos positivos con ceros, como datos de biomasa, es posible que la distribución `tweedie` pueda modelar esto, aunque tiene algunas suposiciones bastante restrictivas. Puedes usar `family="tweedie"` con la función `manyglm`. Asegúrate de examinar los gráficos de residuos para detectar violaciones de las suposiciones.
+
+Para datos continuos estrictamente positivos, se puede utilizar una distribución `gamma`. Esto está disponible en la función `glm` utilizando `family=gamma`.
+
+### Más ayuda
+
+Puedes escribir `?glm` y `?manyglm` en R para obtener ayuda con estas funciones.
+
+<p style="margin-left: .5in; text-indent: -.5in;">
+
+Faraway, JJ. 2005. *Extending the linear model with R: generalized linear, mixed effects and nonparametric regression models*. CRC press.
+
+</p>
+
+<p style="margin-left: .5in; text-indent: -.5in;">
+
+Zuur, A, EN Ieno and GM Smith. 20074. *Analysing ecological data*. Springer Science & Business Media, 2007.
+
+</p>
+
+Más consejos sobre [la interpretación de coeficientes en GLMs](/../statistics/glms/interpret-glm-coeffs/)
+
+**Autor**: Gordana Popovic
+
+**Año**: 2016
+
+**Última actualización**: `r format(Sys.time(), "%b %Y")`
+

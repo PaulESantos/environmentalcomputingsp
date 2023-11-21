@@ -1,0 +1,162 @@
+---
+title: "Combinando conjuntos de datos."
+---
+
+Combinar conjuntos de datos es una tarea esencial para muchos proyectos. Por ejemplo, podemos tener datos sobre la abundancia de especies, pero también un conjunto de datos de fuentes externas sobre las condiciones ambientales durante nuestras observaciones (por ejemplo, temperatura, precipitación, elevación, tipo de vegetación).
+
+![](Combining_data_image.jpg)
+
+Utilizaremos el paquete [dplyr](https://cran.r-project.org/web/packages/dplyr/index.html), el cual tiene muchas funciones convenientes para combinar conjuntos de datos. Primero, carga el paquete:
+
+
+```{r, warning=F,message=F}
+library(dplyr)
+```
+
+
+Al igual que en la página de ayuda para [Subconjunto de datos](/../data-manipulation/subsetting-data/), utilizaremos un conjunto de datos donde se muestrearon murciélagos en un bosque de regeneración en el sureste de Australia que ha sido adelgazado para reducir la densidad de árboles.
+
+También leeremos un conjunto de datos que proporciona las ubicaciones geográficas de cada sitio (por ejemplo, descargado de un GPS) y los datos meteorológicos nocturnos (en este caso, descargados y resumidos de los datos en línea de la Oficina de Meteorología).
+
+Descarga los tres conjuntos de datos de muestra ([Bats_data.csv](/datasets/Bats_data.csv), [Geo_data.csv](/datasets/Geo_data.csv) y [Weather_vars.csv](/datasets/Weather_vars.csv)) e impórtalos en R.
+
+```{r}
+Bats <- read.csv(file = "Bats_data.csv")
+Geo <- read.csv(file = "Geo_data.csv")
+Weather <- read.csv(file = "Weather_vars.csv")
+```
+
+### Unir datos
+
+dplyr tiene una función para agregar simplemente todas las columnas de un conjunto de datos (z) a otro (y):
+
+```{r,eval=F}
+bind_cols(y, z)
+```
+
+Esto solo es útil si los dos conjuntos de datos tienen el mismo número de filas y las filas están ordenadas de la misma manera (simplemente empareja las filas por su posición).
+
+En este caso, tenemos dos conjuntos de datos bastante diferentes que queremos unir a nuestro conjunto de datos principal sobre la abundancia de murciélagos. El conjunto de datos de ubicaciones geográficas se ha medido a nivel de sitio, por lo que cada sitio separado tiene una medición separada de latitud y longitud.
+
+El segundo conjunto de datos con información meteorológica ha utilizado la misma estación meteorológica para todos los sitios, pero se ha medido para cada noche de encuesta por separado. Por lo tanto, utilizaremos la columna "Sitio" para unir el conjunto de datos "Geo" y la columna "Fecha" para unir el conjunto de datos "Weather".
+
+La función `left_join` agregará filas coincidentes de un segundo conjunto de datos al primero, especificando qué variable en el primero se utiliza para hacer la coincidencia.
+
+Para agregar las ubicaciones geográficas al conjunto de datos de Murciélagos, utilizando la columna "Sitio" para coincidir las filas, utilizaríamos:
+
+```{r}
+Bats_withGeo <- left_join(Bats, Geo, by = "Site")
+```
+
+La parte `by="Site"` en realidad es opcional, y si la omites, `left_join` buscará columnas con el mismo nombre para usar como columna de coincidencia, y recibirás un mensaje al respecto de la función. Esto es equivalente a la línea de arriba:
+
+
+```{r}
+Bats_withGeo <- left_join(Bats, Geo)
+```
+
+Sin embargo, recomendamos especificar la columna de coincidencia para ser más explícitos acerca del comportamiento deseado de la coincidencia. Para agregar ahora los datos climáticos a ese nuevo conjunto de datos, utilizando la variable **Fecha** para coincidir filas, usaríamos:
+
+```{r}
+Bats_withGeoWeather <- left_join(Bats_withGeo, Weather, by = "Date")
+```
+
+Puedes verificar lo que ha sucedido al ver el conjunto de datos utilizando la función `dim`, para encontrar las dimensiones de nuestros conjuntos de datos, o `colnames` para ver una lista de nombres de columnas.
+
+```{r,eval=F}
+dim(Bats)
+dim(Bats_withGeoWeather)
+colnames(Bats_withGeo)
+colnames(geo.weather.join)
+```
+
+Verás que el nuevo conjunto de datos, **Bats_withGeoWeather**, tiene el mismo número de filas que el original, Bats, pero con cuatro columnas adicionales: "Latitud", "Longitud", "Temperatura_media" y "Humedad_media".
+
+### Tratando con conjuntos de datos desordenados
+
+Ese fue un ejemplo agradable y ordenado, donde todos los códigos en nuestro conjunto de datos principal (Bats) coincidían con los códigos en los conjuntos de datos en los que queríamos hacer la unión. También existen una serie de funciones que ayudan en situaciones de datos desordenados.
+
+Vamos a simular un par de conjuntos de datos desordenados. Imagina que tienes datos de actividad de murciélagos para cinco sitios y datos de densidad de árboles para cinco sitios, pero solo dos de esos sitios (D y E) contienen mediciones para ambas variables. Esto puede ocurrir cuando utilizas conjuntos de datos recopilados por diferentes personas o con diferentes propósitos en el mismo estudio.
+
+```{r}
+Bat_sim <- as.data.frame(cbind(
+  Site = c("A", "B", "C", "D", "E"),
+  Activity = c(62, 29, 30, 23, 24)
+))
+
+Tree_sim <- as.data.frame(cbind(
+  Site = c("D", "E", "F", "G", "H"),
+  Tree_density = c(525, 390, 477, 778, 817)
+))
+```
+
+```{r,echo=F}
+print(Bat_sim)
+print(Tree_sim)
+```
+
+Si queremos combinar conjuntos de datos solo para las filas donde tengamos medidas tanto de actividad de murciélagos como de densidad de árboles y no nos importa el resto de los datos, podemos usar `inner_join`.
+
+```{r}
+Bat_withTree_inn.join <- inner_join(Bat_sim, Tree_sim, by = "Site")
+print(Bat_withTree_inn.join)
+```
+
+Si estamos principalmente interesados en el conjunto de datos de murciélagos, podemos usar <font face="monospace">left_join()</font> como se mencionó anteriormente para mantener todas las mediciones de murciélagos y agregar densidades de árboles donde las tengamos. Los datos faltantes de densidad de árboles serán **NA**.
+
+```{r}
+Bat_withTree_left.join <- left_join(Bat_sim, Tree_sim, by = "Site")
+```
+
+```{r, echo=F}
+print(Bat_withTree_left.join)
+```
+
+Por otro lado, si estamos principalmente interesados en las densidades de árboles, podemos usar `right_join` para mantener todos los datos de densidad de árboles e incluir la actividad de murciélagos donde la hemos medido. Los datos faltantes de murciélagos serán **NA**.
+
+```{r}
+Bat_withTree_right.join <- right_join(Bat_sim, Tree_sim, by = "Site")
+```
+
+```{r, echo=F}
+print(Bat_withTree_right.join)
+```
+
+Alternativamente, si queremos mantener **TODOS** los datos y decidir más adelante qué excluir, podemos usar `full_join`.
+
+```{r}
+Bat_withTree_full.join <- full_join(Bat_sim, Tree_sim, by = "Site")
+```
+
+```{r,echo=F}
+print(Bat_withTree_full.join)
+```
+
+Finalmente, podemos consultar qué filas de nuestros datos tienen o no tienen coincidencias en otra tabla. Por ejemplo, podemos usar `semi_join` para imprimir solo las filas de las mediciones de murciélagos que tienen un sitio coincidente donde se midieron árboles, o usar `anti_join` para encontrar lo contrario, donde no se midieron árboles.
+
+```{r}
+Bat_inTree <- semi_join(Bat_sim, Tree_sim, by = "Site")
+```
+
+```{r,echo=F}
+print(Bat_inTree)
+```
+
+```{r}
+Bat_notinTree <- anti_join(Bat_sim, Tree_sim, by = "Site")
+```
+
+```{r,echo=F}
+print(Bat_notinTree)
+```
+  
+### Más ayuda
+
+Este tutorial se basó en la excelente [Hoja de referencia de manipulación de datos con dplyr y tidyr](https://www.rstudio.com/wp-content/uploads/2015/02/data-wrangling-cheatsheet.pdf) producida por Rstudio. Las imágenes fueron obtenidas del mismo documento. Puedes utilizar `?dplyr` para obtener ayuda con este paquete.
+
+**Autor**: Rachel V. Blakey
+
+**Año**: 2016, actualizado en 2022 por Will Cornwell
+
+**Última actualización**: `r format(Sys.time(), "%b %Y")`
+

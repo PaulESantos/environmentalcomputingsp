@@ -1,0 +1,198 @@
+---
+title: 'Mapas simples con ggmap'
+weight: 2
+---
+
+Saber hacer un mapa simple es una habilidad muy útil para todo tipo de aplicaciones. Aquí, introduciremos algunos conceptos básicos para trabajar con datos espaciales y utilizaremos R para producir mapas simples y fáciles. Podrías utilizar la misma técnica para crear un mapa para una presentación o una figura para un informe o publicación.
+
+Existen muchos paquetes útiles para graficar y manipular datos espaciales en R. Para simplificar, vamos a utilizar únicamente el paquete [ggmap](https://cran.r-project.org/web/packages/ggmap/index.html) en este ejercicio. Para comenzar, instala este paquete y cárgalo en R.
+
+
+```{r, warning=F,message=F, echo=FALSE}
+knitr::opts_chunk$set(echo = TRUE, warning = FALSE, message = FALSE)
+```
+
+```{r}
+library(ggmap)
+```
+  
+## Configuración de ggmap
+
+El paquete ggmap "facilita la obtención de teselas de mapas raster de servicios populares de mapas en línea como Google Maps y Stamen Maps, y su representación utilizando el marco de trabajo ggplot2".
+
+**Para utilizar el paquete, necesitarás configurar una clave de API de Google Maps**. Para obtener información sobre cómo hacer esto, consulta la [página principal del paquete en GitHub](https://github.com/dkahle/ggmap). También se puede utilizar una interfaz alternativa a OpenStreetMap con funciones ligeramente diferentes.
+
+### Creando tu primer mapa
+
+En este ejemplo, supongamos que hemos recopilado datos de cinco sitios cerca del Parque Nacional Royal en Nueva Gales del Sur, Australia, y queremos mostrar las ubicaciones que visitamos.
+
+Utilizando la función `get_map`, podemos descargar una imagen de Google Maps en cualquier ubicación especificada por su nombre:
+
+
+```{r, echo=TRUE, eval=FALSE}
+basemap <- get_map("Royal National Park", zoom = 12)
+```
+
+```{r, echo=FALSE, eval=FALSE}
+# note: data has been cached to prevent calls to API in rendering
+saveRDS(basemap, "basemap.rds")
+```
+
+```{r, echo=FALSE}
+# reload data
+basemap <- readRDS("basemap.rds")
+```
+
+y luego representarla con la función `ggmap`:
+
+```{r}
+ggmap(basemap)
+```
+
+
+El argumento de `get_map` es simplemente cualquier lugar que se pueda buscar en Google Maps (en este caso, 'Parque Nacional Royal') - ¡fácil!
+
+Para agregar datos de puntos para nuestros cinco sitios de estudio, primero necesitamos crear un nuevo marco de datos que contenga el nombre del lugar, la latitud y la longitud de cada sitio (o importar estos datos desde una hoja de cálculo).
+
+```{r}
+ptdata <- data.frame(
+  "PlaceName" = c(
+    " Hacking R. ", " Cabbage Tree Ck. ",
+    " Marley Ck. ", " Wattamolla Ck. ",
+    " Waratah R. "
+  ),
+  "Long" = c(
+    151.054823, 151.124566, 151.139216,
+    151.115645, 150.960431
+  ),
+  "Lat" = c(
+    -34.074918, -34.090796, -34.111972,
+    -34.136046, -34.172308
+  )
+)
+```
+
+
+Podemos agregar estos puntos a nuestro mapa basándonos en las coordenadas de `latitud (y)` y `longitud (x)`. Es importante que los puntos y las otras características del mapa funcionen en la misma escala, o 'proyección'. Estas ubicaciones se estimaron a partir de datos de Google Maps por esta razón, puedes estimar las tuyas propias a través de [LatLong.net](http://latlong.net)).
+
+
+```{r}
+ggmap(basemap) + geom_point(data = ptdata, aes(x = Long, y = Lat))
+```
+ 
+  
+¡Bien hecho! ¡Has creado tu primer mapa con R! ¡Fácil! Puede que hayas notado que `ggmap` utiliza código gráfico familiar del paquete ggplot (consulta [plotting with ggplot](/graphics/ggplot/)).
+
+### Creación de un mapa listo para presentación
+
+Ajustando algunas opciones, podemos hacer que se vea más adecuado para una presentación.
+
+Primero, ajusta algunas opciones en `get_map`:
+
+* usa `bound` para elegir la extensión / cuadro delimitador del mapa. Aquí, estamos utilizando los valores mínimo y máximo de latitud y longitud de nuestras coordenadas del sitio.
+* prueba `maptype = "hybrid"` para ver imágenes de satélite y datos de carreteras.
+* aumenta el nivel de `zoom` para mejorar los detalles.
+
+  
+```{r}
+bound <- c(
+  left = min(ptdata$Long) - 0.05, bottom = min(ptdata$Lat) - 0.05,
+  right = max(ptdata$Long) + 0.05, top = max(ptdata$Lat) + 0.05
+)
+```
+
+```{r, echo=TRUE, eval=FALSE}
+Pres_basemap <- get_map(bound, zoom = 11, maptype = "hybrid")
+```
+
+```{r, echo=FALSE, eval=FALSE}
+# note: data has been cached to prevent calls to API in rendering
+saveRDS(Pres_basemap, "Pres_basemap.rds")
+```
+
+```{r, echo=FALSE}
+# reload data
+Pres_basemap <- readRDS("Pres_basemap.rds")
+```
+
+
+Segundo, ajusta algunas opciones para la representación gráfica:
+
+Ajustes de `geom_point` para los puntos en cada ubicación del sitio:
+* usa `colour = "white"` para que los puntos destaquen.
+* usa `size` para cambiar el tamaño de los puntos.
+
+Ajustes de `geom_text` para las etiquetas de cada sitio:
+* usa `size` para cambiar el tamaño del texto.
+* usa `colour = "white"` para que las etiquetas destaquen.
+* usa `hjust` y `vjust` para ajustar la posición horizontal y vertical de las etiquetas.
+* usa `labs` para definir las etiquetas de los ejes *x* e *y*.
+
+
+```{r}
+ggmap(Pres_basemap) +
+  geom_point(
+    data = ptdata, aes(x = Long, y = Lat),
+    colour = "white"
+  ) +
+  geom_text(
+    data = ptdata,
+    aes(x = Long, y = Lat, label = PlaceName),
+    size = 4,
+    colour = "white",
+    hjust = "inward"
+  ) +
+  labs(x = "Longitude", y = "Latitude")
+```
+
+### Creación de un mapa listo para publicación
+
+Para un artículo o informe, probablemente desees un mapa más simple en blanco y negro.
+
+* usa `bound` para establecer la extensión como se mencionó anteriormente.
+* prueba `get_stamenmap` para obtener un mapa base austero (por ejemplo, Stamen "toner-lite").
+* usa `theme_bw()` de ggplot para obtener un tema despojado.
+ 
+
+```{r, echo=TRUE, eval=FALSE}
+Pub_basemap <- get_stamenmap(bound, zoom = 13, maptype = "toner-lite")
+```
+
+```{r, echo=FALSE, eval=FALSE}
+# note: data has been cached to prevent calls to API in rendering
+saveRDS(Pub_basemap, "Pub_basemap.rds")
+```
+
+```{r, echo=FALSE}
+# reload data
+Pub_basemap <- readRDS("Pub_basemap.rds")
+```
+
+
+```{r}
+ggmap(Pub_basemap) +
+  geom_point(data = ptdata, aes(x = Long, y = Lat, label = PlaceName)) +
+  geom_text(
+    data = ptdata,
+    aes(x = Long, y = Lat, label = PlaceName),
+    size = 4,
+    fontface = "bold",
+    hjust = "right"
+  ) +
+  theme_bw() +
+  theme(axis.title = element_blank())
+```
+
+### Más ayuda
+
+Lee la documentación de [ggmap](https://cran.r-project.org/web/packages/ggmap/index.html) para obtener más ejemplos e ideas.
+
+Consulta la [hoja de referencia de ggmap](https://www.nceas.ucsb.edu/~frazier/RSpatialGuides/ggmap/ggmapCheatsheet.pdf) del Centro Nacional para el Análisis y la Síntesis Ecológica.
+
+**Autor**: Kingsley Griffin, ediciones de Daniel Falster
+
+**Año**: 2017
+
+**Última actualización**: `r format(Sys.time(), "%b %Y")`
+
+

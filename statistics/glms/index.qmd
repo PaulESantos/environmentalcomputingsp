@@ -1,0 +1,11 @@
+---
+weight: 3
+title: "Modelos Lineales Generalizados (GLM) "
+---
+
+
+Los modelos lineales generalizados (GLM) se utilizan cuando la distribución de los datos no se ajusta a las suposiciones de los modelos lineales, específicamente las suposiciones de residuos distribuidos normalmente y ausencia de relación entre la varianza y la media (por ejemplo, datos de presencia/ausencia, recuento o altamente sesgados).
+
+* [Modelos lineales generalizados 1](glm-1): Introducción y datos binomiales
+* [Modelos lineales generalizados 2](glm-2): Datos de recuento
+* [Interpretación de coeficientes en glms](interpret-glm-coeffs)
