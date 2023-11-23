@@ -5,47 +5,96 @@ weight: 6
 
 Estas páginas contienen algunas introducciones a una amplia gama de análisis estadísticos comúnmente utilizados en las ciencias ambientales.
 
-Algunas pruebas de hipótesis simples con la estadística *t*:
+## Pruebas de hipótesis simples:
 
 * [Pruebas t de una muestra](t-tests/one-sample-t-test) - contrastando un parámetro de muestra con un parámetro de población.
 * [Pruebas t de muestras independientes](t-tests/two-sample-t-test) - contrastando las medias de dos muestras.
 * [Pruebas t pareadas](t-tests/paired-t-test) - contrastando dos grupos cuando los datos están apareados.
 
-[Modelos lineales](linear-models):
 
-* [Regresión lineal](linear-models/linear-regression)
-* [Análisis de varianza: un factor](linear-models/anova/anova-single/)
-* [Análisis de varianza: factorial](linear-models/anova/anova-factorial/)
-* [Comprensión de las interacciones](linear-models/interactions)
+## Modelos lineales - LM:
 
-[Modelos lineales generalizados](glms):
+Estas páginas contienen algunas introducciones respecto de los modelos lineales comúnmente utilizados que prueban la respuesta de una variable dependiente continua frente a una o más variables predictoras que pueden ser continuas o categóricas. Ten en cuenta que estos se denominan diferentes técnicas (por ejemplo, regresión vs. ANOVA) debido al uso común en la literatura que encontrarás; todos ellos involucran el mismo marco de modelado lineal.
 
-* [Modelos lineales generalizados 1](glms/glm-1): Introducción y datos binomiales.
-* [Modelos lineales generalizados 2](glms/glm-2): Datos de conteo.
 
-[Modelos mixtos](mixed-models):
+```{r,echo=F}
+Plant_height <- read.csv(file = "linear-models/data/Plant_Height.csv", 
+                         header = TRUE)
+
+model <- lm(loght ~ temp,
+            data = Plant_height)
+
+plot(loght ~ temp, 
+     data = Plant_height, 
+     col = "darkgreen", 
+     xlab = "Temperatura (C)", 
+     ylab = "log(Altura de la planta)",
+     pch = 16)
+
+abline(model, col = "red")
+```
+
+* [Regresión lineal](/linear-models/linear-regression/)
+  * [Interpretación de Regresiones Lineales](/linear-models/linear-regression/interpret-lm-coeffs/)
+  
+
+#### El análisis de varianza (ANOVA) 
+
+Es una de las técnicas más utilizadas en las ciencias biológicas y ambientales. El ANOVA se utiliza para contrastar una variable dependiente continua *y* en diferentes niveles de una o más variables independientes categóricas *x*. Las variables independientes se denominan factor o tratamiento, y las diferentes categorías dentro de ese tratamiento se denominan niveles. En este módulo, comenzaremos con el diseño más simple, aquellos con un solo factor.
+
+Donde se utilizaría una prueba *t-test* de muestras independientes para comparar las medias de grupos en dos niveles, el ANOVA se utiliza para la comparación de medias de grupos >2, o cuando hay dos o más variables predictoras (ver [ANOVA: factorial](/statistics/linear-models/anova/anova-factorial)). La lógica de esta prueba es esencialmente la misma que la prueba *t-test*: compara la variación entre grupos con la variación dentro de los grupos para determinar si las diferencias observadas se deben al azar o no.
+  
+* [Análisis de varianza: de un solo factor](/anova/anova-single/)
+* [Análisis de varianza: factorial](/anova/anova-factorial/)  
+* [ANOVA anidado](/anova/anova-nested/)
+* [Comprensión de las interacciones](/linear-model/interactions)
+
+
+## Modelos lineales generalizados - GLM:
+
+Los modelos lineales generalizados (GLM) se utilizan cuando la distribución de los datos no se ajusta a las suposiciones de los modelos lineales, específicamente las suposiciones de residuos distribuidos normalmente y ausencia de relación entre la varianza y la media (por ejemplo, datos de presencia/ausencia, recuento o altamente sesgados).
+
+* [Modelos lineales generalizados 1](/glms/glm-1): Introducción y datos binomiales
+* [Modelos lineales generalizados 2](/glms/glm-2): Datos de recuento
+* [Interpretación de coeficientes en glms](/glms/interpret-glm-coeffs)
+
+
+
+## Modelos mixtos:
+
+Los modelos mixtos son aquellos que tienen una mezcla de efectos fijos y aleatorios. Los *efectos aleatorios* son factores categóricos cuyos niveles han sido seleccionados entre muchos posibles niveles, y el investigador desea hacer inferencias más allá de los niveles elegidos. Es un concepto complicado, pero imagina que contrastas dos tipos de hábitat (bosque y pradera) muestreando cinco sitios dentro de cada uno, y cinco medidas replicadas dentro de cada sitio. El tipo de hábitat es un *factor fijo* en el que el investigador solo está interesado en esos dos niveles de tipo de hábitat. Si los cinco sitios se seleccionaron de una colección más grande de sitios posibles, entonces el sitio se considera un efecto aleatorio con 10 niveles.
 
 * [Modelos mixtos 1](mixed-models/mixed-model-1): Modelos mixtos lineales con un efecto aleatorio.
 * [Modelos mixtos 2](mixed-models/mixed-model-2): Modelos mixtos lineales con varios efectos aleatorios.
 * [Modelos mixtos 3](mixed-models/mixed-model-3): Modelos mixtos lineales generalizados.
 
-[Modelos aditivos generalizados](gams)
 
-[Análisis de datos categóricos](categorical):
+![](mixed-models/Mixed_models_intro_image.jpg)
 
-* [Pruebas de bondad de ajuste](categorical/goodness-of-fit).
-* [Tablas de contingencia](categorical/contingency-tables).
+## [Análisis de datos categóricos](/statistics/categorical):
 
-[Análisis de potencia](power-analysis): cálculo de potencia y determinación del tamaño de muestra.
+Algunas pruebas comúnmente utilizadas para contrastar las frecuencias de observaciones entre variables categóricas.
 
-[Introducción a mvabund](mvabund): análisis basado en modelos de datos de abundancia multivariada.
+* [Pruebas de bondad de ajuste](/categorical/goodness-of-fit/).
+* [Tablas de contingencia](/categorical/contingency-tables/).
+* [Prueba Exacta de Fisher](/categorical/Fishers-exact/).
 
-[Pronóstico con series temporales](time-series).
 
-[Meta-análisis](meta-analysis):
+## Meta-análisis:
+
+EL meta-análisis se utilizan cada vez más en ecología, evolución y ciencias ambientales para encontrar patrones generales entre muchos estudios, resolver controversias entre estudios conflictivos y generar nuevas hipótesis. Estos tutoriales ofrecen una introducción para realizar meta-análisis con el paquete R [metafor](http://www.metafor-project.org/doku.php).
 
 * [Meta-análisis 1](meta-analysis/meta-analysis-1): Introducción y cálculo de tamaños de efecto.
 * [Meta-análisis 2](meta-analysis/meta-analysis-2): Modelos de efecto fijo y efecto aleatorio.
 * [Meta-análisis 3](meta-analysis/meta-analysis-3): Modelos más complejos.
 
-**Última actualización:** `r format(Sys.time(), "%b %Y")`
+![](meta-analysis/images/4666102_orig.jpg)
+
+### Otras pruebas estadisticas:
+
+ * [Modelos aditivos generalizados](/statistics/gams/)
+ * [Análisis de potencia](/statistics/power-analysis): cálculo de potencia y determinación del tamaño de muestra.
+
+ * [Introducción a mvabund](/statistics/mvabund): análisis basado en modelos de datos de abundancia multivariada.
+ * [Series temporales](/statistics/time-series)
+

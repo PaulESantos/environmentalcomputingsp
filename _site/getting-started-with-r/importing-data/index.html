@@ -1,0 +1,1260 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.3.340">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Environmental Computing - Importing Data</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../">
+<link href="../../getting-started-with-r/installing-r-rstudio/index.html" rel="next">
+<link href="../../getting-started-with-r/data-types-structure/index.html" rel="prev">
+<link href="../../images/favicon.png" rel="icon" type="image/png">
+<script src="../../site_libs/quarto-html/quarto.js"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-dark.css" rel="prefetch" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../../site_libs/bootstrap/bootstrap-dark.min.css" rel="prefetch" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit"
+  }
+}</script>
+
+
+<link rel="stylesheet" href="../../styles.css">
+</head>
+
+<body class="nav-sidebar docked">
+
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../getting-started-with-r/index.html">Empezando con R</a></li><li class="breadcrumb-item"><a href="../../getting-started-with-r/importing-data/index.html">Importing Data</a></li></ol></nav>
+      <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+      </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal sidebar-navigation docked overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+      <a href="../../index.html" class="sidebar-logo-link">
+      <img src="../../images/hexsticker_EC.png" alt="" class="sidebar-logo py-0 d-lg-inline d-none">
+      </a>
+      <div class="sidebar-tools-main">
+  <a href="" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="Toggle dark mode"><i class="bi"></i></a>
+</div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Bienvenido a Environmental Computing</span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="../../getting-started-with-r/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Empezando con R</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../getting-started-with-r/data-entry/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Estructura de una base de datos - Data Entry</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../getting-started-with-r/data-types-structure/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Tipos de datos + Estructura</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../getting-started-with-r/importing-data/index.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text">Importing Data</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../getting-started-with-r/installing-r-rstudio/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Instalando R y RStudio</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../getting-started-with-r/project-management/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Gestión de proyectos</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../getting-started-with-r/rstudio-notebooks/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Utilizando R Notebooks</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="../../data-manipulation/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Manipulación de Datos</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../data-manipulation/combining-datasets/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Combinando conjuntos de datos.</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../data-manipulation/making-new-variables/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Creación de nuevas variables</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../data-manipulation/reshaping-data/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Reorganización de datos</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../data-manipulation/subsetting-data/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Subconjuntos de datos</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../data-manipulation/summarising-data/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Resumiendo datos</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="../../coding-skills/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Habilidades de programación</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../coding-skills/asking-code-questions/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Preguntas sobre código</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../coding-skills/good-practice/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Buenas prácticas de codificación</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../coding-skills/loops/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Usando bucles</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../coding-skills/version-control/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Control de versiones</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../coding-skills/writing-functions/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Funciones</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="../../graphics/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Gráficos</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../graphics/basic-plotting/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Gráficos básicos en R</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../graphics/basic-plotting/one-continuous-one-factor/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Una Variable Continua y una Variable Categórica</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../graphics/basic-plotting/one-continuous/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Una Variable Continua</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../graphics/basic-plotting/two-continuous/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Dos Variables Continuas</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../graphics/ggplot/ggplot-appearance/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Personalización de un gráfico en ggplot</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../graphics/ggplot/ggplot-barplot/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Gráfico de barras con barras de error</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../graphics/ggplot/ggplot-basics/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Fundamentos de ggplot2</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../graphics/ggplot/ggplot-colour-shapes/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Colores y formas</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../graphics/ggplot/ggplot-labels/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Títulos y etiquetas de ejes</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../graphics/ggplot/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Gráficos en R con ggplot2</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../graphics/multivariate-vis/cluster-analysis/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Análisis de Clúster</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../graphics/multivariate-vis/heatmaps/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Heatmaps - Mapa de Calor</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../graphics/multivariate-vis/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Datos Multivariados</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../graphics/multivariate-vis/mds/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Escalamiento multidimensional</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../graphics/multivariate-vis/pca/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Análisis de Componentes Principales</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../graphics/spatial-vis/basic-raster/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Los fundamentos de los Rasters</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../graphics/spatial-vis/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Datos espaciales</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../graphics/spatial-vis/interactive/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Mapas interactivos en R</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../graphics/spatial-vis/simple-maps/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Mapas simples con ggmap</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="../../statistics/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Statistics</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-5" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../statistics/categorical/contingency-tables/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Tablas de contingencia</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../statistics/categorical/fishers-exact/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Prueba Exacta de Fisher</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../statistics/categorical/goodness-of-fit/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Prueba de bondad de ajuste</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../statistics/categorical/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Análisis de datos categóricos</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../statistics/gams/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Modelos Aditivos Generalizados (GAM)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../statistics/glms/glm-1/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Introducción y Datos Binarios</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../statistics/glms/glm-2/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Datos de recuento</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../statistics/glms/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Modelos Lineales Generalizados (GLM)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../statistics/glms/interpret-glm-coeffs/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Interpretación de los GLMs</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../statistics/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Statistics</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../statistics/linear-models/anova/anova-factorial/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">ANOVA Factorial</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../statistics/linear-models/anova/anova-nested/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">ANOVA anidado</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../statistics/linear-models/anova/anova-single/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">ANOVA de un solo factor</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../statistics/linear-models/anova/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">ANOVA</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../statistics/linear-models/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Modelos Lineales</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../statistics/linear-models/interactions/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Comprensión de las interacciones</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../statistics/linear-models/linear-regression/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Regresión Lineal</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../statistics/linear-models/linear-regression/interpret-lm-coeffs/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Interpretación de Regresiones Lineales</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../statistics/meta-analysis/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Meta-Análisis</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../statistics/meta-analysis/meta-analysis-1/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Introduction al meta-análisis</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../statistics/meta-analysis/meta-analysis-2/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Fixed-effect and Random-effect Models</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../statistics/meta-analysis/meta-analysis-3/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Multilevel Models</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../statistics/mixed-models/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Mmodelos mixtos</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../statistics/mixed-models/mixed-model-1/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Introducción</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../statistics/mixed-models/mixed-model-2/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Factores Cruzados y Anidados</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../statistics/mixed-models/mixed-model-3/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Modelos mixtos generalizados</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../statistics/mvabund/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Análisis multivariado con mvabund</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../statistics/power-analysis/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Power Analyses</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../statistics/t-tests/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">T-tests</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../statistics/t-tests/one-sample-t-test/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Prueba de una muestra con t de Student</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../statistics/t-tests/paired-t-test/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">T-test emparejado</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../statistics/t-tests/two-sample-t-test/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Two Sample T-test</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../statistics/time-series/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Predicción de series temporales</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="../../datasets/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Datasets</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-6" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../datasets/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Datasets</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#importar-datos-como-un-marco-de-datos" id="toc-importar-datos-como-un-marco-de-datos" class="nav-link active" data-scroll-target="#importar-datos-como-un-marco-de-datos">Importar datos como un marco de datos</a></li>
+  <li><a href="#limpieza-de-data-frames" id="toc-limpieza-de-data-frames" class="nav-link" data-scroll-target="#limpieza-de-data-frames">Limpieza de data frames</a></li>
+  <li><a href="#verificación-de-los-datos" id="toc-verificación-de-los-datos" class="nav-link" data-scroll-target="#verificación-de-los-datos">Verificación de los datos</a></li>
+  <li><a href="#problemas-comunes-al-importar-datos" id="toc-problemas-comunes-al-importar-datos" class="nav-link" data-scroll-target="#problemas-comunes-al-importar-datos">Problemas comunes al importar datos</a></li>
+  <li><a href="#por-qué-hacer-esto-en-r" id="toc-por-qué-hacer-esto-en-r" class="nav-link" data-scroll-target="#por-qué-hacer-esto-en-r">¿Por qué hacer esto en R?</a></li>
+  <li><a href="#la-verificación-final" id="toc-la-verificación-final" class="nav-link" data-scroll-target="#la-verificación-final">La verificación final</a></li>
+  <li><a href="#más-ayuda" id="toc-más-ayuda" class="nav-link" data-scroll-target="#más-ayuda">Más ayuda</a></li>
+  </ul>
+<div class="toc-actions"><div><i class="bi bi-github"></i></div><div class="action-links"><p><a href="https://github.com/PaulESantos/environmentalcomputingsp/edit/main/getting-started-with-r/importing-data/index.qmd" class="toc-action">Edit this page</a></p><p><a href="https://github.com/PaulESantos/environmentalcomputingsp/issues/new" class="toc-action">Report an issue</a></p></div></div></nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Importing Data</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+</header>
+
+<p>Antes de poder ejecutar análisis de datos o crear gráficos en R, debemos importar esos datos a R. Preparar y limpiar los datos para el análisis es esencial y a menudo requiere más tiempo que los propios análisis estadísticos. Es inusual que los datos sin procesar estén en el formato correcto y sin errores. La limpieza de datos es el proceso de identificar y corregir cualquier problema para que los datos puedan ser analizados fácilmente.</p>
+<p>Importar datos es un desafío importante para los principiantes. Este módulo brindará instrucciones para una de las formas más comunes de importar datos, así como algunos desafíos que puedes enfrentar y cómo superarlos. Algunos de estos problemas se pueden evitar siguiendo buenas prácticas de entrada y gestión de datos (lee primero <a href="../data-entry">Entrada de datos</a> para obtener ayuda con esto).</p>
+<section id="importar-datos-como-un-marco-de-datos" class="level3">
+<h3 class="anchored" data-anchor-id="importar-datos-como-un-marco-de-datos">Importar datos como un marco de datos</h3>
+<p>Recomendamos ingresar los datos en un programa de hoja de cálculo (por ejemplo, Excel) y guardar esos datos como un archivo de valores separados por comas (.csv). Estos se pueden leer fácilmente en R y compartir entre usuarios con diferentes programas de hojas de cálculo.</p>
+<p><img src="Importing_data_image.jpg" class="img-fluid"></p>
+<p>En este módulo, vamos a utilizar un conjunto de datos de muestra sobre el comportamiento de alimentación de un caracol marino para demostrar cómo importar los datos y los problemas más comunes que surgen al importar y limpiar datos en R.</p>
+<p>Primero, guarda el archivo de datos, <a href="../../datasets/Snail_feeding.csv">Snail_feeding.csv</a>, en tu directorio de trabajo. Consulta <a href="..">Introducción a R</a> para obtener ayuda sobre cómo configurar el directorio de trabajo.</p>
+<p>Segundo, importa el archivo de datos a un marco de datos llamado Snail_feeding utilizando la función <code>read.csv</code>.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>Snail_feeding <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">"Snail_feeding.csv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="limpieza-de-data-frames" class="level3">
+<h3 class="anchored" data-anchor-id="limpieza-de-data-frames">Limpieza de data frames</h3>
+<p>Cuando utilizas <code>read.csv</code>, R utiliza varios argumentos por defecto que se pueden modificar para asegurar que tus datos se importen con menos errores. Echa un vistazo al archivo de ayuda dentro de R (escribiendo <code>?read.csv</code>) para familiarizarte con algunos de estos argumentos.</p>
+<p>Los que son particularmente útiles son:</p>
+<p><code>header = T</code> - al especificar esto como T (es decir, TRUE), asegurarás que los valores en la primera fila de tus datos se traten como nombres de variables.</p>
+<p><code>strip.white = T</code> - esto eliminará los espacios en blanco al final y al principio de los factores. Este es un error común al escribir los datos (por ejemplo, “males” vs “males_”). Si lo establecemos como TRUE, ambos se convertirán en “males”. De lo contrario, R considerará que hay dos niveles diferentes.</p>
+<p><code>na.strings = ""</code> - esto asegurará que las celdas vacías se reemplacen por NA (la forma en que R registra los datos faltantes). De manera molesta, R importa valores faltantes dentro de caracteres/factores como el valor ““. Usando <code>na.strings = ""</code>, se insertarán NAs en su lugar. Además, si has codificado valores faltantes como algo distinto a un espacio en blanco, puedes definir ese valor faltante usando este argumento (por ejemplo, <code>na.strings = c("", "-", "*")</code>).</p>
+<p>Al combinar todos estos en la función <code>read.csv</code>, obtendremos un marco de datos más limpio.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>Snail_feeding <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">"Snail_feeding.csv"</span>, <span class="at">header =</span> T, <span class="at">strip.white =</span> T, <span class="at">na.strings =</span> <span class="st">""</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="verificación-de-los-datos" class="level3">
+<h3 class="anchored" data-anchor-id="verificación-de-los-datos">Verificación de los datos</h3>
+<p>Si algo es un carácter cuando debería ser numérico, es posible que veas mensajes como <font face="monospace">“‘x’ must be numeric”</font> o <font face="monospace">“non-numeric argument to binary operator”</font>. De manera similar, si algo es un factor cuando debería ser un carácter, algunas operaciones con caracteres podrían fallar. Para evitar algunos de estos problemas, verifica tus datos utilizando <code>str</code> y <code>summary</code> antes de realizar análisis.</p>
+<p><code>str</code> te permite verificar la estructura de tus datos y asegurarte de que tus variables tengan el tipo correcto (es decir, numérico, caracteres, enteros o factores). Consulta <a href="../data-types-structure">Tipos de datos y estructura</a> para obtener explicaciones sobre estos diferentes tipos.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(Snail_feeding)</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="do">## 'data.frame':    768 obs. of  12 variables:</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="do">##  $ Snail.ID: int  1 1 1 1 1 1 1 1 1 1 ...</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="do">##  $ Sex     : chr  "male" "male" "males" "male" ...</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="do">##  $ Size    : chr  "small" "small" "small" "small" ...</span></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a><span class="do">##  $ Feeding : logi  FALSE FALSE FALSE FALSE FALSE TRUE ...</span></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a><span class="do">##  $ Distance: chr  "0.17" "0.87" "0.22" "0.13" ...</span></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a><span class="do">##  $ Depth   : num  1.66 1.26 1.43 1.46 1.21 1.56 1.62 162 1.96 1.93 ...</span></span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a><span class="do">##  $ Temp    : int  21 21 18 19 21 21 20 20 19 19 ...</span></span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a><span class="do">##  $ X       : logi  NA NA NA NA NA NA ...</span></span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a><span class="do">##  $ X.1     : logi  NA NA NA NA NA NA ...</span></span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a><span class="do">##  $ X.2     : logi  NA NA NA NA NA NA ...</span></span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a><span class="do">##  $ X.3     : logi  NA NA NA NA NA NA ...</span></span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a><span class="do">##  $ X.4     : logi  NA NA NA NA NA NA ...</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p><code>summary</code> te permite ver estadísticas básicas para cada una de tus variables y se puede utilizar para identificar errores obvios (es decir, máximos o mínimos extremos en relación a la media o mediana, o grupos adicionales dentro de un vector categórico).</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(Snail_feeding)</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="do">##     Snail.ID         Sex                Size            Feeding       </span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="do">##  Min.   : 1.00   Length:768         Length:768         Mode :logical  </span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="do">##  1st Qu.: 4.75   Class :character   Class :character   FALSE:502      </span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a><span class="do">##  Median : 8.50   Mode  :character   Mode  :character   TRUE :266      </span></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a><span class="do">##  Mean   : 8.50                                                        </span></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a><span class="do">##  3rd Qu.:12.25                                                        </span></span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a><span class="do">##  Max.   :16.00                                                        </span></span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a><span class="do">##                                                                       </span></span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a><span class="do">##    Distance             Depth              Temp          X          </span></span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a><span class="do">##  Length:768         Min.   :  1.000   Min.   :18.00   Mode:logical  </span></span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a><span class="do">##  Class :character   1st Qu.:  1.260   1st Qu.:19.00   NA's:768      </span></span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a><span class="do">##  Mode  :character   Median :  1.510   Median :19.00                 </span></span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a><span class="do">##                     Mean   :  1.716   Mean   :19.49                 </span></span>
+<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a><span class="do">##                     3rd Qu.:  1.760   3rd Qu.:20.00                 </span></span>
+<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a><span class="do">##                     Max.   :162.000   Max.   :21.00                 </span></span>
+<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a><span class="do">##                                       NA's   :6                     </span></span>
+<span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a><span class="do">##    X.1            X.2            X.3            X.4         </span></span>
+<span id="cb4-19"><a href="#cb4-19" aria-hidden="true" tabindex="-1"></a><span class="do">##  Mode:logical   Mode:logical   Mode:logical   Mode:logical  </span></span>
+<span id="cb4-20"><a href="#cb4-20" aria-hidden="true" tabindex="-1"></a><span class="do">##  NA's:768       NA's:768       NA's:768       NA's:768      </span></span>
+<span id="cb4-21"><a href="#cb4-21" aria-hidden="true" tabindex="-1"></a><span class="do">##                                                             </span></span>
+<span id="cb4-22"><a href="#cb4-22" aria-hidden="true" tabindex="-1"></a><span class="do">##                                                             </span></span>
+<span id="cb4-23"><a href="#cb4-23" aria-hidden="true" tabindex="-1"></a><span class="do">##                                                             </span></span>
+<span id="cb4-24"><a href="#cb4-24" aria-hidden="true" tabindex="-1"></a><span class="do">##                                                             </span></span>
+<span id="cb4-25"><a href="#cb4-25" aria-hidden="true" tabindex="-1"></a><span class="do">## </span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Ten en cuenta que para el factor de sexo, errores en la entrada de datos resultaron en cinco niveles (female, female s, male, Male y males) cuando debería haber solo dos. Ver a continuación la solución.</p>
+</section>
+<section id="problemas-comunes-al-importar-datos" class="level3">
+<h3 class="anchored" data-anchor-id="problemas-comunes-al-importar-datos">Problemas comunes al importar datos</h3>
+<p><strong>No obtienes el número de columnas o filas que esperas</strong></p>
+<p>Si ves un montón de columnas adicionales (X, X.1, X.2, X.3, etc.) o filas en tu marco de datos llenas de NA, es probable que se haya ingresado un carácter adicional (probablemente un espacio en blanco o una tabulación) en celdas más allá de tus datos reales en Excel. Este problema se puede evitar durante la entrada de datos eliminando todos los colores/formatos y vaciando columnas/filas excepto las necesarias.</p>
+<p>Si el problema persiste, podemos abordarlo en R mediante la indexación dentro de corchetes cuadrados <code>dataframe[fila, columna]</code>. Por ejemplo, el siguiente código reemplazará el marco de datos en este ejemplo con uno que solo incluye las primeras 7 columnas y elimina las 5 no deseadas (X, X.1, X.2, X.3, etc.).</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>Snail_feeding <span class="ot">&lt;-</span> Snail_feeding[, <span class="dv">1</span><span class="sc">:</span><span class="dv">7</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>El paquete <a href="https://cran.r-project.org/web/packages/dplyr/index.html">dplyr</a> tiene varias funciones muy útiles para subconjuntar filas y columnas. Consulta <a href="../../../data-manipulation/subsetting-data">Subsetting data</a> para obtener ayuda con esto.</p>
+<p>Si tienes muchas columnas y no quieres contarlas, puedes usar lógica (&amp;, or, ==, &gt;, &lt; , !=) para eliminar las filas y columnas no deseadas. No queremos eliminar todos los valores NA, solo las filas y columnas adicionales que estén completamente llenas de NAs. Estas tienen la propiedad de que el número de NAs es igual al número de filas en una columna dada (o número de columnas en una fila dada).</p>
+<p>Hacemos esto seleccionando las columnas de nuestro data frame donde la suma de columnas, <code>colSums</code>, de todos los NAs, <code>&gt;is.na</code>, en nuestro data frame no sea igual, <code>!=</code>, al número de filas, <code>nrow</code>, de nuestro data frame. Puedes usar la misma lógica para hacer esto con las filas también.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Selects rows that are not entirely NA</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>Snail_feeding <span class="ot">&lt;-</span> Snail_feeding[, <span class="fu">colSums</span>(<span class="fu">is.na</span>(Snail_feeding)) <span class="sc">!=</span> <span class="fu">nrow</span>(Snail_feeding)]</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Select columns that are not entirely NA</span></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>Snail_feeding <span class="ot">&lt;-</span> Snail_feeding[<span class="fu">rowSums</span>(<span class="fu">is.na</span>(Snail_feeding)) <span class="sc">!=</span> <span class="fu">ncol</span>(Snail_feeding), ]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p><strong>Las columnas no son del tipo de datos que esperas</strong></p>
+<p><strong>Caracteres como factores</strong> Cuando se importan marcos de datos en R, los caracteres se convierten automáticamente en factores. Esto tiene mucho sentido para el trabajo estadístico; es más probable que queramos trabajar con factores (definidos anteriormente) que con caracteres. Los factores son fantásticos cuando se hace análisis estadístico y se explora realmente los datos. Sin embargo, antes de eso, cuando se leen, limpian, solucionan problemas, fusionan y manipulan los datos en general, los factores son un dolor de cabeza total.</p>
+<p>Puedes usar el argumento <code>stringsAsFactors=FALSE</code> al importar los datos para evitar la conversión automática a factores o puedes usar <code>as.character</code> para convertir vectores individuales en caracteres.</p>
+<p>Consejo: Utiliza factores lo más tarde posible en el proceso de análisis. Configura <code>stringsAsFactors=FALSE</code> al importar tus datos y, cuando necesites factores en algún lugar dentro de tu script, convierte los datos a un factor.</p>
+<p><strong>Factores como enteros</strong> En este marco de datos, el ID de caracol es un entero cuando debería ser un factor o un carácter. Esto se debe a que en la hoja de datos original, el ID de caracol se codificó utilizando números. Este es un problema común y es fácil de solucionar. Simplemente usa <code>as.factor()</code> o <code>as.character()</code>, y luego <code>class()</code> para verificar que nuestra conversión haya funcionado. Recuerda usar <code>$</code> para acceder al vector desde dentro del marco de datos.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>Snail_feeding<span class="sc">$</span>Snail <span class="ot">&lt;-</span> <span class="fu">as.factor</span>(Snail_feeding<span class="sc">$</span>Snail)</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="fu">class</span>(Snail_feeding<span class="sc">$</span>Snail)</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="do">## [1] "factor"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p><strong>Números como caracteres (factores)</strong> Debido a la coerción automática en R, cualquier dígito no numérico dentro de una variable numérica resultará en que toda la variable se convierta en un carácter (R lo importa como factores). En este ejemplo, la variable “Distance” se ha importado como un factor con 768 niveles, cuando en realidad debería ser una variable numérica. Esto indica que hay un error tipográfico en alguna parte del vector de distancias. Estos errores tipográficos son comunes (por ejemplo, usar accidentalmente una coma en lugar de un punto decimal al ingresar decimales), pero un poco más difíciles de resolver.</p>
+<p>Con un conjunto de datos pequeño, lo más rápido es regresar a los datos originales y encontrar el error. Una vez corregido, vuelves a importar y la variable debería ser numérica.</p>
+<p>Con un conjunto de datos más grande, surge el problema de tener que encontrar los errores tipográficos. Desafortunadamente, no podemos convertir directamente nuestros datos de un vector de tipo factor a numérico. Esto se debe al atributo “levels” (consultar <a href="../data-types-structure">Tipos de datos y estructura</a>). Si intentas convertir un factor directamente en una variable numérica, los valores se convierten en un número que corresponde al número de niveles (1:n, ordenados alfabéticamente o de forma ascendente) en lugar del valor real.</p>
+<p>Por lo tanto, primero debemos convertirlo a carácter y luego a numérico. Al convertirlo a numérico, obtendrás un mensaje de advertencia “NAs introduced by coercion”. Esto se debe a que los valores no numéricos (es decir, nuestros errores tipográficos) no se pueden convertir a numéricos y se reemplazan por NA.</p>
+<p>Podemos aprovechar esto, utilizando <code>is.na</code> en combinación con <code>which</code> para identificar dónde están los errores tipográficos o los valores faltantes dentro del vector.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>Snail_feeding<span class="sc">$</span>Distance <span class="ot">&lt;-</span> <span class="fu">as.character</span>(Snail_feeding<span class="sc">$</span>Distance)</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>Snail_feeding<span class="sc">$</span>Distance <span class="ot">&lt;-</span> <span class="fu">as.numeric</span>(Snail_feeding<span class="sc">$</span>Distance)</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="do">## Warning: NAs introducidos por coerción</span></span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a><span class="fu">which</span>(<span class="fu">is.na</span>(Snail_feeding<span class="sc">$</span>Distance))</span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a><span class="do">## [1] 682 755</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Esto nos indica que algo extraño sucedió en las filas 682 y 755. Ahora que hemos identificado dónde está el problema, es fácil reemplazar los valores en nuestro marco de datos con los valores correctos (vuelve a tu hoja de datos original). Puedes corregir el error en el conjunto de datos y volver a importarlo, o reemplazar los valores en R utilizando índices dentro de corchetes y asignando el nuevo valor con <code>&lt;-</code>. Usa <code>which(is.na())</code> para verificar si tu corrección funcionó.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>Snail_feeding[<span class="dv">682</span>, <span class="st">"Distance"</span>] <span class="ot">&lt;-</span> <span class="fl">0.356452</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>Snail_feeding[<span class="dv">755</span>, <span class="st">"Distance"</span>] <span class="ot">&lt;-</span> <span class="fl">0.42336</span></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a><span class="fu">which</span>(<span class="fu">is.na</span>(Snail_feeding<span class="sc">$</span>Distance))</span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a><span class="do">## integer(0)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p><strong>Tienes más niveles de variables de los esperados</strong></p>
+<p>Uno de los pasos más importantes en cualquier análisis de datos o tarea de procesamiento es verificar que los valores de tus datos sean correctos. Por ejemplo, se esperaría que una variable llamada “Sexo” tenga solo dos niveles. Sin embargo, en nuestro marco de datos tiene cinco niveles (ver <code>str</code> y <code>summary</code> arriba).</p>
+<p>Puedes verificar los niveles de un factor o los valores únicos de caracteres con <code>levels</code> (solo para factores) o <code>unique</code> (para caracteres y factores).</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">levels</span>(Snail_feeding<span class="sc">$</span>Sex)</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="do">## NULL</span></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a><span class="fu">unique</span>(Snail_feeding<span class="sc">$</span>Sex)</span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a><span class="do">## [1] "male"     "males"    "Male"     "female"   "female s"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Hay varios errores tipográficos que podemos corregir utilizando <code>unique</code> y <code>which</code>, así como los operadores lógicos <code>==</code> (igual) y <code>|</code> (o) para identificar y reemplazar los errores tipográficos.</p>
+<p>Para reemplazar cualquier valor que sea “males” o “Male” con “male”, usaríamos:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>Snail_feeding<span class="sc">$</span>Sex[<span class="fu">which</span>(Snail_feeding<span class="sc">$</span>Sex <span class="sc">==</span> <span class="st">"males"</span> <span class="sc">|</span> Snail_feeding<span class="sc">$</span>Sex <span class="sc">==</span> <span class="st">"Male"</span>)] <span class="ot">&lt;-</span> <span class="st">"male"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Para reemplazar cualquier valor que sea “female s” con “female”, usaríamos:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>Snail_feeding<span class="sc">$</span>Sex[<span class="fu">which</span>(Snail_feeding<span class="sc">$</span>Sex <span class="sc">==</span> <span class="st">"female s"</span>)] <span class="ot">&lt;-</span> <span class="st">"female"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Verifica que funcione usando <code>unique</code>, pero también observa lo que sucede cuando verificas los <code>levels</code> (niveles).</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">unique</span>(Snail_feeding<span class="sc">$</span>Sex)</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="do">## [1] "male"   "female"</span></span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a><span class="fu">levels</span>(Snail_feeding<span class="sc">$</span>Sex)</span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a><span class="do">## NULL</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Cuando usamos <code>unique</code> para verificar nuestras categorías, solo aparecen “male” y “female”, sin embargo, cuando observamos los niveles, todavía tenemos los cinco niveles diferentes, incluyendo los errores tipográficos. Esto se debe al comportamiento de los factores. Una vez que se han definido los niveles, seguirán existiendo independientemente de si están incluidos en alguna muestra. Dado que nuestros niveles adicionales eran errores tipográficos y no niveles reales, debemos eliminarlos de los atributos.</p>
+<p><code>factor</code> eliminará los niveles adicionales de un vector.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>Snail_feeding<span class="sc">$</span>Sex <span class="ot">&lt;-</span> <span class="fu">factor</span>(Snail_feeding<span class="sc">$</span>Sex)</span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="fu">levels</span>(Snail_feeding<span class="sc">$</span>Sex)</span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a><span class="do">## [1] "female" "male"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p><strong>Errores numéricos</strong></p>
+<p>Usar <code>summary</code> anteriormente es una herramienta útil para verificar posibles errores tipográficos en nuestras variables numéricas. Compara el valor máximo o mínimo con la mediana de cada variable numérica. Si alguno de los valores es una orden de magnitud mayor o menor que la mediana, podría ser un error tipográfico. Por ejemplo, observa la profundidad máxima, parece que se ha olvidado el punto decimal.</p>
+<p>Nuevamente, podemos utilizar operadores lógicos e indexación para identificar posibles errores numéricos. Dado que todos los valores de nuestra variable de profundidad parecen estar entre 1 y 2 (según los rangos intercuartiles de summary), buscaremos filas con una profundidad mayor a 2.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>Snail_feeding[<span class="fu">which</span>(Snail_feeding<span class="sc">$</span>Depth <span class="sc">&gt;</span> <span class="dv">2</span>), ]</span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a><span class="do">##   Snail.ID  Sex  Size Feeding Distance Depth Temp Snail</span></span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a><span class="do">## 8        1 male small    TRUE      0.6   162   20     1</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Solo hay 1 fila. Después de confirmar con nuestros datos originales que esto es, de hecho, un error tipográfico, lo reemplazaremos con el valor real. Seleccionando la fila y la columna, reemplazamos el valor 162 con 1.62.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>Snail_feeding[<span class="fu">which</span>(Snail_feeding<span class="sc">$</span>Depth <span class="sc">&gt;</span> <span class="dv">2</span>), <span class="dv">6</span>] <span class="ot">&lt;-</span> <span class="fl">1.62</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="por-qué-hacer-esto-en-r" class="level3">
+<h3 class="anchored" data-anchor-id="por-qué-hacer-esto-en-r">¿Por qué hacer esto en R?</h3>
+<p>Puede que te preguntes por qué molestarse en corregir esto en R. ¿Por qué no ir directamente al archivo .csv y corregir todos los problemas? Por lo general, está bien hacer esto si sabes que el problema es un error tipográfico, etc. Sin embargo, para mantener la integridad de los datos, es importante tener un registro de cada cambio que se haya realizado en tu conjunto de datos original. Al realizar todas las manipulaciones y correcciones en R, también estás guardando un registro de todos los cambios que se están produciendo en tus datos.</p>
+<p>Además, es posible que desees comenzar a explorar los datos antes de haber recopilado todo el conjunto de datos. Si configuras un script que verifique todas estas cosas antes de crear gráficos y ejecutar análisis, es rápido volver a ejecutar el script en los datos completos una vez que los tengas todos. El script actúa como un recordatorio de todas las cosas que debes verificar y es mejor para detectar errores tipográficos que tú en una hoja de cálculo enorme.</p>
+</section>
+<section id="la-verificación-final" class="level3">
+<h3 class="anchored" data-anchor-id="la-verificación-final">La verificación final</h3>
+<p>Finalmente, una vez que hayas verificado y corregido todos los problemas en tus datos, vuelve a ejecutar <code>str</code> y <code>summary</code>. De hecho, es una buena idea ejecutar estas funciones regularmente durante la limpieza de datos para estar al tanto de cualquier cambio que realices.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(Snail_feeding)</span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a><span class="do">## 'data.frame':    768 obs. of  8 variables:</span></span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a><span class="do">##  $ Snail.ID: int  1 1 1 1 1 1 1 1 1 1 ...</span></span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a><span class="do">##  $ Sex     : Factor w/ 2 levels "female","male": 2 2 2 2 2 2 2 2 2 2 ...</span></span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a><span class="do">##  $ Size    : chr  "small" "small" "small" "small" ...</span></span>
+<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a><span class="do">##  $ Feeding : logi  FALSE FALSE FALSE FALSE FALSE TRUE ...</span></span>
+<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a><span class="do">##  $ Distance: num  0.17 0.87 0.22 0.13 0.36 0.84 0.69 0.6 0.85 0.59 ...</span></span>
+<span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a><span class="do">##  $ Depth   : num  1.66 1.26 1.43 1.46 1.21 1.56 1.62 1.62 1.96 1.93 ...</span></span>
+<span id="cb17-9"><a href="#cb17-9" aria-hidden="true" tabindex="-1"></a><span class="do">##  $ Temp    : int  21 21 18 19 21 21 20 20 19 19 ...</span></span>
+<span id="cb17-10"><a href="#cb17-10" aria-hidden="true" tabindex="-1"></a><span class="do">##  $ Snail   : Factor w/ 16 levels "1","2","3","4",..: 1 1 1 1 1 1 1 1 1 1 ...</span></span>
+<span id="cb17-11"><a href="#cb17-11" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(Snail_feeding)</span>
+<span id="cb17-12"><a href="#cb17-12" aria-hidden="true" tabindex="-1"></a><span class="do">##     Snail.ID         Sex          Size            Feeding       </span></span>
+<span id="cb17-13"><a href="#cb17-13" aria-hidden="true" tabindex="-1"></a><span class="do">##  Min.   : 1.00   female:384   Length:768         Mode :logical  </span></span>
+<span id="cb17-14"><a href="#cb17-14" aria-hidden="true" tabindex="-1"></a><span class="do">##  1st Qu.: 4.75   male  :384   Class :character   FALSE:502      </span></span>
+<span id="cb17-15"><a href="#cb17-15" aria-hidden="true" tabindex="-1"></a><span class="do">##  Median : 8.50                Mode  :character   TRUE :266      </span></span>
+<span id="cb17-16"><a href="#cb17-16" aria-hidden="true" tabindex="-1"></a><span class="do">##  Mean   : 8.50                                                  </span></span>
+<span id="cb17-17"><a href="#cb17-17" aria-hidden="true" tabindex="-1"></a><span class="do">##  3rd Qu.:12.25                                                  </span></span>
+<span id="cb17-18"><a href="#cb17-18" aria-hidden="true" tabindex="-1"></a><span class="do">##  Max.   :16.00                                                  </span></span>
+<span id="cb17-19"><a href="#cb17-19" aria-hidden="true" tabindex="-1"></a><span class="do">##                                                                 </span></span>
+<span id="cb17-20"><a href="#cb17-20" aria-hidden="true" tabindex="-1"></a><span class="do">##     Distance          Depth            Temp           Snail    </span></span>
+<span id="cb17-21"><a href="#cb17-21" aria-hidden="true" tabindex="-1"></a><span class="do">##  Min.   :0.0000   Min.   :1.000   Min.   :18.00   1      : 48  </span></span>
+<span id="cb17-22"><a href="#cb17-22" aria-hidden="true" tabindex="-1"></a><span class="do">##  1st Qu.:0.2775   1st Qu.:1.260   1st Qu.:19.00   2      : 48  </span></span>
+<span id="cb17-23"><a href="#cb17-23" aria-hidden="true" tabindex="-1"></a><span class="do">##  Median :0.5100   Median :1.510   Median :19.00   3      : 48  </span></span>
+<span id="cb17-24"><a href="#cb17-24" aria-hidden="true" tabindex="-1"></a><span class="do">##  Mean   :0.5120   Mean   :1.507   Mean   :19.49   4      : 48  </span></span>
+<span id="cb17-25"><a href="#cb17-25" aria-hidden="true" tabindex="-1"></a><span class="do">##  3rd Qu.:0.7500   3rd Qu.:1.760   3rd Qu.:20.00   5      : 48  </span></span>
+<span id="cb17-26"><a href="#cb17-26" aria-hidden="true" tabindex="-1"></a><span class="do">##  Max.   :1.0000   Max.   :2.000   Max.   :21.00   6      : 48  </span></span>
+<span id="cb17-27"><a href="#cb17-27" aria-hidden="true" tabindex="-1"></a><span class="do">##                                   NA's   :6       (Other):480</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="más-ayuda" class="level3">
+<h3 class="anchored" data-anchor-id="más-ayuda">Más ayuda</h3>
+<p><a href="https://cran.r-project.org/doc/contrib/de_Jonge+van_der_Loo-Introduction_to_data_cleaning_with_R.pdf">Introducción a la limpieza de datos en R por de Jonge y van de Loo</a></p>
+<p><a href="http://www.r-bloggers.com/using-r-common-errors-in-table-import/">R-bloggers - errores comunes en la importación de tablas</a></p>
+<p><strong>Autor</strong>: Keryn Bain</p>
+<p><strong>Año:</strong> 2016</p>
+<p><strong>Última actualización:</strong> Nov.&nbsp;2023</p>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const disableStylesheet = (stylesheets) => {
+    for (let i=0; i < stylesheets.length; i++) {
+      const stylesheet = stylesheets[i];
+      stylesheet.rel = 'prefetch';
+    }
+  }
+  const enableStylesheet = (stylesheets) => {
+    for (let i=0; i < stylesheets.length; i++) {
+      const stylesheet = stylesheets[i];
+      stylesheet.rel = 'stylesheet';
+    }
+  }
+  const manageTransitions = (selector, allowTransitions) => {
+    const els = window.document.querySelectorAll(selector);
+    for (let i=0; i < els.length; i++) {
+      const el = els[i];
+      if (allowTransitions) {
+        el.classList.remove('notransition');
+      } else {
+        el.classList.add('notransition');
+      }
+    }
+  }
+  const toggleColorMode = (alternate) => {
+    // Switch the stylesheets
+    const alternateStylesheets = window.document.querySelectorAll('link.quarto-color-scheme.quarto-color-alternate');
+    manageTransitions('#quarto-margin-sidebar .nav-link', false);
+    if (alternate) {
+      enableStylesheet(alternateStylesheets);
+      for (const sheetNode of alternateStylesheets) {
+        if (sheetNode.id === "quarto-bootstrap") {
+          toggleBodyColorMode(sheetNode);
+        }
+      }
+    } else {
+      disableStylesheet(alternateStylesheets);
+      toggleBodyColorPrimary();
+    }
+    manageTransitions('#quarto-margin-sidebar .nav-link', true);
+    // Switch the toggles
+    const toggles = window.document.querySelectorAll('.quarto-color-scheme-toggle');
+    for (let i=0; i < toggles.length; i++) {
+      const toggle = toggles[i];
+      if (toggle) {
+        if (alternate) {
+          toggle.classList.add("alternate");     
+        } else {
+          toggle.classList.remove("alternate");
+        }
+      }
+    }
+    // Hack to workaround the fact that safari doesn't
+    // properly recolor the scrollbar when toggling (#1455)
+    if (navigator.userAgent.indexOf('Safari') > 0 && navigator.userAgent.indexOf('Chrome') == -1) {
+      manageTransitions("body", false);
+      window.scrollTo(0, 1);
+      setTimeout(() => {
+        window.scrollTo(0, 0);
+        manageTransitions("body", true);
+      }, 40);  
+    }
+  }
+  const isFileUrl = () => { 
+    return window.location.protocol === 'file:';
+  }
+  const hasAlternateSentinel = () => {  
+    let styleSentinel = getColorSchemeSentinel();
+    if (styleSentinel !== null) {
+      return styleSentinel === "alternate";
+    } else {
+      return false;
+    }
+  }
+  const setStyleSentinel = (alternate) => {
+    const value = alternate ? "alternate" : "default";
+    if (!isFileUrl()) {
+      window.localStorage.setItem("quarto-color-scheme", value);
+    } else {
+      localAlternateSentinel = value;
+    }
+  }
+  const getColorSchemeSentinel = () => {
+    if (!isFileUrl()) {
+      const storageValue = window.localStorage.getItem("quarto-color-scheme");
+      return storageValue != null ? storageValue : localAlternateSentinel;
+    } else {
+      return localAlternateSentinel;
+    }
+  }
+  let localAlternateSentinel = 'default';
+  // Dark / light mode switch
+  window.quartoToggleColorScheme = () => {
+    // Read the current dark / light value 
+    let toAlternate = !hasAlternateSentinel();
+    toggleColorMode(toAlternate);
+    setStyleSentinel(toAlternate);
+  };
+  // Ensure there is a toggle, if there isn't float one in the top right
+  if (window.document.querySelector('.quarto-color-scheme-toggle') === null) {
+    const a = window.document.createElement('a');
+    a.classList.add('top-right');
+    a.classList.add('quarto-color-scheme-toggle');
+    a.href = "";
+    a.onclick = function() { try { window.quartoToggleColorScheme(); } catch {} return false; };
+    const i = window.document.createElement("i");
+    i.classList.add('bi');
+    a.appendChild(i);
+    window.document.body.appendChild(a);
+  }
+  // Switch to dark mode if need be
+  if (hasAlternateSentinel()) {
+    toggleColorMode(true);
+  } else {
+    toggleColorMode(false);
+  }
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="../../getting-started-with-r/data-types-structure/index.html" class="pagination-link">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Tipos de datos + Estructura</span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="../../getting-started-with-r/installing-r-rstudio/index.html" class="pagination-link">
+        <span class="nav-page-text">Instalando R y RStudio</span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">Environmental Computing</div>   
+    <div class="nav-footer-center">
+      &nbsp;
+    </div>
+    <div class="nav-footer-right">Made with <a href="https://quarto.org/">Quarto</a>.</div>
+  </div>
+</footer>
+
+
+
+</body></html>

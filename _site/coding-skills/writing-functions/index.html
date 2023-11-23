@@ -1,0 +1,1601 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.3.340">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Environmental Computing - Como escribir funciones</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../">
+<link href="../../graphics/index.html" rel="next">
+<link href="../../coding-skills/version-control/index.html" rel="prev">
+<link href="../../images/favicon.png" rel="icon" type="image/png">
+<script src="../../site_libs/quarto-html/quarto.js"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-dark.css" rel="prefetch" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../../site_libs/bootstrap/bootstrap-dark.min.css" rel="prefetch" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="../../site_libs/quarto-contrib/fontawesome6-0.1.0/all.css" rel="stylesheet">
+<link href="../../site_libs/quarto-contrib/fontawesome6-0.1.0/latex-fontsize.css" rel="stylesheet">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit"
+  }
+}</script>
+
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<link rel="stylesheet" href="../../styles.css">
+</head>
+
+<body class="nav-sidebar docked">
+
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../coding-skills/index.html">Introducción a la programación</a></li><li class="breadcrumb-item"><a href="../../coding-skills/writing-functions/index.html">Como escribir funciones</a></li></ol></nav>
+      <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+      </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal sidebar-navigation docked overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+      <a href="../../index.html" class="sidebar-logo-link">
+      <img src="../../images/hexsticker_EC.png" alt="" class="sidebar-logo py-0 d-lg-inline d-none">
+      </a>
+      <div class="sidebar-tools-main">
+  <a href="" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="Toggle dark mode"><i class="bi"></i></a>
+</div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Bienvenido a Environmental Computing</span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="../../getting-started-with-r/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Empezando con R</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../getting-started-with-r/data-entry/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Estructura de una base de datos - Data Entry</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../getting-started-with-r/data-types-structure/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Tipos de datos + Estructura</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../getting-started-with-r/importing-data/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Importing Data</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../getting-started-with-r/installing-r-rstudio/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Instalando R y RStudio</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../getting-started-with-r/project-management/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Gestión de proyectos</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../getting-started-with-r/rstudio-notebooks/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Utilizando R Notebooks</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="../../data-manipulation/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Manipulación de Datos</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../data-manipulation/combining-datasets/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Combinando conjuntos de datos.</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../data-manipulation/making-new-variables/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Creación de nuevas variables</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../data-manipulation/reshaping-data/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Reorganización de datos</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../data-manipulation/subsetting-data/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Subconjuntos de datos</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../data-manipulation/summarising-data/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Resumiendo datos</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="../../coding-skills/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Introducción a la programación</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../coding-skills/asking-code-questions/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Preguntas sobre código</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../coding-skills/good-practice/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Buenas prácticas de codificación</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../coding-skills/loops/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Usando bucles</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../coding-skills/version-control/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Control de versiones</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../coding-skills/writing-functions/index.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text">Como escribir funciones</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="../../graphics/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Gráficos</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item sidebar-item-section">
+      <span class="sidebar-item-text sidebar-link text-start">
+ <span class="menu-text">Gráficos básicos en R</span></span>
+  </li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../graphics/basic-plotting/one-continuous/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Una Variable Continua</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../graphics/basic-plotting/two-continuous/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Dos Variables Continuas</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../graphics/basic-plotting/one-continuous-one-factor/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Una Variable Continua y una Variable Categórica</span></a>
+  </div>
+</li>
+          <li class="sidebar-item sidebar-item-section">
+      <span class="sidebar-item-text sidebar-link text-start">
+ <span class="menu-text">Gráficos en R con ggplot2</span></span>
+  </li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../graphics/ggplot/ggplot-basics/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Fundamentos de ggplot2</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../graphics/ggplot/ggplot-appearance/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Personalización de un gráfico en ggplot</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../graphics/ggplot/ggplot-labels/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Títulos y etiquetas de ejes</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../graphics/ggplot/ggplot-colour-shapes/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Colores y formas</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../graphics/ggplot/ggplot-barplot/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Gráfico de barras con barras de error</span></a>
+  </div>
+</li>
+          <li class="sidebar-item sidebar-item-section">
+      <span class="sidebar-item-text sidebar-link text-start">
+ <span class="menu-text">Datos Multivariados</span></span>
+  </li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../graphics/multivariate-vis/mds/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Escalamiento multidimensional</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../graphics/multivariate-vis/pca/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Análisis de Componentes Principales</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../graphics/multivariate-vis/cluster-analysis/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Análisis de Clúster</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../graphics/multivariate-vis/heatmaps/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Heatmaps - Mapa de Calor</span></a>
+  </div>
+</li>
+          <li class="sidebar-item sidebar-item-section">
+      <span class="sidebar-item-text sidebar-link text-start">
+ <span class="menu-text">Datos espaciales</span></span>
+  </li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../graphics/spatial-vis/basic-raster/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Los fundamentos de los Rasters</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../graphics/spatial-vis/simple-maps/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Mapas simples con ggmap</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../graphics/spatial-vis/interactive/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Mapas interactivos en R</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="../../statistics/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Statistics</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-9" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-9" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../statistics/categorical/contingency-tables/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Tablas de contingencia</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../statistics/categorical/fishers-exact/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Prueba Exacta de Fisher</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../statistics/categorical/goodness-of-fit/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Prueba de bondad de ajuste</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../statistics/categorical/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Análisis de datos categóricos</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../statistics/gams/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Modelos Aditivos Generalizados (GAM)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../statistics/glms/glm-1/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Introducción y Datos Binarios</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../statistics/glms/glm-2/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Datos de recuento</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../statistics/glms/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Modelos Lineales Generalizados (GLM)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../statistics/glms/interpret-glm-coeffs/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Interpretación de los GLMs</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../statistics/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Statistics</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../statistics/linear-models/anova/anova-factorial/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">ANOVA Factorial</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../statistics/linear-models/anova/anova-nested/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">ANOVA anidado</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../statistics/linear-models/anova/anova-single/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">ANOVA de un solo factor</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../statistics/linear-models/anova/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">ANOVA</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../statistics/linear-models/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Modelos Lineales</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../statistics/linear-models/interactions/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Comprensión de las interacciones</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../statistics/linear-models/linear-regression/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Regresión Lineal</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../statistics/linear-models/linear-regression/interpret-lm-coeffs/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Interpretación de Regresiones Lineales</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../statistics/meta-analysis/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Meta-Análisis</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../statistics/meta-analysis/meta-analysis-1/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Introduction al meta-análisis</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../statistics/meta-analysis/meta-analysis-2/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Fixed-effect and Random-effect Models</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../statistics/meta-analysis/meta-analysis-3/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Multilevel Models</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../statistics/mixed-models/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Mmodelos mixtos</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../statistics/mixed-models/mixed-model-1/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Introducción</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../statistics/mixed-models/mixed-model-2/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Factores Cruzados y Anidados</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../statistics/mixed-models/mixed-model-3/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Modelos mixtos generalizados</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../statistics/mvabund/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Análisis multivariado con mvabund</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../statistics/power-analysis/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Power Analyses</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../statistics/t-tests/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">T-tests</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../statistics/t-tests/one-sample-t-test/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Prueba de una muestra con t de Student</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../statistics/t-tests/paired-t-test/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">T-test emparejado</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../statistics/t-tests/two-sample-t-test/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Two Sample T-test</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../statistics/time-series/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Predicción de series temporales</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="../../datasets/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Datasets</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-10" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-10" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../datasets/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Datasets</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#tipos-de-función" id="toc-tipos-de-función" class="nav-link active" data-scroll-target="#tipos-de-función">Tipos de función </a><a id="tipos" class="nav-link" data-scroll-target="undefined"></a></li>
+  <li><a href="#por-qué-usar-funciones" id="toc-por-qué-usar-funciones" class="nav-link" data-scroll-target="#por-qué-usar-funciones">¿Por qué usar funciones? </a><a id="por-que" class="nav-link" data-scroll-target="undefined"></a>
+  <ul class="collapse">
+  <li><a href="#el-código-con-funciones-es-más-fácil-de-leer" id="toc-el-código-con-funciones-es-más-fácil-de-leer" class="nav-link" data-scroll-target="#el-código-con-funciones-es-más-fácil-de-leer">El código con funciones es más fácil de leer</a></li>
+  <li><a href="#organiza-tu-flujo-de-trabajo" id="toc-organiza-tu-flujo-de-trabajo" class="nav-link" data-scroll-target="#organiza-tu-flujo-de-trabajo">Organiza tu flujo de trabajo</a></li>
+  <li><a href="#reutiliza-código-también-conocido-como-no-te-repitas" id="toc-reutiliza-código-también-conocido-como-no-te-repitas" class="nav-link" data-scroll-target="#reutiliza-código-también-conocido-como-no-te-repitas">Reutiliza código (también conocido como “No te repitas”)</a></li>
+  <li><a href="#reduce-chance-of-errors" id="toc-reduce-chance-of-errors" class="nav-link" data-scroll-target="#reduce-chance-of-errors">Reduce chance of errors</a></li>
+  <li><a href="#reducir-la-posibilidad-de-errores" id="toc-reducir-la-posibilidad-de-errores" class="nav-link" data-scroll-target="#reducir-la-posibilidad-de-errores">Reducir la posibilidad de errores</a></li>
+  <li><a href="#ayuda-a-tu-cerebro-a-resolver-problemas-grandes" id="toc-ayuda-a-tu-cerebro-a-resolver-problemas-grandes" class="nav-link" data-scroll-target="#ayuda-a-tu-cerebro-a-resolver-problemas-grandes">Ayuda a tu cerebro a resolver problemas grandes</a></li>
+  </ul></li>
+  <li><a href="#escribiendo-tus-propias-funciones" id="toc-escribiendo-tus-propias-funciones" class="nav-link" data-scroll-target="#escribiendo-tus-propias-funciones">Escribiendo tus propias funciones </a><a id="how" class="nav-link" data-scroll-target="undefined"></a>
+  <ul class="collapse">
+  <li><a href="#la-sintaxis-de-una-función" id="toc-la-sintaxis-de-una-función" class="nav-link" data-scroll-target="#la-sintaxis-de-una-función">La sintaxis de una función</a></li>
+  <li><a href="#argumentos-predeterminados" id="toc-argumentos-predeterminados" class="nav-link" data-scroll-target="#argumentos-predeterminados">Argumentos predeterminados</a></li>
+  <li><a href="#funciones-que-extienden-funciones" id="toc-funciones-que-extienden-funciones" class="nav-link" data-scroll-target="#funciones-que-extienden-funciones">Funciones que extienden funciones</a></li>
+  <li><a href="#para-qué-sirve-el-argumento-..." id="toc-para-qué-sirve-el-argumento-..." class="nav-link" data-scroll-target="#para-qué-sirve-el-argumento-...">¿Para qué sirve el argumento <code>...</code>?</a></li>
+  <li><a href="#agregar-comentarios-a-tu-función" id="toc-agregar-comentarios-a-tu-función" class="nav-link" data-scroll-target="#agregar-comentarios-a-tu-función">Agregar comentarios a tu función</a></li>
+  <li><a href="#almacenar-y-utilizar-funciones" id="toc-almacenar-y-utilizar-funciones" class="nav-link" data-scroll-target="#almacenar-y-utilizar-funciones">Almacenar y utilizar funciones</a></li>
+  <li><a href="#escribir-funciones-para-trabajar-con-el-operador-de-pipes--" id="toc-escribir-funciones-para-trabajar-con-el-operador-de-pipes--" class="nav-link" data-scroll-target="#escribir-funciones-para-trabajar-con-el-operador-de-pipes--">Escribir funciones para trabajar con el operador de pipes <code>%&gt;% - |&gt;</code></a></li>
+  <li><a href="#devolviendo-múltiples-argumentos" id="toc-devolviendo-múltiples-argumentos" class="nav-link" data-scroll-target="#devolviendo-múltiples-argumentos">Devolviendo múltiples argumentos</a></li>
+  </ul></li>
+  <li><a href="#qué-hace-que-una-buena-función" id="toc-qué-hace-que-una-buena-función" class="nav-link" data-scroll-target="#qué-hace-que-una-buena-función">Qué hace que una buena función</a></li>
+  <li><a href="#ayuda-adicional" id="toc-ayuda-adicional" class="nav-link" data-scroll-target="#ayuda-adicional">Ayuda adicional</a></li>
+  </ul>
+<div class="toc-actions"><div><i class="bi bi-github"></i></div><div class="action-links"><p><a href="https://github.com/PaulESantos/environmentalcomputingsp/edit/main/coding-skills/writing-functions/index.qmd" class="toc-action">Edit this page</a></p><p><a href="https://github.com/PaulESantos/environmentalcomputingsp/issues/new" class="toc-action">Report an issue</a></p></div></div></nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Como escribir funciones</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+</header>
+
+<!-- ## Metas de esta publicación
+1. Comprender *por qué* mover el código de su lugar original a una función.
+2. Comprender la sintaxis de las funciones en R (listas de argumentos, valores predeterminados, semántica de retorno) y las reglas de ámbito.
+ -->
+<p>Una función es un fragmento de código independiente que realiza una tarea <strong>específica</strong>. Piensa en ellas como secuencias de código puntuales que se escriben por de forma que complementan la secuencia de código principal.</p>
+<p>El código bien escrito utiliza muchas funciones, esto incluye:</p>
+<ul>
+<li>funciones básicas de <i class="fa-brands fa-r-project" aria-label="r-project"></i>,</li>
+<li>funciones de otros paquetes que hayas instalado, y</li>
+<li>funciones que personalizadas.</li>
+</ul>
+<p>Es difícil hacer algo en <i class="fa-brands fa-r-project" aria-label="r-project"></i> sin utilizar algunas de las funciones incorporadas, pero ¿has escrito tus propias funciones? Si no es así, es hora de empezar.</p>
+<p>A continuación, dedicaremos algo de tiempo a describir los dos principales <a href="#tipos"><em>tipos</em> de función</a>, <a href="#por-qué"><em>por qué</em> usar funciones</a> y luego <a href="#cómo"><em>cómo</em> se construyen</a>.</p>
+<section id="ejemplo" class="level4">
+<h4 class="anchored" data-anchor-id="ejemplo">Ejemplo:</h4>
+<p>Para ilustrar nuestros ejemplos, utilizaremos un conjunto de datos de muestra que contiene una serie de medidas diferentes de muestras de algas replicadas. Puedes leer los datos directamente en <i class="fa-brands fa-r-project" aria-label="r-project"></i> desde la web:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>algae <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"Algal_traits.csv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>(o si prefieres descargar el conjunto de datos, <a href="../../datasets/Algal_traits.csv">Algal_traits.csv</a>). Al echar un vistazo, vemos un montón de variables como altura, peso, etc.</p>
+<div class="cell">
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 60 × 8
+   Location Type      Species height length dryweight wetwet strength   
+   &lt;chr&gt;    &lt;chr&gt;     &lt;chr&gt;    &lt;dbl&gt;  &lt;dbl&gt;     &lt;dbl&gt;  &lt;dbl&gt; &lt;chr&gt;      
+ 1 w1       red.algae a       0.395   2.16     0.956    2.46 2.993355157
+ 2 w1       red.algae a       0.0189  1.98     0.0655   1.96 2.756726384
+ 3 w1       red.algae a       0.698   4.72     0.200    2.24 2.252360245
+ 4 w1       red.algae a       0.139   2.00     0.467    1.53 2.310011661
+ 5 w1       red.algae a       0.377   4.41     0.978    2.10 2.334597887
+ 6 w2       red.algae a       0.0767  0.572    0.100    1.61 &lt;NA&gt;       
+ 7 w2       red.algae a       0.933   0.839    0.564    1.75 2.472866529
+ 8 w2       red.algae a       0.0617  4.62     0.252    1.72 2.635546813
+ 9 w2       red.algae a       0.991   4.08     0.254    1.71 2.521458416
+10 w2       red.algae a       0.314   2.13     0.125    2.14 2.580392619
+# ℹ 50 more rows</code></pre>
+</div>
+</div>
+</section>
+<section id="tipos-de-función" class="level2">
+<h2 class="anchored" data-anchor-id="tipos-de-función">Tipos de función <a id="tipos"></a></h2>
+<p>En términos generales, existen dos tipos principales de función:</p>
+<p>En primer lugar, están las <strong>funciones que hacen algo y devuelven un objeto</strong>. Estas funciones toman algunos valores de entrada especificados, realizan algunas manipulaciones/operaciones y luego te devuelven un objeto. Ejemplos incluyen <code>mean()</code> (calcula la media de un vector), <code>lm()</code> (ajusta un modelo lineal) o <code>read.csv</code> (carga una tabla de datos).</p>
+<p>En segundo lugar, están las <strong>funciones que tienen algún efecto externo en tu computadora o entorno de trabajo</strong>. Estas funciones <em>hacen algo</em> pero no devuelven ningún objeto. Ejemplos incluyen funciones como <code>write.csv()</code> (escribe un archivo en el disco), <code>plot()</code> (genera un gráfico), <code>library()</code> (carga un paquete).</p>
+<p>Para el primer tipo, a menudo guardarás el resultado en una variable y lo manipularás aún más. Por ejemplo, supongamos que queremos calcular el promedio de la variable <code>altura</code> de las muestras en los datos de <code>algae</code>. Podemos usar la función <code>mean</code>:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>mean_height <span class="ot">&lt;-</span> <span class="fu">mean</span>(algae<span class="sc">$</span>height)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Este código calcula el promedio de <code>algae$altura</code> y lo guarda en la variable <code>mean_height</code>. Podemos consultar la respuesta ejecutando el nombre de la variable:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>mean_height</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.4590399</code></pre>
+</div>
+</div>
+<p>También podemos ejecutar la función sin asignar la salida a una variable. La salida aún se devuelve, esta vez en la consola, se imprime y se pierde.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(algae<span class="sc">$</span>height)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.4590399</code></pre>
+</div>
+</div>
+<p>En cambio, la salida del segundo tipo de función no necesita ser asignada a una variable. Además, la función no imprime nada en la pantalla. Por ejemplo:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">write.csv</span>(Algae, <span class="st">"data.csv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="por-qué-usar-funciones" class="level2">
+<h2 class="anchored" data-anchor-id="por-qué-usar-funciones">¿Por qué usar funciones? <a id="por-que"></a></h2>
+<p>Entonces, ¿por qué es tan útil dividir tu script en muchas funciones separadas pero que colaboran entre sí? ¿Por qué no escribir un solo script grande y largo? Hay varias formas en las que escribir funciones puede mejorar tu código.</p>
+<section id="el-código-con-funciones-es-más-fácil-de-leer" class="level3">
+<h3 class="anchored" data-anchor-id="el-código-con-funciones-es-más-fácil-de-leer">El código con funciones es más fácil de leer</h3>
+<p>Escribir funciones es una buena forma de organizar tus métodos analíticos en fragmentos autocontenidos. Generalmente, el código escrito de esta manera es mucho más fácil de leer.</p>
+<p>Considera algunas de las funciones que ya has utilizado en R. Por ejemplo, <code>mean()</code>.</p>
+<p>Esta función ya está predefinida dentro del paquete base de R, lo que significa que no tuviste que decirle al ordenador cómo calcular la media, y debido a que ese trabajo de programación ya se ha realizado, simplemente puedes usar la función en tu propio script. Imagina si cada vez que necesitaras calcular una media tuvieras que escribir lo siguiente:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sum</span>(x) <span class="sc">/</span> <span class="fu">length</span>(x)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Incluso esta línea de código utiliza dos funciones: la función <code>sum</code> y la función <code>length</code>. Si estas no estuvieran disponibles, tendrías que escribir el método completo cada vez que necesitaras calcular un promedio.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>(x[<span class="dv">1</span>] <span class="sc">+</span> x[<span class="dv">2</span>] <span class="sc">+</span> x[<span class="dv">3</span>] <span class="sc">+</span> x[<span class="dv">4</span>] <span class="sc">+</span> x[<span class="dv">5</span>]) <span class="sc">/</span> <span class="dv">5</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>En cambio, simplemente usamos <code>mean</code> sin pensarlo dos veces.</p>
+<p>Es importante destacar que es mucho más fácil entender qué hace <code>mean(x)</code> que la línea anterior. <strong>Al leer el código, sabes exactamente qué está sucediendo</strong>. Usando la fórmula completa, sería menos obvio qué estaba sucediendo cada vez que quisieras calcular el promedio de una variable diferente.</p>
+<p>Lo cual plantea un punto importante: <strong>las funciones deben tener un nombre claro e informativo</strong> que indique qué hace la función.</p>
+<p>Las funciones aumentan rápidamente la facilidad con la que puedes leer e interpretar el código.</p>
+<p>No es obvio qué hace el código <code>sqrt(var(algae$height)/length(algae$height))</code>, mientras que es inmediatamente obvio qué hace el código <code>standard_error(x)</code>.</p>
+</section>
+<section id="organiza-tu-flujo-de-trabajo" class="level3">
+<h3 class="anchored" data-anchor-id="organiza-tu-flujo-de-trabajo">Organiza tu flujo de trabajo</h3>
+<p>Basándonos en la idea de hacer que el código sea más fácil de leer, las funciones pueden ayudar a organizar todo tu flujo de trabajo y facilitar su seguimiento. A menudo, las personas tienen un largo script de análisis que es difícil de interpretar. Cuando usas funciones, tu script de análisis puede verse mucho más simple:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>data <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"Algal_traits.csv"</span>)</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>stats_species <span class="ot">&lt;-</span> <span class="fu">fit_model_species</span>(data)</span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>stats_spatial <span class="ot">&lt;-</span> <span class="fu">fit_model_spatial</span>(data)</span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a><span class="fu">make_plot_species</span>(stats_species)</span>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a><span class="fu">make_plot_spatial</span>(stats_spatial)</span>
+<span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-11"><a href="#cb11-11" aria-hidden="true" tabindex="-1"></a><span class="fu">save_output</span>(stats_species)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Aquí, todas las funciones como <code>fit_model_species</code> son aquellas que has escrito tú mismo.</p>
+<p>¡Qué fácil es interactuar con eso en comparación con un largo script con cientos de líneas!</p>
+<p><img src="Functions_image.jpg" class="img-fluid"></p>
+</section>
+<section id="reutiliza-código-también-conocido-como-no-te-repitas" class="level3">
+<h3 class="anchored" data-anchor-id="reutiliza-código-también-conocido-como-no-te-repitas">Reutiliza código (también conocido como “No te repitas”)</h3>
+<p>No solo usar la función <code>mean</code> es más informativo (es más fácil entender qué hace tu línea de código), sino que también es reutilizable. Una vez que se define una función, se puede usar una y otra vez, no solo dentro del mismo script, sino también en otros scripts.</p>
+<p>Para resaltar aún más esto, vamos a través de un ejemplo de cómo escribir nuestra propia función para calcular el error estándar de un grupo de variables. R tiene funciones incorporadas para el promedio de un vector (<code>mean(x)</code>) y la desviación estándar (<code>sd(x)</code>), pero no para el error estándar. Para calcular el error estándar,</p>
+<p><span class="math display">\[SE_\bar{x}= \sqrt{\frac{var}{n}}\]</span></p>
+<p>necesitamos la <strong>varianza</strong> y el tamaño de la muestra, <strong>n</strong>. Estos son relativamente fáciles de calcular usando otras funciones básicas en R. <code>var</code> calculará la varianza y <code>length</code> proporcionará la longitud del vector y, por lo tanto, el tamaño de la muestra (n).</p>
+<p>Digamos que primero queríamos el promedio y el error estándar de la altura. Esto se obtiene mediante</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sqrt</span>(<span class="fu">var</span>(algae<span class="sc">$</span>height) <span class="sc">/</span> <span class="fu">length</span>(algae<span class="sc">$</span>height))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.04067788</code></pre>
+</div>
+</div>
+<p>Imagine ahora que deseas calcular las mismas estadísticas en una variable diferente (por ejemplo, peso seco). Cuando te enfrentas a la necesidad de usar este código dos veces, es posible que te tientes a copiar y pegarlo en un nuevo lugar, lo que resultaría en dos copias del fragmento anterior en nuestro código. Sin embargo, un enfoque mucho más elegante (y beneficioso a largo plazo) es convertirlo en una función y llamar a esa función dos veces.</p>
+<p>Si primero definimos una función para el error estándar:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>standard_error <span class="ot">&lt;-</span> <span class="cf">function</span>(x) {</span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">sqrt</span>(<span class="fu">var</span>(x) <span class="sc">/</span> <span class="fu">length</span>(x))</span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>simplemente usamos <code>standard_error</code> como lo haríamos con cualquier otra función.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="fu">standard_error</span>(algae<span class="sc">$</span>height)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.04067788</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="fu">standard_error</span>(algae<span class="sc">$</span>dryweight)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.02190001</code></pre>
+</div>
+</div>
+</section>
+<section id="reduce-chance-of-errors" class="level3">
+<h3 class="anchored" data-anchor-id="reduce-chance-of-errors">Reduce chance of errors</h3>
+<p>Wrapping code into functions reduces the chance of making inadvertent errors. Such errors may not cause your code to crash, but may cause the results to be wrong. These types of mistakes are the hardest to find and can render our results meaningless.</p>
+<p>There are at least two ways functions reduce the chance of errors.</p>
+<p><strong>First, copy and paste leads to errors</strong>. Without a function, you may copy and past code all over the place. For example, if I wanted to calcualte the standard error of a bunch of variables (without using our new <code>standard_error</code> function)</p>
+</section>
+<section id="reducir-la-posibilidad-de-errores" class="level3">
+<h3 class="anchored" data-anchor-id="reducir-la-posibilidad-de-errores">Reducir la posibilidad de errores</h3>
+<p>Envolviendo el código en funciones se reduce la posibilidad de cometer errores inadvertidos. Estos errores pueden no hacer que tu código falle, pero pueden causar que los resultados sean incorrectos. Este tipo de errores son los más difíciles de encontrar y pueden hacer que nuestros resultados carezcan de sentido.</p>
+<p>Hay al menos dos formas en las que las funciones reducen la posibilidad de errores.</p>
+<p><strong>Primero, copiar y pegar conduce a errores</strong>. Sin una función, es posible que copies y pegues código por todas partes. Por ejemplo, si quisiera calcular el error estándar de varias variables (sin usar nuestra nueva función <code>standard_error</code>):</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sqrt</span>(<span class="fu">var</span>(algae<span class="sc">$</span>height) <span class="sc">/</span> <span class="fu">length</span>(algae<span class="sc">$</span>height))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.04067788</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sqrt</span>(<span class="fu">var</span>(algae<span class="sc">$</span>dryweight) <span class="sc">/</span> <span class="fu">length</span>(algae<span class="sc">$</span>dryweight))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.02190001</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sqrt</span>(<span class="fu">var</span>(algae<span class="sc">$</span>length) <span class="sc">/</span> <span class="fu">length</span>(algae<span class="sc">$</span>dryweight))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.1824489</code></pre>
+</div>
+</div>
+<p>¿Notaste el error? ¡Olvidé cambiar la segunda variable en la tercera línea! El código se ejecutará pero dará resultados incorrectos. Esto es menos probable si escribimos:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="fu">standard_error</span>(algae<span class="sc">$</span>height)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.04067788</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="fu">standard_error</span>(algae<span class="sc">$</span>dryweight)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.02190001</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="fu">standard_error</span>(algae<span class="sc">$</span>length)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.1824489</code></pre>
+</div>
+</div>
+<p><strong>Segundo, las funciones limitan el alcance de las variables y aplican una limpieza</strong>. Al calcular algo, es común crear nuevas variables. Por ejemplo, digamos que calculamos el error estándar de la siguiente manera:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>var_x <span class="ot">&lt;-</span> <span class="fu">var</span>(algae<span class="sc">$</span>height)</span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="fu">length</span>(algae<span class="sc">$</span>height)</span>
+<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a><span class="fu">sqrt</span>(var_x <span class="sc">/</span> n)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.04067788</code></pre>
+</div>
+</div>
+<p>Ten en cuenta que ahora tienes dos nuevos objetos en tu entorno: <code>var_x</code> y <code>n</code>:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a>var_x</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.0992814</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a>n</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 60</code></pre>
+</div>
+</div>
+<p>Puedes deshacerte de ellos ejecutando:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="fu">rm</span>(var_x, n)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>(la función <code>rm()</code> “remueve”, es decir, elimina, objetos del entorno).</p>
+<p>Pero, ¿qué pasa si olvidas hacerlo? Existe un verdadero peligro de que más adelante reutilices accidentalmente la variable <code>n</code> o <code>var_x</code>, pensando que son algo que no son. Y si tienen nombres no específicos como <code>n</code>, el riesgo de que esto ocurra es alto.</p>
+<p>En cambio, si colocas el código anterior dentro de una función, como se muestra a continuación, este peligro desaparece.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb38"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a>standard_error <span class="ot">&lt;-</span> <span class="cf">function</span>(x) {</span>
+<span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a>  var_x <span class="ot">&lt;-</span> <span class="fu">var</span>(algae<span class="sc">$</span>height)</span>
+<span id="cb38-3"><a href="#cb38-3" aria-hidden="true" tabindex="-1"></a>  n <span class="ot">&lt;-</span> <span class="fu">length</span>(algae<span class="sc">$</span>height)</span>
+<span id="cb38-4"><a href="#cb38-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">sqrt</span>(var_x <span class="sc">/</span> n)</span>
+<span id="cb38-5"><a href="#cb38-5" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Cuando ejecutas:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb39"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a><span class="fu">standard_error</span>(algae<span class="sc">$</span>height)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.04067788</code></pre>
+</div>
+</div>
+<p>El resultado se devuelve, pero las variables <code>var_x</code> y <code>n</code> no se ven en ningún lugar. Esto se debe a que se eliminaron automáticamente cuando la función terminó.</p>
+<p>Cualquier variable creada dentro de una función se elimina automáticamente al finalizar la función. Por lo tanto, el uso de funciones nos deja con un espacio de trabajo limpio y ordenado. Además, el entorno dentro de la función es mucho más seguro que el entorno global, porque es menos probable que obtengamos variables aleatorias de otro lugar.</p>
+</section>
+<section id="ayuda-a-tu-cerebro-a-resolver-problemas-grandes" class="level3">
+<h3 class="anchored" data-anchor-id="ayuda-a-tu-cerebro-a-resolver-problemas-grandes">Ayuda a tu cerebro a resolver problemas grandes</h3>
+<p>La mejor manera de resolver problemas grandes y complejos es dividirlos en una serie de problemas más pequeños. Es bien sabido que nuestros cerebros no pueden lidiar con más de aproximadamente 5-10 bits de información a la vez.</p>
+<p>Escribir funciones nos permite identificar una serie de problemas más pequeños y resolverlos uno por uno, utilizando todo nuestro poder cognitivo.</p>
+<p>Cuando observo la función <code>standard_error</code> definida anteriormente, puedo pensar en las operaciones que se realizan (suma, división, raíz cuadrada) de forma aislada del problema más amplio que estoy resolviendo (estudiar algas).</p>
+<p>Como regla general, <strong>una buena función hace una cosa bien</strong>. Si esa una cosa es complicada, puede estar compuesta por un conjunto de funciones más pequeñas (es decir, pasos), cada una haciendo una cosa bien.</p>
+</section>
+</section>
+<section id="escribiendo-tus-propias-funciones" class="level2">
+<h2 class="anchored" data-anchor-id="escribiendo-tus-propias-funciones">Escribiendo tus propias funciones <a id="how"></a></h2>
+<p>Ahora veamos más de cerca la mecánica de escribir una función.</p>
+<section id="la-sintaxis-de-una-función" class="level3">
+<h3 class="anchored" data-anchor-id="la-sintaxis-de-una-función">La sintaxis de una función</h3>
+<p>Una definición de función tiene la siguiente forma:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb41"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a>function_name <span class="ot">&lt;-</span> <span class="cf">function</span>(arg1, arg2, ...) {</span>
+<span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a>  statements <span class="co"># do useful stuff</span></span>
+<span id="cb41-3"><a href="#cb41-3" aria-hidden="true" tabindex="-1"></a>  object <span class="co"># return something</span></span>
+<span id="cb41-4"><a href="#cb41-4" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p><strong>function_name</strong>: El nombre de la función. Puede ser cualquier texto válido <em>sin espacios</em>, pero debes evitar usar nombres que ya estén en uso en R. Verifica si tu nombre ya está siendo utilizado como una palabra clave preguntando por la página de ayuda <code>?function_name</code> (no es una garantía del 100%, pero es una buena verificación). Además, trata de utilizar nombres que describan lo que hace la función. Un nombre largo como <code>calcular_error_estandar</code> es mucho mejor que algo corto e intuitivo como <code>f</code>.</p>
+<p><strong>arg1, arg2, …</strong>: Los argumentos de la función. Puedes escribir una función con cualquier número de argumentos, los cuales pueden ser cualquier objeto de R (numérico, cadenas de texto, caracteres, data.frames, matrices, otras funciones).</p>
+<p><strong>cuerpo de la función</strong>: El código entre las <code>{}</code> es el cuerpo de la función y se ejecuta cada vez que se llama a la función. Este es el código que realiza todas las tareas útiles y se denomina cuerpo de la función.</p>
+<p><strong>valor de retorno</strong>: La última línea de código es el objeto que se debe devolver. A veces verás a las personas escribir <code>return(objeto)</code>, aunque es suficiente con escribir <code>objeto</code>.</p>
+<p>Utilizando este formato, una función para calcular el error estándar de los valores en el objeto <code>x</code> sería:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb42"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a>standard_error <span class="ot">&lt;-</span> <span class="cf">function</span>(x) {</span>
+<span id="cb42-2"><a href="#cb42-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">sqrt</span>(<span class="fu">var</span>(x) <span class="sc">/</span> <span class="fu">length</span>(x))</span>
+<span id="cb42-3"><a href="#cb42-3" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Para poder usar la función, necesitas ejecutar ese código en tu consola. Una vez definida, podemos llamar a la función como lo haríamos con cualquier otra función.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb43"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a><span class="fu">standard_error</span>(algae<span class="sc">$</span>height)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.04067788</code></pre>
+</div>
+</div>
+</section>
+<section id="argumentos-predeterminados" class="level3">
+<h3 class="anchored" data-anchor-id="argumentos-predeterminados">Argumentos predeterminados</h3>
+<p>Echemos un vistazo más de cerca a la función <code>mean</code>. Escribir <code>?mean</code> en la consola muestra los detalles relevantes de “help”. Observa la estructura:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb45"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(x, <span class="at">trim =</span> <span class="dv">0</span>, <span class="at">na.rm =</span> <span class="cn">FALSE</span>, ...)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>El primer argumento <code>x</code> es nuestro vector de números. Para usar la función, necesitamos especificar algo para <code>x</code>, por ejemplo:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb46"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(<span class="at">x =</span> algae<span class="sc">$</span>height)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>o simplemente</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb47"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(algae<span class="sc">$</span>height)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>La primera versión deja explícito que los valores en <code>algas$altura</code> fuera de la función son <em>pasados</em> a la variable <code>x</code> dentro de la función. La segunda versión hace lo mismo, pero de manera menos explícita. Funciona porque R toma los valores de <code>altura</code> y los asigna al primer argumento sin nombre en nuestra llamada de función, que se asigna al primer argumento sin nombre en la definición de la función. Entonces, lo siguiente también funcionará:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb48"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(<span class="at">na.rm =</span> <span class="cn">TRUE</span>, <span class="at">x =</span> algae<span class="sc">$</span>height)</span>
+<span id="cb48-2"><a href="#cb48-2" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(<span class="at">na.rm =</span> <span class="cn">TRUE</span>, algae<span class="sc">$</span>height)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>But what are those are other arguments in the function definition: <code>trim</code> and <code>na.rm</code>? These are optional arguments, with default values set as specified. The function needs a value to run but unless you specify it, it will use the default.</p>
+<p>Try running the <code>mean()</code> function on the <em>strength</em> variable.</p>
+<p>Pero, ¿qué son esos otros argumentos en la definición de la función: <code>trim</code> y <code>na.rm</code>?. Estos son argumentos opcionales, con valores predeterminados especificados. La función necesita un valor para ejecutarse, pero a menos que lo especifiques, utilizará el valor predeterminado.</p>
+<p>Intenta ejecutar la función <code>mean()</code> en la variable <em>strength</em>.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb49"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb49-1"><a href="#cb49-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(algae<span class="sc">$</span>strength)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning in mean.default(algae$strength): argument is not numeric or logical:
+returning NA</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] NA</code></pre>
+</div>
+</div>
+<p>Observa que obtenemos <code>NA</code>, esto se debe a que por defecto la función no sabe cómo tratar los valores faltantes (<code>NA</code> es un valor faltante) y hay uno en esa columna de datos. Cómo tratar los valores faltantes depende en gran medida de lo que estés tratando de calcular (consulta el módulo de ayuda sobre <a href="../../../getting-started-with-r/importing-data/">importación de datos</a>), pero en este caso, nos gustaría eliminar los <code>NA</code> antes de calcular la media. Esto se puede lograr estableciendo el argumento <code>na.rm</code> en <code>TRUE</code>:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb52"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb52-1"><a href="#cb52-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(algae<span class="sc">$</span>strength, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning in mean.default(algae$strength, na.rm = TRUE): argument is not numeric
+or logical: returning NA</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] NA</code></pre>
+</div>
+</div>
+<p>Las funciones <code>mean</code>, <code>var</code>, <code>sd</code>, <code>sum</code> se comportan de manera similar. <strong>Sin especificar el argumento, las funciones utilizan su valor predeterminado</strong>, que en este caso es <code>na.rm=FALSE</code>. Por lo tanto, estos dan el mismo resultado.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb55"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb55-1"><a href="#cb55-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(algae<span class="sc">$</span>strength)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning in mean.default(algae$strength): argument is not numeric or logical:
+returning NA</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] NA</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb58"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb58-1"><a href="#cb58-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(algae<span class="sc">$</span>strength, <span class="at">na.rm =</span> <span class="cn">FALSE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning in mean.default(algae$strength, na.rm = FALSE): argument is not numeric
+or logical: returning NA</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] NA</code></pre>
+</div>
+</div>
+<p>Sin embargo, podemos anular esto si es lo que deseamos:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb61"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb61-1"><a href="#cb61-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(algae<span class="sc">$</span>strength, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning in mean.default(algae$strength, na.rm = TRUE): argument is not numeric
+or logical: returning NA</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] NA</code></pre>
+</div>
+</div>
+<p><strong>Notarás que muchas funciones tienen argumentos con valores predeterminados</strong>.</p>
+<p>Volviendo a nuestra nueva función <code>standard_error</code>, agreguemos un nuevo argumento <code>na.rm</code> para que se comporte como <code>mean</code> y las otras funciones mencionadas anteriormente:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb64"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb64-1"><a href="#cb64-1" aria-hidden="true" tabindex="-1"></a>standard_error <span class="ot">&lt;-</span> <span class="cf">function</span>(x, <span class="at">na.rm =</span> <span class="cn">FALSE</span>) {</span>
+<span id="cb64-2"><a href="#cb64-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">sqrt</span>(<span class="fu">var</span>(x, <span class="at">na.rm =</span> na.rm) <span class="sc">/</span> <span class="fu">sum</span>(<span class="sc">!</span><span class="fu">is.na</span>(x)))</span>
+<span id="cb64-3"><a href="#cb64-3" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Al igual que las otras funciones, hemos establecido el comportamiento predeterminado de <code>na.rm</code> en <code>FALSE</code>.</p>
+<p>Ahora, probemos nuestra nueva función en la variable de fuerza con datos faltantes, alternando entre <code>na.rm = TRUE</code> y <code>na.rm = FALSE</code>.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb65"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb65-1"><a href="#cb65-1" aria-hidden="true" tabindex="-1"></a><span class="fu">standard_error</span>(algae<span class="sc">$</span>strength)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning in var(x, na.rm = na.rm): NAs introducidos por coerción</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] NA</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb68"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb68-1"><a href="#cb68-1" aria-hidden="true" tabindex="-1"></a><span class="fu">standard_error</span>(algae<span class="sc">$</span>strength, <span class="at">na.rm =</span> <span class="cn">FALSE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning in var(x, na.rm = na.rm): NAs introducidos por coerción</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] NA</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb71"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb71-1"><a href="#cb71-1" aria-hidden="true" tabindex="-1"></a><span class="fu">standard_error</span>(algae<span class="sc">$</span>strength, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning in var(x, na.rm = na.rm): NAs introducidos por coerción</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.03870419</code></pre>
+</div>
+</div>
+<p>Dentro de la función, el valor para <code>na.rm</code> que se recibe se pasa a la función <code>var</code>. La función <code>var</code> ya tiene un argumento <code>na.rm</code> incorporado en ella (ver archivo de ayuda <code>?var</code>), pero <code>length</code> no lo tiene. Podemos usar la función <code>sum(!is.na(x))</code> para calcular <code>n</code>. La función <code>is.na</code> probará cada valor del vector <code>x</code> para ver si falta. Si no falta (el <code>!</code> significa NO), entonces devuelve un <code>TRUE</code> para esa posición, y al contar los valores devueltos como <code>TRUE</code> con <code>sum</code>, estamos contando efectivamente solo los valores que no faltan.</p>
+</section>
+<section id="funciones-que-extienden-funciones" class="level3">
+<h3 class="anchored" data-anchor-id="funciones-que-extienden-funciones">Funciones que extienden funciones</h3>
+<p>Digamos que tienes un script donde constantemente deseas establecer <code>na.rm=TRUE</code> y te cansaste de escribirlo en todas partes:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb74"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb74-1"><a href="#cb74-1" aria-hidden="true" tabindex="-1"></a><span class="fu">standard_error</span>(algae<span class="sc">$</span>height, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb74-2"><a href="#cb74-2" aria-hidden="true" tabindex="-1"></a><span class="fu">standard_error</span>(algae<span class="sc">$</span>strength, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb74-3"><a href="#cb74-3" aria-hidden="true" tabindex="-1"></a>...</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>(Además, nos estamos repitiendo mucho y aumentando el riesgo de errores, ¿qué sucede si olvidamos?)</p>
+<p>Un enfoque aquí es definir una nueva función que se base en nuestra función anterior pero con el comportamiento deseado. Por ejemplo,</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb75"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb75-1"><a href="#cb75-1" aria-hidden="true" tabindex="-1"></a>standard_error_narm <span class="ot">&lt;-</span> <span class="cf">function</span>(x) {</span>
+<span id="cb75-2"><a href="#cb75-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">standard_error</span>(x, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb75-3"><a href="#cb75-3" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Podemos llamar ahora a la nueva función y obtener el mismo resultado que se muestra arriba especificando <code>na.rm=TRUE</code></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb76"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb76-1"><a href="#cb76-1" aria-hidden="true" tabindex="-1"></a><span class="fu">standard_error_narm</span>(algae<span class="sc">$</span>strength)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning in var(x, na.rm = na.rm): NAs introducidos por coerción</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.03870419</code></pre>
+</div>
+</div>
+<p>Si bien el ejemplo con <code>standard_error</code> tal vez sea un poco trivial, puedes aplicar este enfoque en muchos casos. Por ejemplo, una función que crea un tipo de gráfico con los valores predeterminados configurados exactamente como te gustan.</p>
+</section>
+<section id="para-qué-sirve-el-argumento-..." class="level3">
+<h3 class="anchored" data-anchor-id="para-qué-sirve-el-argumento-...">¿Para qué sirve el argumento <code>...</code>?</h3>
+<p>¿Has notado el argumento <code>...</code> en la definición de la función <code>mean</code> anterior? ¿De qué se trata eso? El elemento <code>...</code>, o puntos suspensivos, en la definición de una función permite que se pasen otros argumentos a la función y se los transmita a otra función dentro de la función que se llama, sin tener que escribirlos todos por nombre. Por ejemplo, en la definición de la función <code>standard_error_narm</code> podríamos escribir en su lugar:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb79"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb79-1"><a href="#cb79-1" aria-hidden="true" tabindex="-1"></a>standard_error_narm <span class="ot">&lt;-</span> <span class="cf">function</span>(...) {</span>
+<span id="cb79-2"><a href="#cb79-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">standard_error</span>(..., <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb79-3"><a href="#cb79-3" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Cuando llamas a <code>standard_error_narm</code> definida de esta manera, cualquier argumento que no sea <code>na.rm</code> se pasará directamente a la siguiente función. Esto evita tener que repetir los argumentos de una función al definir otra.</p>
+<p>Un ejemplo menos trivial es el uso de <code>plot</code>. Podría escribir una función que modifique algunos de los valores predeterminados de <code>plot</code>, de modo que no tenga que repetirlos una y otra vez.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb80"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb80-1"><a href="#cb80-1" aria-hidden="true" tabindex="-1"></a>my_plot <span class="ot">&lt;-</span> <span class="cf">function</span>(...) {</span>
+<span id="cb80-2"><a href="#cb80-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">plot</span>(..., <span class="at">pch =</span> <span class="dv">16</span>, <span class="at">las =</span> <span class="dv">1</span>, <span class="at">log =</span> <span class="st">"xy"</span>)</span>
+<span id="cb80-3"><a href="#cb80-3" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="agregar-comentarios-a-tu-función" class="level3">
+<h3 class="anchored" data-anchor-id="agregar-comentarios-a-tu-función">Agregar comentarios a tu función</h3>
+<p>Antes de terminar, hay una última cosa que debes hacer. Es una buena idea agregar comentarios a tu función, ya que esto te ahorrará muchos problemas cuando tengas que corregir algo más adelante. Los comentarios de una función deben contener una breve descripción de la función (una oración), una lista de los argumentos de la función con una descripción de cada uno (incluido el tipo de dato) y una descripción del valor de retorno. Los comentarios de la función deben escribirse inmediatamente arriba o abajo de la línea de definición de la función.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb81"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb81-1"><a href="#cb81-1" aria-hidden="true" tabindex="-1"></a>standard_error <span class="ot">&lt;-</span> <span class="cf">function</span>(x, na.rm) {</span>
+<span id="cb81-2"><a href="#cb81-2" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Computes the sample standard error</span></span>
+<span id="cb81-3"><a href="#cb81-3" aria-hidden="true" tabindex="-1"></a>  <span class="co">#</span></span>
+<span id="cb81-4"><a href="#cb81-4" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Args:</span></span>
+<span id="cb81-5"><a href="#cb81-5" aria-hidden="true" tabindex="-1"></a>  <span class="co">#  x: Vector whose standard error is to be calculated. x must have length greater than one.</span></span>
+<span id="cb81-6"><a href="#cb81-6" aria-hidden="true" tabindex="-1"></a>  <span class="co">#  y: na.rm can either be T or F. T removes missing values before calculating standard error.</span></span>
+<span id="cb81-7"><a href="#cb81-7" aria-hidden="true" tabindex="-1"></a>  <span class="co">#</span></span>
+<span id="cb81-8"><a href="#cb81-8" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Return:</span></span>
+<span id="cb81-9"><a href="#cb81-9" aria-hidden="true" tabindex="-1"></a>  <span class="co">#  The standard error of x</span></span>
+<span id="cb81-10"><a href="#cb81-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">sqrt</span>(<span class="fu">var</span>(x, <span class="at">na.rm =</span> na.rm) <span class="sc">/</span> <span class="fu">sum</span>(<span class="sc">!</span><span class="fu">is.na</span>(x)))</span>
+<span id="cb81-11"><a href="#cb81-11" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Otra forma común de anotar funciones es utilizando la sintaxis de <a href="http://kbroman.org/pkg_primer/pages/docs.html">roxygen2</a>.</p>
+</section>
+<section id="almacenar-y-utilizar-funciones" class="level3">
+<h3 class="anchored" data-anchor-id="almacenar-y-utilizar-funciones">Almacenar y utilizar funciones</h3>
+<p>Una vez que adquieras el hábito de escribir funciones, es una buena idea mantenerlas en un archivo separado que contenga todas tus funciones juntas. ¿Por qué? Porque de lo contrario, tendrás estos archivos grandes y pesados que entorpecen tu script. Si ya has resuelto un problema y sabes cómo hacer algo, ¿por qué no guardarlo en algún lugar donde puedas acceder a ello solo si es necesario?</p>
+<p>Para mantener tus funciones fuera del camino, te recomendamos mantener todas las funciones de cada proyecto juntas en una carpeta llamada <code>R</code> dentro del directorio de tu proyecto. (Para obtener más información sobre la configuración de proyectos, consulta nuestra <a href="../../../getting-started-with-r/project-management/">publicación sobre gestión de proyectos</a>.)</p>
+<p>Para hacer que estas funciones sean accesibles en tu flujo de trabajo, puedes usar la función <code>source</code> para cargar los archivos de funciones en la memoria, por ejemplo:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb82"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb82-1"><a href="#cb82-1" aria-hidden="true" tabindex="-1"></a><span class="fu">source</span>(<span class="st">"R/stats.R"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>A menudo, puedes tener una serie de archivos</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb83"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb83-1"><a href="#cb83-1" aria-hidden="true" tabindex="-1"></a><span class="fu">source</span>(<span class="st">"R/data_cleaning.R"</span>)</span>
+<span id="cb83-2"><a href="#cb83-2" aria-hidden="true" tabindex="-1"></a><span class="fu">source</span>(<span class="st">"R/stats.R"</span>)</span>
+<span id="cb83-3"><a href="#cb83-3" aria-hidden="true" tabindex="-1"></a><span class="fu">source</span>(<span class="st">"R/plots.R"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Es cuestión de preferencia si utilizas un solo archivo o varios archivos.</p>
+</section>
+<section id="escribir-funciones-para-trabajar-con-el-operador-de-pipes--" class="level3">
+<h3 class="anchored" data-anchor-id="escribir-funciones-para-trabajar-con-el-operador-de-pipes--">Escribir funciones para trabajar con el operador de pipes <code>%&gt;% - |&gt;</code></h3>
+<p>Para muchos de nosotros, los pipes se han convertido en una parte esencial de nuestro flujo de trabajo. (Si esto te resulta desconocido, consulta nuestra publicación sobre el uso de pipes en <a href="../../../data-manipulation/">manipulación de datos</a>).</p>
+<p>Importante, puedes escribir funciones que funcionen con el operador de pipes. Lo único que necesitas hacer es configurar tu función de modo que el primer argumento sea el objeto que se está pasando al pipe. De hecho, nuestra función <code>standard_error</code> ya funciona con pipes, asumiendo que estás pasando <code>x</code>:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb84"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb84-1"><a href="#cb84-1" aria-hidden="true" tabindex="-1"></a>algae<span class="sc">$</span>height <span class="sc">%&gt;%</span> <span class="fu">standard_error</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.04067788</code></pre>
+</div>
+</div>
+</section>
+<section id="devolviendo-múltiples-argumentos" class="level3">
+<h3 class="anchored" data-anchor-id="devolviendo-múltiples-argumentos">Devolviendo múltiples argumentos</h3>
+<p>Los ejemplos anteriores devuelven un solo elemento. ¿Qué sucede si quiero devolver varios elementos desde una función? La respuesta es devolver un objeto <code>list</code>. Las listas son útiles porque puedes agrupar muchos elementos diferentes.</p>
+<p>Por ejemplo, podríamos escribir una función que devuelva varias estadísticas de una variable:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb86"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb86-1"><a href="#cb86-1" aria-hidden="true" tabindex="-1"></a>summary_stats <span class="ot">&lt;-</span> <span class="cf">function</span>(x, <span class="at">na.rm =</span> <span class="cn">TRUE</span>) {</span>
+<span id="cb86-2"><a href="#cb86-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">list</span>(</span>
+<span id="cb86-3"><a href="#cb86-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">mean =</span> <span class="fu">mean</span>(x, <span class="at">na.rm =</span> na.rm),</span>
+<span id="cb86-4"><a href="#cb86-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">var =</span> <span class="fu">var</span>(x, <span class="at">na.rm =</span> na.rm),</span>
+<span id="cb86-5"><a href="#cb86-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">n =</span> <span class="fu">sum</span>(<span class="sc">!</span><span class="fu">is.na</span>(x))</span>
+<span id="cb86-6"><a href="#cb86-6" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb86-7"><a href="#cb86-7" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Si ejecutamos esta función, recibimos un objeto que tiene elementos nombrados:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb87"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb87-1"><a href="#cb87-1" aria-hidden="true" tabindex="-1"></a>height_stats <span class="ot">&lt;-</span> <span class="fu">summary_stats</span>(algae<span class="sc">$</span>height)</span>
+<span id="cb87-2"><a href="#cb87-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb87-3"><a href="#cb87-3" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(height_stats)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "mean" "var"  "n"   </code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb89"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb89-1"><a href="#cb89-1" aria-hidden="true" tabindex="-1"></a>height_stats<span class="sc">$</span>mean</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.4590399</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb91"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb91-1"><a href="#cb91-1" aria-hidden="true" tabindex="-1"></a>height_stats<span class="sc">$</span>var</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.0992814</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb93"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb93-1"><a href="#cb93-1" aria-hidden="true" tabindex="-1"></a>height_stats<span class="sc">$</span>n</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 60</code></pre>
+</div>
+</div>
+<p>De hecho, muchas funciones hacen esto, por ejemplo, <code>lm()</code> (para ajustar un modelo lineal). Al ajustar un modelo, podemos verificar que es una lista, luego pedir los nombres de los elementos devueltos y comenzar a llamarlos por nombre:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb95"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb95-1"><a href="#cb95-1" aria-hidden="true" tabindex="-1"></a>fit <span class="ot">&lt;-</span> <span class="fu">lm</span>(algae<span class="sc">$</span>height <span class="sc">~</span> algae<span class="sc">$</span>dryweight)</span>
+<span id="cb95-2"><a href="#cb95-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb95-3"><a href="#cb95-3" aria-hidden="true" tabindex="-1"></a><span class="fu">is.list</span>(fit)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] TRUE</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb97"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb97-1"><a href="#cb97-1" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(fit)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code> [1] "coefficients"  "residuals"     "effects"       "rank"         
+ [5] "fitted.values" "assign"        "qr"            "df.residual"  
+ [9] "xlevels"       "call"          "terms"         "model"        </code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb99"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb99-1"><a href="#cb99-1" aria-hidden="true" tabindex="-1"></a>fit<span class="sc">$</span>coefficients</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>    (Intercept) algae$dryweight 
+      0.4054402       0.1276447 </code></pre>
+</div>
+</div>
+</section>
+</section>
+<section id="qué-hace-que-una-buena-función" class="level2">
+<h2 class="anchored" data-anchor-id="qué-hace-que-una-buena-función">Qué hace que una buena función</h2>
+<p>Finalmente, repasemos algunos puntos sobre qué hace que una buena función.</p>
+<p><strong>Es corta</strong> <!--
+<blockquote class="twitter-tweet"><p>Si has escrito una función cuyo cuerpo tiene 2,996 líneas de código, lo estás haciendo mal.</p>&mdash; M Butcher (@technosophos) <a href="https://twitter.com/technosophos/status/322392537983746049">11 de abril de 2013</a></blockquote>
+<script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
+--></p>
+<p>Idealmente, cada función hace una sola cosa bien. A menudo, esto significa muchas funciones cortas. Las funciones cortas son extremadamente útiles. Incluso si el código en el cuerpo de la función es más complejo, idealmente aún hace una sola cosa bien.</p>
+<p><strong>Hace una sola cosa bien</strong> <!--
+<blockquote class="twitter-tweet"><p>La razón de escribir una función no es reutilizar su código, sino darle un nombre a la operación que realiza.</p>&mdash; Tim Ottinger (@tottinge) <a href="https://twitter.com/tottinge/status/293776089099153408">22 de enero de 2013</a></blockquote>
+<script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
+--> <strong>Tiene un nombre intuitivo</strong> <!--
+<blockquote class="twitter-tweet"><p>"El nombre de una variable, función o clase debería responder todas las preguntas importantes". - Uncle Bob Martin, Clean Code</p>&mdash; Gustavo Rod. Baldera (@gbaldera) <a href="https://twitter.com/gbaldera/status/327063173721100288">24 de abril de 2013</a></blockquote>
+<script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
+--></p>
+</section>
+<section id="ayuda-adicional" class="level2">
+<h2 class="anchored" data-anchor-id="ayuda-adicional">Ayuda adicional</h2>
+<p>Puedes encontrar más ayuda sobre funciones en:</p>
+<ul>
+<li><a href="https://www.datacamp.com/community/tutorials/functions-in-r-a-tutorial#gs.xNnAJY0">Tutorial de DataCamp sobre funciones</a></li>
+<li><a href="https://twitter.com/hadleywickham">Información de Hadley Wickham</a> sobre <a href="http://adv-r.had.co.nz/Functions.html">funciones para usuarios intermedios y avanzados</a>.</li>
+<li>El <a href="http://cran.r-project.org/doc/manuals/R-intro.html#Writing-your-own-R-intro.html#Writing-your-own-functions">material introductorio oficial de R sobre cómo escribir tus propias funciones</a></li>
+</ul>
+<p><strong>Autor</strong>: Original de Keryn F Bain; revisado por Daniel S Falster</p>
+<p><strong>Año:</strong> 2018</p>
+<p><strong>Última actualización:</strong> Nov.&nbsp;2023</p>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const disableStylesheet = (stylesheets) => {
+    for (let i=0; i < stylesheets.length; i++) {
+      const stylesheet = stylesheets[i];
+      stylesheet.rel = 'prefetch';
+    }
+  }
+  const enableStylesheet = (stylesheets) => {
+    for (let i=0; i < stylesheets.length; i++) {
+      const stylesheet = stylesheets[i];
+      stylesheet.rel = 'stylesheet';
+    }
+  }
+  const manageTransitions = (selector, allowTransitions) => {
+    const els = window.document.querySelectorAll(selector);
+    for (let i=0; i < els.length; i++) {
+      const el = els[i];
+      if (allowTransitions) {
+        el.classList.remove('notransition');
+      } else {
+        el.classList.add('notransition');
+      }
+    }
+  }
+  const toggleColorMode = (alternate) => {
+    // Switch the stylesheets
+    const alternateStylesheets = window.document.querySelectorAll('link.quarto-color-scheme.quarto-color-alternate');
+    manageTransitions('#quarto-margin-sidebar .nav-link', false);
+    if (alternate) {
+      enableStylesheet(alternateStylesheets);
+      for (const sheetNode of alternateStylesheets) {
+        if (sheetNode.id === "quarto-bootstrap") {
+          toggleBodyColorMode(sheetNode);
+        }
+      }
+    } else {
+      disableStylesheet(alternateStylesheets);
+      toggleBodyColorPrimary();
+    }
+    manageTransitions('#quarto-margin-sidebar .nav-link', true);
+    // Switch the toggles
+    const toggles = window.document.querySelectorAll('.quarto-color-scheme-toggle');
+    for (let i=0; i < toggles.length; i++) {
+      const toggle = toggles[i];
+      if (toggle) {
+        if (alternate) {
+          toggle.classList.add("alternate");     
+        } else {
+          toggle.classList.remove("alternate");
+        }
+      }
+    }
+    // Hack to workaround the fact that safari doesn't
+    // properly recolor the scrollbar when toggling (#1455)
+    if (navigator.userAgent.indexOf('Safari') > 0 && navigator.userAgent.indexOf('Chrome') == -1) {
+      manageTransitions("body", false);
+      window.scrollTo(0, 1);
+      setTimeout(() => {
+        window.scrollTo(0, 0);
+        manageTransitions("body", true);
+      }, 40);  
+    }
+  }
+  const isFileUrl = () => { 
+    return window.location.protocol === 'file:';
+  }
+  const hasAlternateSentinel = () => {  
+    let styleSentinel = getColorSchemeSentinel();
+    if (styleSentinel !== null) {
+      return styleSentinel === "alternate";
+    } else {
+      return false;
+    }
+  }
+  const setStyleSentinel = (alternate) => {
+    const value = alternate ? "alternate" : "default";
+    if (!isFileUrl()) {
+      window.localStorage.setItem("quarto-color-scheme", value);
+    } else {
+      localAlternateSentinel = value;
+    }
+  }
+  const getColorSchemeSentinel = () => {
+    if (!isFileUrl()) {
+      const storageValue = window.localStorage.getItem("quarto-color-scheme");
+      return storageValue != null ? storageValue : localAlternateSentinel;
+    } else {
+      return localAlternateSentinel;
+    }
+  }
+  let localAlternateSentinel = 'default';
+  // Dark / light mode switch
+  window.quartoToggleColorScheme = () => {
+    // Read the current dark / light value 
+    let toAlternate = !hasAlternateSentinel();
+    toggleColorMode(toAlternate);
+    setStyleSentinel(toAlternate);
+  };
+  // Ensure there is a toggle, if there isn't float one in the top right
+  if (window.document.querySelector('.quarto-color-scheme-toggle') === null) {
+    const a = window.document.createElement('a');
+    a.classList.add('top-right');
+    a.classList.add('quarto-color-scheme-toggle');
+    a.href = "";
+    a.onclick = function() { try { window.quartoToggleColorScheme(); } catch {} return false; };
+    const i = window.document.createElement("i");
+    i.classList.add('bi');
+    a.appendChild(i);
+    window.document.body.appendChild(a);
+  }
+  // Switch to dark mode if need be
+  if (hasAlternateSentinel()) {
+    toggleColorMode(true);
+  } else {
+    toggleColorMode(false);
+  }
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="../../coding-skills/version-control/index.html" class="pagination-link">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Control de versiones</span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="../../graphics/index.html" class="pagination-link">
+        <span class="nav-page-text">Gráficos</span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">Environmental Computing</div>   
+    <div class="nav-footer-center">
+      &nbsp;
+    </div>
+    <div class="nav-footer-right">Made with <a href="https://quarto.org/">Quarto</a>.</div>
+  </div>
+</footer>
+
+
+
+</body></html>

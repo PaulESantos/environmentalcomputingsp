@@ -1,0 +1,1393 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.3.340">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Environmental Computing - Fundamentos de imagenes raster</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="../../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../../">
+<link href="../../../graphics/spatial-vis/simple-maps/index.html" rel="next">
+<link href="../../../graphics/multivariate-vis/heatmaps/index.html" rel="prev">
+<link href="../../../images/favicon.png" rel="icon" type="image/png">
+<script src="../../../site_libs/quarto-html/quarto.js"></script>
+<script src="../../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="../../../site_libs/quarto-html/quarto-syntax-highlighting-dark.css" rel="prefetch" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<script src="../../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../../../site_libs/bootstrap/bootstrap-dark.min.css" rel="prefetch" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit"
+  }
+}</script>
+
+
+<link rel="stylesheet" href="../../../styles.css">
+</head>
+
+<body class="nav-sidebar docked">
+
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../../graphics/index.html">Gráficos</a></li><li class="breadcrumb-item"><a href="../../../graphics/spatial-vis/basic-raster/index.html">Fundamentos de imagenes raster</a></li></ol></nav>
+      <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+      </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal sidebar-navigation docked overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+      <a href="../../../index.html" class="sidebar-logo-link">
+      <img src="../../../images/hexsticker_EC.png" alt="" class="sidebar-logo py-0 d-lg-inline d-none">
+      </a>
+      <div class="sidebar-tools-main">
+  <a href="" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="Toggle dark mode"><i class="bi"></i></a>
+</div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Bienvenido a Environmental Computing</span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="../../../getting-started-with-r/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Empezando con R</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../getting-started-with-r/data-entry/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Estructura de una base de datos - Data Entry</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../getting-started-with-r/data-types-structure/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Tipos de datos + Estructura</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../getting-started-with-r/importing-data/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Importing Data</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../getting-started-with-r/installing-r-rstudio/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Instalando R y RStudio</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../getting-started-with-r/project-management/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Gestión de proyectos</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../getting-started-with-r/rstudio-notebooks/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Utilizando R Notebooks</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="../../../data-manipulation/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Manipulación de Datos</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../data-manipulation/combining-datasets/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Combinando conjuntos de datos.</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../data-manipulation/making-new-variables/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Creación de nuevas variables</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../data-manipulation/reshaping-data/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Reorganización de datos</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../data-manipulation/subsetting-data/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Subconjuntos de datos</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../data-manipulation/summarising-data/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Resumiendo datos</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="../../../coding-skills/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Introducción a la programación</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../coding-skills/asking-code-questions/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Preguntas sobre código</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../coding-skills/good-practice/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Buenas prácticas de codificación</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../coding-skills/loops/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Usando bucles</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../coding-skills/version-control/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Control de versiones</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../coding-skills/writing-functions/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Como escribir funciones</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="../../../graphics/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Gráficos</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../graphics/basic-plotting/one-continuous/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Una Variable Continua</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../graphics/basic-plotting/two-continuous/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Dos Variables Continuas</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../graphics/basic-plotting/one-continuous-one-factor/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Una Variable Continua y una Variable Categórica</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../graphics/ggplot/ggplot-basics/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Fundamentos de ggplot2</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../graphics/ggplot/ggplot-appearance/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Personalización de un gráfico en ggplot</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../graphics/ggplot/ggplot-labels/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Títulos y etiquetas de ejes</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../graphics/ggplot/ggplot-colour-shapes/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Colores y formas</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../graphics/ggplot/ggplot-barplot/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Gráfico de barras con barras de error</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../graphics/multivariate-vis/mds/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Escalamiento multidimensional</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../graphics/multivariate-vis/pca/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Análisis de Componentes Principales</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../graphics/multivariate-vis/cluster-analysis/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Análisis de Clúster</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../graphics/multivariate-vis/heatmaps/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Heatmaps - Mapa de Calor</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../graphics/spatial-vis/basic-raster/index.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text">Fundamentos de imagenes raster</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../graphics/spatial-vis/simple-maps/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Mapas simples con ggmap</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../graphics/spatial-vis/interactive/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Mapas interactivos en R</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="../../../statistics/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Statistics</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-5" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../statistics/categorical/contingency-tables/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Tablas de contingencia</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../statistics/categorical/fishers-exact/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Prueba Exacta de Fisher</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../statistics/categorical/goodness-of-fit/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Prueba de bondad de ajuste</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../statistics/categorical/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Análisis de datos categóricos</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../statistics/gams/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Modelos Aditivos Generalizados (GAM)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../statistics/glms/glm-1/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Introducción y Datos Binarios</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../statistics/glms/glm-2/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Datos de recuento</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../statistics/glms/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Modelos Lineales Generalizados (GLM)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../statistics/glms/interpret-glm-coeffs/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Interpretación de los GLMs</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../statistics/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Statistics</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../statistics/linear-models/anova/anova-factorial/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">ANOVA Factorial</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../statistics/linear-models/anova/anova-nested/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">ANOVA anidado</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../statistics/linear-models/anova/anova-single/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">ANOVA de un solo factor</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../statistics/linear-models/anova/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">ANOVA</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../statistics/linear-models/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Modelos Lineales</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../statistics/linear-models/interactions/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Comprensión de las interacciones</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../statistics/linear-models/linear-regression/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Regresión Lineal</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../statistics/linear-models/linear-regression/interpret-lm-coeffs/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Interpretación de Regresiones Lineales</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../statistics/meta-analysis/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Meta-Análisis</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../statistics/meta-analysis/meta-analysis-1/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Introduction al meta-análisis</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../statistics/meta-analysis/meta-analysis-2/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Fixed-effect and Random-effect Models</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../statistics/meta-analysis/meta-analysis-3/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Multilevel Models</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../statistics/mixed-models/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Mmodelos mixtos</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../statistics/mixed-models/mixed-model-1/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Introducción</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../statistics/mixed-models/mixed-model-2/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Factores Cruzados y Anidados</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../statistics/mixed-models/mixed-model-3/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Modelos mixtos generalizados</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../statistics/mvabund/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Análisis multivariado con mvabund</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../statistics/power-analysis/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Power Analyses</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../statistics/t-tests/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">T-tests</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../statistics/t-tests/one-sample-t-test/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Prueba de una muestra con t de Student</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../statistics/t-tests/paired-t-test/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">T-test emparejado</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../statistics/t-tests/two-sample-t-test/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Two Sample T-test</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../statistics/time-series/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Predicción de series temporales</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="../../../datasets/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Datasets</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-6" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../datasets/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Datasets</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#empecemos-configuración" id="toc-empecemos-configuración" class="nav-link active" data-scroll-target="#empecemos-configuración">Empecemos configuración</a></li>
+  <li><a href="#qué-es-un-raster" id="toc-qué-es-un-raster" class="nav-link" data-scroll-target="#qué-es-un-raster">¿Qué es un raster?</a></li>
+  <li><a href="#comprensión-de-los-datos-raster" id="toc-comprensión-de-los-datos-raster" class="nav-link" data-scroll-target="#comprensión-de-los-datos-raster">Comprensión de los datos raster</a></li>
+  <li><a href="#trabajando-con-datos-reales-de-raster" id="toc-trabajando-con-datos-reales-de-raster" class="nav-link" data-scroll-target="#trabajando-con-datos-reales-de-raster">Trabajando con datos reales de raster</a></li>
+  <li><a href="#ampliando-el-análisis-de-rasters" id="toc-ampliando-el-análisis-de-rasters" class="nav-link" data-scroll-target="#ampliando-el-análisis-de-rasters">Ampliando el análisis de rasters</a></li>
+  <li><a href="#modelado-e-interpolación" id="toc-modelado-e-interpolación" class="nav-link" data-scroll-target="#modelado-e-interpolación">Modelado e interpolación</a></li>
+  <li><a href="#algo-más-para-investigar" id="toc-algo-más-para-investigar" class="nav-link" data-scroll-target="#algo-más-para-investigar">Algo más para investigar</a></li>
+  </ul>
+<div class="toc-actions"><div><i class="bi bi-github"></i></div><div class="action-links"><p><a href="https://github.com/PaulESantos/environmentalcomputingsp/edit/main/graphics/spatial-vis/basic-raster/index.qmd" class="toc-action">Edit this page</a></p><p><a href="https://github.com/PaulESantos/environmentalcomputingsp/issues/new" class="toc-action">Report an issue</a></p></div></div></nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Fundamentos de imagenes raster</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+</header>
+
+<p>Este tutorial se centra en introducir los conceptos básicos de lo que es un raster, y luego cómo importar datos raster a R y realizar algunas manipulaciones básicas. Si solo necesitas crear un mapa de ubicación de sitios o algo similar, es posible que sea mejor comenzar con <a href="../simple-maps/">este tutorial</a>.</p>
+<section id="empecemos-configuración" class="level3">
+<h3 class="anchored" data-anchor-id="empecemos-configuración">Empecemos configuración</h3>
+<p>Verifica si puedes ver los datos que vamos a utilizar (tu directorio de trabajo debe ser la ubicación de este archivo)</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">file.exists</span>(<span class="st">"Cairns_Mangroves_30m.tif"</span>)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">file.exists</span>(<span class="st">"SST_feb_2013.img"</span>)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">file.exists</span>(<span class="st">"SST_feb_mean.img"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Instala los paquetes que vamos a necesitar: el paquete <code>raster</code> es la biblioteca principal para objetos raster en R, <code>dismo</code> tiene algunos envoltorios útiles para diversas funciones de muestreo (además de otras cosas interesantes relacionadas con la SDM), y <code>rgdal</code> tiene muchos controladores para leer y escribir varios formatos de datos espaciales.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="fu">c</span>(<span class="st">"raster"</span>, <span class="st">"dismo"</span>, <span class="st">"rgdal"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Verifica que puedas cargarlos</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(raster)</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dismo)</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(rgdal)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="qué-es-un-raster" class="level3">
+<h3 class="anchored" data-anchor-id="qué-es-un-raster">¿Qué es un raster?</h3>
+<p>Ahora estamos listos para comenzar, pero primero, ¿qué es un raster? Bueno, simplemente, es una cuadrícula de coordenadas en las que podemos definir ciertos valores, y mostramos los elementos de la cuadrícula correspondiente según esos valores. Los datos raster son esencialmente una matriz, pero un raster es especial en el sentido de que definimos la forma y el tamaño de cada elemento de la cuadrícula, y generalmente dónde debe ubicarse la cuadrícula en algún espacio conocido (es decir, un sistema de coordenadas geográficas proyectadas).</p>
+<p><img src="teaser_plot.png" class="img-fluid"></p>
+</section>
+<section id="comprensión-de-los-datos-raster" class="level3">
+<h3 class="anchored" data-anchor-id="comprensión-de-los-datos-raster">Comprensión de los datos raster</h3>
+<p>Crea un objeto raster y consultalo</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>dummy_raster <span class="ot">&lt;-</span> <span class="fu">raster</span>(<span class="at">ncol =</span> <span class="dv">10</span>, <span class="at">nrow =</span> <span class="dv">10</span>) <span class="co"># vamos a crear un raster pequeño</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="fu">nrow</span>(dummy_raster) <span class="co"># número de píxeles</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="fu">ncol</span>(dummy_raster) <span class="co"># número de píxeles</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="fu">ncell</span>(dummy_raster) <span class="co"># número total de píxeles</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a><span class="co"># plot(dummy_raster) # no se muestra el gráfico porque el raster está vacío</span></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a><span class="fu">hasValues</span>(dummy_raster) <span class="co"># puedes verificar si tu raster tiene datos</span></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a><span class="fu">values</span>(dummy_raster) <span class="ot">&lt;-</span> <span class="dv">1</span> <span class="co"># asignar un valor de píxel al raster, en este caso 1</span></span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(dummy_raster) <span class="co"># todo el raster tiene un valor de píxel de 1</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Crea un raster de números aleatorios para poder ver qué está sucediendo de manera más sencilla.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">values</span>(dummy_raster) <span class="ot">&lt;-</span> <span class="fu">runif</span>(<span class="fu">ncell</span>(dummy_raster)) <span class="co"># se asigna un número aleatorio a cada píxel</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(dummy_raster) <span class="co"># ahora el raster tiene píxeles con números aleatorios</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="fu">values</span>(dummy_raster) <span class="ot">&lt;-</span> <span class="fu">runif</span>(<span class="fu">ncell</span>(dummy_raster))</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(dummy_raster)</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>dummy_raster[<span class="dv">1</span>, <span class="dv">1</span>] <span class="co"># podemos consultar rasters (y seleccionar los valores de la matriz) utilizando la indexación estándar de R</span></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>dummy_raster[<span class="dv">1</span>, ]</span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>dummy_raster[, <span class="dv">1</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Utiliza esto para consultar interactivamente el raster - presiona “esc” para salir</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">click</span>(dummy_raster)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>¿Qué tiene de especial un objeto raster?</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(dummy_raster) <span class="co"># observa el CRS y la extensión, además de otros atributos</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="fu">crs</span>(dummy_raster) <span class="co"># verifica el sistema de coordenadas en el formato PROJ.4 por defecto</span></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="fu">xmax</span>(dummy_raster) <span class="co"># verifica la extensión máxima</span></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a><span class="fu">xmin</span>(dummy_raster)</span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a><span class="fu">ymax</span>(dummy_raster)</span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a><span class="fu">ymin</span>(dummy_raster)</span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a><span class="fu">extent</span>(dummy_raster)</span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a><span class="fu">res</span>(dummy_raster) <span class="co"># resolución</span></span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a><span class="fu">xres</span>(dummy_raster) <span class="co"># ancho de píxel</span></span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a><span class="fu">yres</span>(dummy_raster) <span class="co"># altura de píxel</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<section id="ejercicios" class="level4">
+<h4 class="anchored" data-anchor-id="ejercicios">Ejercicios</h4>
+<ul>
+<li>Crea un raster con una cara sonriente (pista: crea un raster en blanco y luego utiliza la indexación para cambiar los valores secuencialmente).</li>
+<li>Extrae algunos datos de vectores y matrices del raster (pista: utiliza la indexación o funciones como <code>?as.matrix</code>).</li>
+<li>Genera un ubconjunto el raster en un trozo más pequeño (más complicado - consulta <code>?crop</code>).</li>
+</ul>
+</section>
+</section>
+<section id="trabajando-con-datos-reales-de-raster" class="level3">
+<h3 class="anchored" data-anchor-id="trabajando-con-datos-reales-de-raster">Trabajando con datos reales de raster</h3>
+<p>Importa los datos de manglares de Cairns y échales un vistazo</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>mangrove <span class="ot">&lt;-</span> <span class="fu">raster</span>(<span class="st">"Cairns_Mangroves_30m.tif"</span>)</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="fu">crs</span>(mangrove) <span class="co"># obtener la proyección</span></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(mangrove, <span class="at">col =</span> <span class="fu">topo.colors</span>(<span class="st">"2"</span>)) <span class="co"># observa dos valores de píxel, 0 (no manglar) y 1 (manglar)</span></span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a><span class="fu">NAvalue</span>(mangrove) <span class="ot">&lt;-</span> <span class="dv">0</span> <span class="co"># crear un único conjunto de datos binario donde los manglares tienen un valor de ráster 1</span></span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(mangrove, <span class="at">col =</span> <span class="st">"mediumseagreen"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>La leyenda es un poco extraña - podemos cambiarla a una leyenda categórica haciendo esto, pero generalmente nos quedaremos con la barra continua predeterminada para reducir el desorden en el código</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>cols <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"white"</span>, <span class="st">"red"</span>)</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(mangrove, <span class="at">col =</span> cols, <span class="at">legend =</span> F)</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="fu">legend</span>(<span class="at">x =</span> <span class="st">"bottomleft"</span>, <span class="at">legend =</span> <span class="fu">c</span>(<span class="st">"no mangrove"</span>, <span class="st">"mangrove"</span>), <span class="at">fill =</span> cols)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Procesamiento sencillo</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>agg_mangrove <span class="ot">&lt;-</span> <span class="fu">aggregate</span>(mangrove, <span class="at">fact =</span> <span class="dv">10</span>) </span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow =</span> <span class="fu">c</span>(<span class="dv">2</span>, <span class="dv">2</span>))</span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(mangrove, <span class="at">col =</span> <span class="st">"mediumseagreen"</span>)</span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(agg_mangrove, <span class="at">col =</span> <span class="st">"firebrick"</span>)</span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(agg_mangrove, <span class="at">col =</span> <span class="st">"firebrick"</span>)</span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(mangrove, <span class="at">col =</span> <span class="st">"mediumseagreen"</span>, <span class="at">add =</span> <span class="cn">TRUE</span>) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Crea un búfer sencillo</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>buf_mangrove <span class="ot">&lt;-</span> <span class="fu">buffer</span>(agg_mangrove, <span class="at">width =</span> <span class="dv">1000</span>) <span class="co"># buffer</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(buf_mangrove, <span class="at">col =</span> <span class="st">"peachpuff"</span>)</span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(mangrove, <span class="at">col =</span> <span class="st">"mediumseagreen"</span>, <span class="at">add =</span> T) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Ten en cuenta que en este punto, podríamos jugar con los márgenes si nos importara, por ejemplo. <code>par(mar = c(2,1,2,1), oma = c(2,1,2,1))</code>.</p>
+<p>Convierte el raster en datos de puntos, y luego importa los datos de puntos como raster</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>pts_mangrove <span class="ot">&lt;-</span> <span class="fu">rasterToPoints</span>(mangrove)</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(pts_mangrove)</span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow =</span> <span class="fu">c</span>(<span class="dv">2</span>, <span class="dv">2</span>))</span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(mangrove)</span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">rasterFromXYZ</span>(pts_mangrove)) </span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a><span class="fu">NAvalue</span>(mangrove) <span class="ot">&lt;-</span> <span class="sc">-</span><span class="dv">999</span></span>
+<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a>pts_mangrove <span class="ot">&lt;-</span> <span class="fu">rasterToPoints</span>(mangrove)</span>
+<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">rasterFromXYZ</span>(pts_mangrove))</span>
+<span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-12"><a href="#cb12-12" aria-hidden="true" tabindex="-1"></a><span class="fu">NAvalue</span>(mangrove) <span class="ot">&lt;-</span> <span class="dv">0</span> </span>
+<span id="cb12-13"><a href="#cb12-13" aria-hidden="true" tabindex="-1"></a><span class="fu">dev.off</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Exporta tus datos - vamos a probar con el raster agregado</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">KML</span>(agg_mangrove, <span class="st">"agg_mangrove.kml"</span>, <span class="at">overwrite =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="fu">writeRaster</span>(agg_mangrove, <span class="st">"agg_mangrove.tif"</span>, <span class="at">format =</span> <span class="st">"GTiff"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>¿Y los rasters de múltiples bandas? El paquete raster los maneja de la misma manera, solo que el atributo <code>nbands()</code> es &gt;1 - piensa en un array en lugar de una matriz.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>multiband <span class="ot">&lt;-</span> <span class="fu">raster</span>(<span class="st">"multiband.tif"</span>)</span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="fu">nbands</span>(multiband)</span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a><span class="fu">nrow</span>(multiband)</span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a><span class="fu">ncol</span>(multiband)</span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a><span class="fu">ncell</span>(multiband)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Crear nuestro propio raster multibanda?</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>) {</span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">assign</span>(<span class="at">x =</span> <span class="fu">paste0</span>(<span class="st">"band"</span>, i), <span class="at">value =</span> <span class="fu">raster</span>(<span class="at">ncol =</span> <span class="dv">10</span>, <span class="at">nrow =</span> <span class="dv">10</span>))</span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a><span class="fu">values</span>(band1) <span class="ot">&lt;-</span> <span class="fu">runif</span>(<span class="dv">100</span>)</span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a><span class="fu">values</span>(band2) <span class="ot">&lt;-</span> <span class="fu">runif</span>(<span class="dv">100</span>)</span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a><span class="fu">values</span>(band3) <span class="ot">&lt;-</span> <span class="fu">runif</span>(<span class="dv">100</span>)</span>
+<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a><span class="fu">values</span>(band4) <span class="ot">&lt;-</span> <span class="fu">runif</span>(<span class="dv">100</span>)</span>
+<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a>multiband_stack <span class="ot">&lt;-</span> <span class="fu">stack</span>(<span class="fu">list</span>(band1, band2, band3, band4))</span>
+<span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a><span class="fu">nlayers</span>(multiband_stack)</span>
+<span id="cb15-10"><a href="#cb15-10" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(multiband_stack)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Generando una imagen RGB?</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plotRGB</span>(multiband_stack, <span class="at">r =</span> <span class="dv">1</span>, <span class="at">g =</span> <span class="dv">2</span>, <span class="at">b =</span> <span class="dv">3</span>)</span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a><span class="fu">range</span>(multiband_stack)</span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a><span class="fu">plotRGB</span>(multiband_stack, <span class="at">r =</span> <span class="dv">1</span>, <span class="at">g =</span> <span class="dv">2</span>, <span class="at">b =</span> <span class="dv">3</span>, <span class="at">scale =</span> <span class="dv">1</span>) </span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a><span class="fu">plotRGB</span>(multiband_stack, <span class="at">r =</span> <span class="dv">3</span>, <span class="at">g =</span> <span class="dv">2</span>, <span class="at">b =</span> <span class="dv">1</span>, <span class="at">scale =</span> <span class="dv">1</span>)</span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a><span class="fu">plotRGB</span>(multiband_stack, <span class="at">r =</span> <span class="dv">2</span>, <span class="at">g =</span> <span class="dv">3</span>, <span class="at">b =</span> <span class="dv">4</span>, <span class="at">scale =</span> <span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Otras funciones de procesamiento útiles</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>?crop</span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>?merge</span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>?trim</span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>?interpolate</span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>?reclassify</span>
+<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a>?rasterToPolygons</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Algunas funciones de análisis útiles</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>?zonal </span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>?focal </span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>?calc </span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>?distance </span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>?sampleRandom</span>
+<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a>?sampleRegular</span>
+<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a>?sampleStratified</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Hoy no entraremos en detalles sobre los sistemas de coordenadas y proyección, pero de manera <em>muy</em> breve, <code>CRS()</code> y <code>crs()</code> son las funciones/objetos clave.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="fu">crs</span>(mangrove)</span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a><span class="fu">proj4string</span>(mangrove)</span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>latlong <span class="ot">&lt;-</span> <span class="st">"+init=epsg:4326"</span></span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a><span class="fu">CRS</span>(latlong)</span>
+<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a>eastnorth <span class="ot">&lt;-</span> <span class="st">"+init=epsg:3857"</span></span>
+<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a><span class="fu">CRS</span>(eastnorth)</span>
+<span id="cb19-8"><a href="#cb19-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-9"><a href="#cb19-9" aria-hidden="true" tabindex="-1"></a>latlongs_mangrove <span class="ot">&lt;-</span> <span class="fu">rasterToPoints</span>(mangrove, <span class="at">spatial =</span> T)</span>
+<span id="cb19-10"><a href="#cb19-10" aria-hidden="true" tabindex="-1"></a>latlongs_mangrove</span>
+<span id="cb19-11"><a href="#cb19-11" aria-hidden="true" tabindex="-1"></a>projected_pts_mangrove <span class="ot">&lt;-</span> <span class="fu">spTransform</span>(latlongs_mangrove, <span class="fu">CRS</span>(eastnorth))</span>
+<span id="cb19-12"><a href="#cb19-12" aria-hidden="true" tabindex="-1"></a>projected_pts_mangrove</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<section id="ejercicios-1" class="level4">
+<h4 class="anchored" data-anchor-id="ejercicios-1">Ejercicios</h4>
+<ul>
+<li>Importa el raster <code>"Landsat_TIR.tif"</code>, que es una imagen TIR (infrarrojo térmico) del satélite Landsat 8 capturada sobre un área de cultivo.</li>
+<li>Supongamos que modelamos los valores TIR mediante regresión lineal para calcular la temperatura real en el suelo, y beta0 fue 0.5 y beta1 fue 0.1 (es decir, y = 0.1x + 0.5). Haz un mapa de temperatura (pista: <code>?calc</code>, y deberás escribir una función).</li>
+<li>Agrega un título y etiquetas de ejes al gráfico, y utiliza colores que tengan sentido para la temperatura.</li>
+<li>Crea un raster coincidente (en extensión y número de píxeles, para la solución más fácil) con códigos de zona (para cada píxel), y luego calcula la temperatura media/desviación estándar en esas zonas (pista: <code>?values</code> y <code>?zonal</code>).</li>
+</ul>
+</section>
+</section>
+<section id="ampliando-el-análisis-de-rasters" class="level3">
+<h3 class="anchored" data-anchor-id="ampliando-el-análisis-de-rasters">Ampliando el análisis de rasters</h3>
+<p>Ahora hagamos un recorrido rápido por los tipos de análisis que podemos realizar, y con suerte, descubramos una comprensión más profunda del análisis de rasters en R.</p>
+<p>Carga algunos datos de SST (temperatura de la superficie del mar) - Feb 2013 para el globo (como un dato aparte, verifica <a href="http://oceancolor.gsfc.nasa.gov/cms/">este enlace</a> para obtener más conjuntos de datos globales marinos geniales:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>sst_feb <span class="ot">&lt;-</span> <span class="fu">raster</span>(<span class="st">"SST_feb_2013.img"</span>)</span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(sst_feb)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="index_files/figure-html/unnamed-chunk-22-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>Recórtalos al Pacífico para poder comparar los datos de manglar</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>pacific_extent <span class="ot">&lt;-</span> <span class="fu">extent</span>(mangrove) <span class="sc">+</span> <span class="dv">80</span> </span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>pacific_extent </span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>sst_feb_crop <span class="ot">&lt;-</span> <span class="fu">crop</span>(sst_feb, pacific_extent) </span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(sst_feb_crop)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Carga los datos de SST promedio a largo plazo para febrero</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>sst_feb_mn <span class="ot">&lt;-</span> <span class="fu">raster</span>(<span class="st">"SST_feb_mean.img"</span>)</span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(sst_feb_mn)</span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>sst_mn_crop <span class="ot">&lt;-</span> <span class="fu">crop</span>(sst_feb_mn, pacific_extent)</span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(sst_mn_crop)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Ahora vamos a crear un mapa de anomalía de SST</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>sst_anomaly <span class="ot">&lt;-</span> sst_feb_crop <span class="sc">-</span> sst_mn_crop </span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(sst_anomaly) </span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(sst_anomaly, <span class="at">col =</span> <span class="fu">rev</span>(<span class="fu">heat.colors</span>(<span class="st">"100"</span>))) </span>
+<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a><span class="fu">contour</span>(sst_anomaly, <span class="at">add =</span> T) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Consultar valores individuales,</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="fu">minValue</span>(sst_anomaly) </span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a><span class="fu">maxValue</span>(sst_anomaly) </span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(sst_anomaly <span class="sc">==</span> <span class="fu">maxValue</span>(sst_anomaly))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>o gráficos/estadísticas para toda la imagen,</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(sst_anomaly <span class="sc">&gt;</span> <span class="dv">1</span>)</span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mar =</span> <span class="fu">c</span>(<span class="dv">3</span>, <span class="dv">3</span>, <span class="dv">3</span>, <span class="dv">3</span>))</span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(sst_anomaly, <span class="at">main =</span> <span class="st">"February SST Anomaly"</span>, <span class="at">xlab =</span> <span class="st">"sst anomaly"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>¡o vamos a ser un poco más ingeniosos!</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>max_anom <span class="ot">&lt;-</span> <span class="fu">which.max</span>(sst_anomaly)</span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>max_xy <span class="ot">&lt;-</span> <span class="fu">xyFromCell</span>(sst_anomaly, max_anom)</span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(sst_anomaly,</span>
+<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">col =</span> <span class="fu">rev</span>(<span class="fu">heat.colors</span>(<span class="st">"100"</span>)),</span>
+<span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">main =</span> <span class="st">"2013 Feb SST anomaly + hottest point"</span></span>
+<span id="cb26-6"><a href="#cb26-6" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb26-7"><a href="#cb26-7" aria-hidden="true" tabindex="-1"></a><span class="fu">points</span>(max_xy, <span class="at">pch =</span> <span class="dv">8</span>, <span class="at">cex =</span> <span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="index_files/figure-html/unnamed-chunk-29-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>¿Muestrear puntos condicionalmente? Claro. Sin embargo, más adelante veremos una mejor forma de hacerlo.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>xy <span class="ot">&lt;-</span> <span class="fu">xyFromCell</span>(sst_anomaly, <span class="fu">sample</span>(<span class="dv">1</span><span class="sc">:</span><span class="fu">ncell</span>(sst_anomaly), <span class="dv">20</span>)) </span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a><span class="fu">points</span>(xy)</span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a><span class="fu">extract</span>(sst_feb, xy)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Prueba también <code>?getValues</code>. Bueno, recapitulemos cómo escribir de nuevo en el disco</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="fu">writeRaster</span>(sst_anomaly, <span class="st">"sst_anomaly.tif"</span>, <span class="at">format =</span> <span class="st">"GTiff"</span>)</span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a><span class="fu">KML</span>(sst_anomaly, <span class="st">"sst_anomaly.kml"</span>)</span>
+<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a><span class="fu">save</span>(sst_anomaly, <span class="at">file =</span> <span class="st">"sst_anomaly_feb.RData"</span>)</span>
+<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a><span class="fu">save</span>(sst_feb_mn, <span class="at">file =</span> <span class="st">"sst_feb_mn.RData"</span>) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>¿Qué sucede con esos dos comandos <code>save()</code>? Algo más que debes entender sobre la forma en que el paquete <code>raster</code> maneja los archivos ráster es que, para los rásteres más grandes, no se almacena todo el archivo en la memoria, sino que es solo un puntero al archivo. Puedes probar si lo es o no.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="fu">inMemory</span>(sst_feb_mn) </span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a><span class="fu">inMemory</span>(sst_anomaly) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Vimos <code>stack()</code> anteriormente, y podemos usarlo para imágenes de múltiples bandas, pero también para apilar diferentes fuentes de información. <code>brick()</code> funciona de la misma manera, excepto que los objetos <code>RasterBrick</code> están diseñados para datos más pequeños, y un <code>RasterBrick</code> solo puede apuntar a un archivo, a diferencia de los objetos <code>RasterStack</code>, que pueden apuntar a varios archivos.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>sst_stack <span class="ot">&lt;-</span> <span class="fu">stack</span>(sst_mn_crop, sst_feb_crop, sst_anomaly)</span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(sst_stack)</span>
+<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a><span class="fu">nlayers</span>(sst_stack)</span>
+<span id="cb30-4"><a href="#cb30-4" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(sst_stack, <span class="dv">2</span>)</span>
+<span id="cb30-5"><a href="#cb30-5" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(sst_stack)[<span class="dv">2</span>] <span class="ot">&lt;-</span> <span class="st">"SST_feb_2013"</span></span>
+<span id="cb30-6"><a href="#cb30-6" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(sst_stack)[<span class="dv">3</span>] <span class="ot">&lt;-</span> <span class="st">"SST_anomaly"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Así que podemos ver por qué eso podría ser útil para diversas aplicaciones de teledetección y modelado.</p>
+</section>
+<section id="modelado-e-interpolación" class="level3">
+<h3 class="anchored" data-anchor-id="modelado-e-interpolación">Modelado e interpolación</h3>
+<p>Ahora veamos un ejemplo rápido de lo que podemos hacer con rásteres en el contexto del modelado de distribución de especies y el modelado espacial. Primero, extraigamos algunos puntos aleatorios; asegúrate de haber ejecutado <code>library(dismo)</code>.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>rpoints_sst <span class="ot">&lt;-</span> <span class="fu">randomPoints</span>(sst_stack, <span class="dv">500</span>) </span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(sst_stack, <span class="dv">2</span>)</span>
+<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a><span class="fu">points</span>(rpoints_sst, <span class="at">pch =</span> <span class="dv">16</span>, <span class="at">cex =</span> <span class="fl">0.7</span>)</span>
+<span id="cb31-4"><a href="#cb31-4" aria-hidden="true" tabindex="-1"></a>sst_samp <span class="ot">&lt;-</span> <span class="fu">extract</span>(sst_stack, rpoints_sst) </span>
+<span id="cb31-5"><a href="#cb31-5" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(sst_samp)</span>
+<span id="cb31-6"><a href="#cb31-6" aria-hidden="true" tabindex="-1"></a>sst_samp <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(sst_samp,</span>
+<span id="cb31-7"><a href="#cb31-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">lat =</span> rpoints_sst[, <span class="dv">2</span>], <span class="at">lon =</span> rpoints_sst[, <span class="dv">1</span>]</span>
+<span id="cb31-8"><a href="#cb31-8" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb31-9"><a href="#cb31-9" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(sst_samp<span class="sc">$</span>SST_anomaly <span class="sc">~</span> sst_samp<span class="sc">$</span>SST_feb_2013)</span>
+<span id="cb31-10"><a href="#cb31-10" aria-hidden="true" tabindex="-1"></a><span class="co"># abline(lm(sst_samp$SST_anomaly ~ sst_samp$SST_feb_2013))</span></span>
+<span id="cb31-11"><a href="#cb31-11" aria-hidden="true" tabindex="-1"></a><span class="co"># plot(mgcv::gam(sst_samp$SST_anomaly ~ s(sst_samp$SST_feb_2013)), resid = T)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>¿Y si tuviéramos algunos datos biológicos reales en esos puntos? Bueno, inventemos algunos y luego ajustemos un modelo a ellos.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a>sst_samp<span class="sc">$</span>shark_abund <span class="ot">&lt;-</span> <span class="fu">rpois</span>(<span class="at">n =</span> <span class="fu">nrow</span>(sst_samp), <span class="at">lambda =</span> <span class="fu">round</span>(sst_samp<span class="sc">$</span>SST_feb_2013))</span>
+<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(sst_samp<span class="sc">$</span>shark_abund <span class="sc">~</span> sst_samp<span class="sc">$</span>SST_feb_2013)</span>
+<span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a>shark_glm <span class="ot">&lt;-</span> <span class="fu">glm</span>(sst_samp<span class="sc">$</span>shark_abund <span class="sc">~</span> sst_samp<span class="sc">$</span>SST_feb_2013 <span class="sc">+</span> sst_samp<span class="sc">$</span>SST_anomaly,</span>
+<span id="cb32-4"><a href="#cb32-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">data =</span> sst_samp, <span class="at">family =</span> <span class="st">"poisson"</span></span>
+<span id="cb32-5"><a href="#cb32-5" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb32-6"><a href="#cb32-6" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(shark_glm)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Por lo general, usaríamos <code>predict()</code> en un objeto de ajuste de modelo, y también podemos usarlo de manera similar para predecir datos ráster.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(<span class="fu">predict</span>(shark_glm, <span class="at">type =</span> <span class="st">"response"</span>))</span>
+<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a>shark_predict <span class="ot">&lt;-</span> <span class="fu">predict</span>(shark_glm, <span class="at">new_data =</span> sst_samp, <span class="at">type =</span> <span class="st">"response"</span>)</span>
+<span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(shark_predict,</span>
+<span id="cb33-4"><a href="#cb33-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">col =</span> <span class="fu">rev</span>(<span class="fu">rainbow</span>(<span class="at">n =</span> <span class="dv">10</span>, <span class="at">start =</span> <span class="dv">0</span>, <span class="at">end =</span> <span class="fl">0.3</span>)),</span>
+<span id="cb33-5"><a href="#cb33-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">main =</span> <span class="st">"Shark abundance as a function of SST"</span></span>
+<span id="cb33-6"><a href="#cb33-6" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="cell-output-display">
+<p><img src="index_files/figure-html/unnamed-chunk-37-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>Vamos a intentar algo diferente, digamos el riesgo de ataque. ¿No se trata solo de la abundancia, sino también de algo más, como su nivel de agresividad o promedio?</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a>sst_samp<span class="sc">$</span>shark_aggression <span class="ot">&lt;-</span> sst_samp<span class="sc">$</span>lat <span class="sc">*</span> <span class="sc">-</span><span class="dv">1</span> </span>
+<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a>sst_samp<span class="sc">$</span>shark_attack <span class="ot">&lt;-</span> <span class="fu">scale</span>(sst_samp<span class="sc">$</span>shark_abund <span class="sc">*</span> sst_samp<span class="sc">$</span>shark_aggression)</span>
+<span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a>attack_lm <span class="ot">&lt;-</span> <span class="fu">lm</span>(shark_attack <span class="sc">~</span> SST_feb_2013 <span class="sc">+</span> SST_anomaly,</span>
+<span id="cb34-4"><a href="#cb34-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">data =</span> sst_samp</span>
+<span id="cb34-5"><a href="#cb34-5" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb34-6"><a href="#cb34-6" aria-hidden="true" tabindex="-1"></a>shark_attack <span class="ot">&lt;-</span> <span class="fu">predict</span>(sst_stack, attack_lm, <span class="at">type =</span> <span class="st">"response"</span>)</span>
+<span id="cb34-7"><a href="#cb34-7" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(shark_attack,</span>
+<span id="cb34-8"><a href="#cb34-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">col =</span> <span class="fu">rev</span>(<span class="fu">rainbow</span>(<span class="at">n =</span> <span class="dv">10</span>, <span class="at">start =</span> <span class="dv">0</span>, <span class="at">end =</span> <span class="fl">0.3</span>)),</span>
+<span id="cb34-9"><a href="#cb34-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">main =</span> <span class="st">"Shark attack index!"</span></span>
+<span id="cb34-10"><a href="#cb34-10" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="index_files/figure-html/unnamed-chunk-38-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>Este es un ejemplo rápido y tonto. Si fuéramos menos perezosos, podríamos crear una nueva pila de imágenes con las predicciones de abundancia y los valores de latitud, extraer las muestras aleatorias nuevamente y volver a ajustar el modelo y las predicciones.</p>
+<section id="ejercicios-2" class="level4">
+<h4 class="anchored" data-anchor-id="ejercicios-2">Ejercicios</h4>
+<ul>
+<li>Intenta generar algunas estadísticas (valores o gráficos) para la anomalía de la SST en diferentes regiones, ya sea en todo el mundo o en Australia.</li>
+<li>Prueba algunas operaciones matemáticas de bandas o algunas declaraciones condicionales utilizando múltiples raster o un RasterStack.</li>
+<li>Crea otro escenario de SDM, ya sea utilizando datos descargados o datos totalmente simulados.</li>
+<li>Si solo tuviéramos los datos físicos en algunos puntos y quisiéramos convertirlos en un mapa de SST ponderado geográficamente o interpolado, podrías muestrear algunos de los puntos y luego usar <code>library(gstat)</code> para probar una interpolación IDW (ponderada por distancia inversa). Realiza algunas interpolaciones, variando la cantidad de puntos utilizados, y observa cómo afecta a tu producto interpolado.</li>
+</ul>
+</section>
+</section>
+<section id="algo-más-para-investigar" class="level3">
+<h3 class="anchored" data-anchor-id="algo-más-para-investigar">Algo más para investigar</h3>
+<p>Algunos de los paquetes comúnmente utilizados para el análisis de datos espaciales.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(sp) </span>
+<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(maps)</span>
+<span id="cb35-3"><a href="#cb35-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(rasterVis)</span>
+<span id="cb35-4"><a href="#cb35-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(maptools)</span>
+<span id="cb35-5"><a href="#cb35-5" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(mapproj)</span>
+<span id="cb35-6"><a href="#cb35-6" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(rgeos) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>También podrías intentar obtener datos climáticos bioclimáticos utilizando la función <code>getData()</code> del paquete <code>raster</code>, o obtener varios tipos de mapas utilizando la función <code>gmap()</code> del paquete <code>dismo</code> o la función <code>map</code> del paquete <code>maps</code>. Si visitas la página de GitHub de este tutorial, encontrarás algunas respuestas a los ejercicios, además de algunos extras relacionados con las sugerencias anteriores.</p>
+<p><strong>Autor</strong>: Mitchell Lyons</p>
+<p><strong>Año</strong>: 2017</p>
+<p><strong>Última actualización</strong>: Nov.&nbsp;2023</p>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const disableStylesheet = (stylesheets) => {
+    for (let i=0; i < stylesheets.length; i++) {
+      const stylesheet = stylesheets[i];
+      stylesheet.rel = 'prefetch';
+    }
+  }
+  const enableStylesheet = (stylesheets) => {
+    for (let i=0; i < stylesheets.length; i++) {
+      const stylesheet = stylesheets[i];
+      stylesheet.rel = 'stylesheet';
+    }
+  }
+  const manageTransitions = (selector, allowTransitions) => {
+    const els = window.document.querySelectorAll(selector);
+    for (let i=0; i < els.length; i++) {
+      const el = els[i];
+      if (allowTransitions) {
+        el.classList.remove('notransition');
+      } else {
+        el.classList.add('notransition');
+      }
+    }
+  }
+  const toggleColorMode = (alternate) => {
+    // Switch the stylesheets
+    const alternateStylesheets = window.document.querySelectorAll('link.quarto-color-scheme.quarto-color-alternate');
+    manageTransitions('#quarto-margin-sidebar .nav-link', false);
+    if (alternate) {
+      enableStylesheet(alternateStylesheets);
+      for (const sheetNode of alternateStylesheets) {
+        if (sheetNode.id === "quarto-bootstrap") {
+          toggleBodyColorMode(sheetNode);
+        }
+      }
+    } else {
+      disableStylesheet(alternateStylesheets);
+      toggleBodyColorPrimary();
+    }
+    manageTransitions('#quarto-margin-sidebar .nav-link', true);
+    // Switch the toggles
+    const toggles = window.document.querySelectorAll('.quarto-color-scheme-toggle');
+    for (let i=0; i < toggles.length; i++) {
+      const toggle = toggles[i];
+      if (toggle) {
+        if (alternate) {
+          toggle.classList.add("alternate");     
+        } else {
+          toggle.classList.remove("alternate");
+        }
+      }
+    }
+    // Hack to workaround the fact that safari doesn't
+    // properly recolor the scrollbar when toggling (#1455)
+    if (navigator.userAgent.indexOf('Safari') > 0 && navigator.userAgent.indexOf('Chrome') == -1) {
+      manageTransitions("body", false);
+      window.scrollTo(0, 1);
+      setTimeout(() => {
+        window.scrollTo(0, 0);
+        manageTransitions("body", true);
+      }, 40);  
+    }
+  }
+  const isFileUrl = () => { 
+    return window.location.protocol === 'file:';
+  }
+  const hasAlternateSentinel = () => {  
+    let styleSentinel = getColorSchemeSentinel();
+    if (styleSentinel !== null) {
+      return styleSentinel === "alternate";
+    } else {
+      return false;
+    }
+  }
+  const setStyleSentinel = (alternate) => {
+    const value = alternate ? "alternate" : "default";
+    if (!isFileUrl()) {
+      window.localStorage.setItem("quarto-color-scheme", value);
+    } else {
+      localAlternateSentinel = value;
+    }
+  }
+  const getColorSchemeSentinel = () => {
+    if (!isFileUrl()) {
+      const storageValue = window.localStorage.getItem("quarto-color-scheme");
+      return storageValue != null ? storageValue : localAlternateSentinel;
+    } else {
+      return localAlternateSentinel;
+    }
+  }
+  let localAlternateSentinel = 'default';
+  // Dark / light mode switch
+  window.quartoToggleColorScheme = () => {
+    // Read the current dark / light value 
+    let toAlternate = !hasAlternateSentinel();
+    toggleColorMode(toAlternate);
+    setStyleSentinel(toAlternate);
+  };
+  // Ensure there is a toggle, if there isn't float one in the top right
+  if (window.document.querySelector('.quarto-color-scheme-toggle') === null) {
+    const a = window.document.createElement('a');
+    a.classList.add('top-right');
+    a.classList.add('quarto-color-scheme-toggle');
+    a.href = "";
+    a.onclick = function() { try { window.quartoToggleColorScheme(); } catch {} return false; };
+    const i = window.document.createElement("i");
+    i.classList.add('bi');
+    a.appendChild(i);
+    window.document.body.appendChild(a);
+  }
+  // Switch to dark mode if need be
+  if (hasAlternateSentinel()) {
+    toggleColorMode(true);
+  } else {
+    toggleColorMode(false);
+  }
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="../../../graphics/multivariate-vis/heatmaps/index.html" class="pagination-link">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Heatmaps - Mapa de Calor</span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="../../../graphics/spatial-vis/simple-maps/index.html" class="pagination-link">
+        <span class="nav-page-text">Mapas simples con ggmap</span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">
+      &nbsp;
+    </div>   
+    <div class="nav-footer-center">
+      &nbsp;
+    </div>
+    <div class="nav-footer-right">Environmental Computing - Spanish | Made with <a href="https://quarto.org/">Quarto</a>.</div>
+  </div>
+</footer>
+
+
+
+</body></html>

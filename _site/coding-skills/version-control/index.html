@@ -1,0 +1,1132 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.3.340">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Environmental Computing - Control de versiones</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+</style>
+
+
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../">
+<link href="../../coding-skills/writing-functions/index.html" rel="next">
+<link href="../../coding-skills/loops/index.html" rel="prev">
+<link href="../../images/favicon.png" rel="icon" type="image/png">
+<script src="../../site_libs/quarto-html/quarto.js"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-dark.css" rel="prefetch" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../../site_libs/bootstrap/bootstrap-dark.min.css" rel="prefetch" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit"
+  }
+}</script>
+
+
+<link rel="stylesheet" href="../../styles.css">
+</head>
+
+<body class="nav-sidebar docked">
+
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../coding-skills/index.html">Habilidades de programación</a></li><li class="breadcrumb-item"><a href="../../coding-skills/version-control/index.html">Control de versiones</a></li></ol></nav>
+      <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+      </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal sidebar-navigation docked overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+      <a href="../../index.html" class="sidebar-logo-link">
+      <img src="../../images/hexsticker_EC.png" alt="" class="sidebar-logo py-0 d-lg-inline d-none">
+      </a>
+      <div class="sidebar-tools-main">
+  <a href="" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="Toggle dark mode"><i class="bi"></i></a>
+</div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Bienvenido a Environmental Computing</span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="../../getting-started-with-r/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Empezando con R</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../getting-started-with-r/data-entry/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Estructura de una base de datos - Data Entry</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../getting-started-with-r/data-types-structure/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Tipos de datos + Estructura</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../getting-started-with-r/importing-data/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Importing Data</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../getting-started-with-r/installing-r-rstudio/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Instalando R y RStudio</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../getting-started-with-r/project-management/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Gestión de proyectos</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../getting-started-with-r/rstudio-notebooks/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Utilizando R Notebooks</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="../../data-manipulation/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Manipulación de Datos</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../data-manipulation/combining-datasets/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Combinando conjuntos de datos.</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../data-manipulation/making-new-variables/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Creación de nuevas variables</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../data-manipulation/reshaping-data/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Reorganización de datos</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../data-manipulation/subsetting-data/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Subconjuntos de datos</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../data-manipulation/summarising-data/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Resumiendo datos</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="../../coding-skills/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Habilidades de programación</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../coding-skills/asking-code-questions/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Preguntas sobre código</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../coding-skills/good-practice/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Buenas prácticas de codificación</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../coding-skills/loops/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Usando bucles</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../coding-skills/version-control/index.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text">Control de versiones</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../coding-skills/writing-functions/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Funciones</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="../../graphics/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Gráficos</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../graphics/basic-plotting/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Gráficos básicos en R</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../graphics/basic-plotting/one-continuous-one-factor/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Una Variable Continua y una Variable Categórica</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../graphics/basic-plotting/one-continuous/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Una Variable Continua</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../graphics/basic-plotting/two-continuous/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Dos Variables Continuas</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../graphics/ggplot/ggplot-appearance/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Personalización de un gráfico en ggplot</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../graphics/ggplot/ggplot-barplot/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Gráfico de barras con barras de error</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../graphics/ggplot/ggplot-basics/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Fundamentos de ggplot2</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../graphics/ggplot/ggplot-colour-shapes/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Colores y formas</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../graphics/ggplot/ggplot-labels/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Títulos y etiquetas de ejes</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../graphics/ggplot/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Gráficos en R con ggplot2</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../graphics/multivariate-vis/cluster-analysis/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Análisis de Clúster</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../graphics/multivariate-vis/heatmaps/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Heatmaps - Mapa de Calor</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../graphics/multivariate-vis/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Datos Multivariados</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../graphics/multivariate-vis/mds/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Escalamiento multidimensional</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../graphics/multivariate-vis/pca/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Análisis de Componentes Principales</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../graphics/spatial-vis/basic-raster/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Los fundamentos de los Rasters</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../graphics/spatial-vis/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Datos espaciales</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../graphics/spatial-vis/interactive/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Mapas interactivos en R</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../graphics/spatial-vis/simple-maps/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Mapas simples con ggmap</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="../../statistics/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Statistics</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-5" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../statistics/categorical/contingency-tables/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Tablas de contingencia</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../statistics/categorical/fishers-exact/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Prueba Exacta de Fisher</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../statistics/categorical/goodness-of-fit/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Prueba de bondad de ajuste</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../statistics/categorical/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Análisis de datos categóricos</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../statistics/gams/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Modelos Aditivos Generalizados (GAM)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../statistics/glms/glm-1/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Introducción y Datos Binarios</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../statistics/glms/glm-2/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Datos de recuento</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../statistics/glms/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Modelos Lineales Generalizados (GLM)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../statistics/glms/interpret-glm-coeffs/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Interpretación de los GLMs</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../statistics/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Statistics</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../statistics/linear-models/anova/anova-factorial/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">ANOVA Factorial</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../statistics/linear-models/anova/anova-nested/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">ANOVA anidado</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../statistics/linear-models/anova/anova-single/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">ANOVA de un solo factor</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../statistics/linear-models/anova/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">ANOVA</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../statistics/linear-models/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Modelos Lineales</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../statistics/linear-models/interactions/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Comprensión de las interacciones</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../statistics/linear-models/linear-regression/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Regresión Lineal</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../statistics/linear-models/linear-regression/interpret-lm-coeffs/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Interpretación de Regresiones Lineales</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../statistics/meta-analysis/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Meta-Análisis</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../statistics/meta-analysis/meta-analysis-1/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Introduction al meta-análisis</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../statistics/meta-analysis/meta-analysis-2/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Fixed-effect and Random-effect Models</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../statistics/meta-analysis/meta-analysis-3/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Multilevel Models</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../statistics/mixed-models/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Mmodelos mixtos</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../statistics/mixed-models/mixed-model-1/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Introducción</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../statistics/mixed-models/mixed-model-2/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Factores Cruzados y Anidados</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../statistics/mixed-models/mixed-model-3/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Modelos mixtos generalizados</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../statistics/mvabund/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Análisis multivariado con mvabund</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../statistics/power-analysis/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Power Analyses</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../statistics/t-tests/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">T-tests</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../statistics/t-tests/one-sample-t-test/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Prueba de una muestra con t de Student</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../statistics/t-tests/paired-t-test/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">T-test emparejado</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../statistics/t-tests/two-sample-t-test/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Two Sample T-test</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../statistics/time-series/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Predicción de series temporales</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="../../datasets/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Datasets</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-6" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../datasets/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Datasets</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#ventajas-desventajas-y-soluciones" id="toc-ventajas-desventajas-y-soluciones" class="nav-link active" data-scroll-target="#ventajas-desventajas-y-soluciones">Ventajas, desventajas y soluciones</a></li>
+  <li><a href="#cómo-funciona" id="toc-cómo-funciona" class="nav-link" data-scroll-target="#cómo-funciona">Cómo funciona</a></li>
+  <li><a href="#rastreo-de-archivos-y-envío-a-la-nube" id="toc-rastreo-de-archivos-y-envío-a-la-nube" class="nav-link" data-scroll-target="#rastreo-de-archivos-y-envío-a-la-nube">Rastreo de archivos y envío a la nube</a></li>
+  <li><a href="#ayuda-adicional" id="toc-ayuda-adicional" class="nav-link" data-scroll-target="#ayuda-adicional">Ayuda adicional</a></li>
+  </ul>
+<div class="toc-actions"><div><i class="bi bi-github"></i></div><div class="action-links"><p><a href="https://github.com/PaulESantos/environmentalcomputingsp/edit/main/coding-skills/version-control/index.qmd" class="toc-action">Edit this page</a></p><p><a href="https://github.com/PaulESantos/environmentalcomputingsp/issues/new" class="toc-action">Report an issue</a></p></div></div></nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Control de versiones</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+</header>
+
+<section id="ventajas-desventajas-y-soluciones" class="level3">
+<h3 class="anchored" data-anchor-id="ventajas-desventajas-y-soluciones">Ventajas, desventajas y soluciones</h3>
+<p>Fundamental para la organización de proyectos es mantener un conjunto consistente, uniforme y simple de archivos de trabajo que puedan ser comprendidos por tu futuro yo, colaboradores y personas interesadas que deseen reproducir tus análisis o reutilizar tu código o datos. Sin embargo, ¡para proyectos complejos con muchos colaboradores, mantener la limpieza y hacer un seguimiento de los cambios en los archivos puede ser muy desafiante!</p>
+<p>Si bien los servicios de intercambio de archivos como Dropbox son fáciles de usar y pueden mantener un conjunto consistente de archivos en tu(s) computadora(s) y/o entre colaboradores, tienen algunas desventajas graves. Específicamente, no pueden decirte qué ha cambiado dentro de los archivos. Tampoco pueden manejar conflictos entre archivos cuando tú y tus colaboradores están trabajando al mismo tiempo en las mismas cosas. Esto a menudo lleva a acumular archivos que nadie parece saber para qué son o en qué se diferencian. Su capacidad limitada para rastrear archivos eliminados también lleva a una acumulación de archivos “demasiado temerosos para eliminar”. A medida que los proyectos se desarrollan, estos se convierten en documentos y pasan por innumerables rondas de revisiones. Un poco de organización puede evitar que el caos se agrave y mantener la reproducibilidad (tanto para ti como para otros) a través de todos los cambios.</p>
+<p>Idealmente, sería bueno poder ver fácilmente el conjunto actual (y esperemos que el mejor) de archivos, pero también poder ver quién los ha cambiado y qué partes específicas de los archivos se han modificado. Mantener un registro de la evolución de un proyecto en particular también es importante para poder resolver rápidamente los problemas cuando (no si) surjan. Configurar tus proyectos bajo un sistema de control de versiones te permite hacer todo lo anterior y más.</p>
+<p><strong>Ventajas.</strong> Las principales ventajas de usar control de versiones en lugar de simplemente usar Dropbox incluyen:</p>
+<ol type="1">
+<li><p>Hace un seguimiento de todos los archivos relevantes para un proyecto específico y/o que son necesarios para su reproducibilidad al asignarles un identificador único.</p></li>
+<li><p>Documenta la evolución de cada archivo en un proyecto, incluidos datos, manuscritos y código, al permitir al usuario asignar una etiqueta de confirmación que describe cómo se modificó el archivo.</p></li>
+<li><p>Indica automáticamente quién, cuándo y dónde se modificó un archivo específico, identificando las ubicaciones dentro del texto que han cambiado.</p></li>
+<li><p>Mantiene un historial registrado de todos los archivos modificados, lo que te permite retroceder en el tiempo para ver versiones antiguas de archivos o el estado del proyecto en un momento anterior.</p></li>
+<li><p>Fusiona automáticamente archivos en los que tú y tus colaboradores están trabajando al mismo tiempo e introduce marcadores de conflicto en el texto del archivo si se han editado las mismas líneas. Esto te obliga a lidiar y corregir los conflictos de inmediato.</p></li>
+<li><p>Facilita la ejecución de análisis y scripts en servidores.</p></li>
+<li><p>Promueve una colaboración más fácil entre los miembros del laboratorio y los coautores al mantener los archivos sincronizados y anotados en diversas plataformas.</p></li>
+<li><p>Facilita mucho al final de un proyecto compartir y almacenar rápidamente los datos y el código relevantes para reproducir el proyecto (análisis, artículo, etc.), lo cual es a menudo un requisito previo necesario para su publicación.</p></li>
+<li><p>Facilita corregir errores dentro de un proyecto al permitirte localizar al colega relevante (o viceversa) cuando surgen problemas después de actualizaciones o cambios.</p></li>
+<li><p>Te obliga a pensar en las partes relevantes del proyecto que son esenciales para su reproducibilidad y te permite personalizar lo que se rastrea.</p></li>
+</ol>
+<p><strong>Desventajas.</strong> Aunque lo anterior es definitivamente atractivo, el control de versiones y git tienen algunas desventajas. Primero, en algún momento necesitarás dedicar un poco de tiempo a programar antes y después del trabajo diario. Aunque la pequeña inversión de tiempo para hacer esto vale mucho la pena a largo plazo. Segundo, la programación adicional puede dificultar que los colaboradores se familiaricen y comiencen a utilizar un sistema de control de versiones. No todos estarán tan familiarizados con la terminal o la línea de comandos, lo que puede crear barreras de entrada.</p>
+<p><strong>Soluciones.</strong> Afortunadamente, existen soluciones muy fáciles y simples para muchos de los problemas mencionados anteriormente. Por ejemplo, ahora hay interfaces de usuario gráficas (GUI) muy útiles y fáciles de usar, como <a href="https://www.sourcetreeapp.com">SourceTree</a>, que eliminan la necesidad de utilizar la línea de comandos por completo, facilitan y simplifican la configuración de repositorios y son multiplataforma (es decir, Windows, Mac, etc.).</p>
+</section>
+<section id="cómo-funciona" class="level3">
+<h3 class="anchored" data-anchor-id="cómo-funciona">Cómo funciona</h3>
+<p>Dado que no todos querrán usar la línea de comandos, mostraremos algunos conceptos básicos utilizando tanto la línea de comandos como una GUI (SourceTree). Haremos esto porque creemos que los beneficios de utilizar el control de versiones superan con creces los costos de no utilizarlo, por lo que esto debería permitir que la mayoría de las personas comiencen de inmediato.</p>
+<p>También demostraremos cómo se relaciona la línea de comandos con la GUI. No cubriremos temas importantes como <a href="https://help.github.com/articles/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent/">configurar claves SSH</a>, <a href="https://git-scm.com/book/en/v2/Getting-Started-First-Time-Git-Setup">configurar un archivo gitconfig</a>, <a href="https://help.github.com/articles/resolving-a-merge-conflict-from-the-command-line/">resolver conflictos</a>, los cuales se explican detalladamente en otros lugares. En cambio, proporcionaremos una descripción general básica de cómo configurar un repositorio y el funcionamiento diario del seguimiento de archivos del proyecto.</p>
+<p><strong>Configuración de un repositorio.</strong></p>
+<p>Para comenzar a rastrear archivos de un proyecto, necesitamos configurar un repositorio de proyecto que mantenga todos los archivos relevantes (es decir, datos, metadatos, código, funciones, manuscritos, etc.) en un solo lugar. El directorio del proyecto será la base de un proyecto reproducible (consultar <a href="../../../getting-started-with-r/project-management">gestión de proyectos</a> para más detalles).</p>
+<p>Para aprovechar al máximo el control de versiones, queremos tener tanto una copia local (en tu computadora) como una copia remota (en la nube) de nuestro repositorio. Hay varios sitios de alojamiento que te permitirán crear un repositorio en la nube, incluyendo <a href="https://github.com">GitHub</a> y <a href="https://bitbucket.org">BitBucket</a>. Bitbucket te permite crear repositorios privados de forma gratuita, mientras que todo en GitHub es público (aunque puedes pagar por repositorios privados).</p>
+<p>Para configurar un servidor remoto, primero deberás crear una cuenta en uno de estos sitios de alojamiento. Una vez que hayas terminado, también deberás descargar e instalar <a href="https://git-scm.com">Git</a> (si usas la línea de comandos), que es el sistema de control de versiones que utilizaremos. Crear un repositorio en línea es fácil, inicia sesión en tu cuenta y ve a <code>Repositories</code> -&gt; <code>Create new repository</code>. Dale un nombre y eso es todo, si estás en Bitbucket, literalmente te dirá qué hacer a continuación en la línea de comandos (Figura 1 y 2).</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="Version_control_Fig1.png" class="img-fluid figure-img"></p>
+<figcaption class="figure-caption"><strong>Figura 1</strong> - Configuración de un repositorio para un proyecto en Bitbucket</figcaption>
+</figure>
+</div>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="Version_control_Fig1B.png" class="img-fluid figure-img"></p>
+<figcaption class="figure-caption"><strong>Figura 2</strong> - Explicación de Bitbucket sobre cómo vincular el repositorio en el servidor a un repositorio local. Ver también la Figura 4 a continuación</figcaption>
+</figure>
+</div>
+<p>Si estás usando la línea de comandos, simplemente navega hasta el lugar donde deseas que se encuentre la carpeta y escribe los comandos de la Figura 2 anterior. También te guiará a través de algunos pasos importantes sobre cómo funciona Git, pero abordaremos eso más adelante. El <strong>componente clave</strong> de este repositorio que se necesita para configurarlo y conectarlo a una carpeta en tu computadora es la ruta de acceso ssh o http:</p>
+<p><strong><code>https://UNSW_EnvComp@bitbucket.org/UNSW_EnvComp/unsw_envcomp.git</code></strong>.</p>
+<p>Este nombre de ruta de acceso establecerá la conexión entre una carpeta de proyecto local (es decir, una carpeta en tu computadora) y la existente en el servidor (es decir, Bitbucket). También te permitirá clonar el repositorio completo en tu computadora si es necesario. Si deseas clonar el repositorio en tu computadora, usa la línea de comandos para navegar hasta donde deseas que se encuentre la carpeta y escribe lo siguiente:</p>
+<p><code>git clone https://UNSW_EnvComp@bitbucket.org/UNSW_EnvComp/unsw_envcomp.git</code></p>
+<p>Esto copiará efectivamente desde el servidor todo tu repositorio en la ubicación que desees y es casi idéntico a los comandos sugeridos en la Figura 2. También creará automáticamente una conexión entre tu directorio local y el servidor. También puedes proporcionar esta ruta a tus colaboradores, y siempre que se les dé acceso de lectura y escritura al repositorio (se puede cambiar en la configuración del repositorio en línea), también podrán obtener todo desde el servidor de la misma manera descrita anteriormente.</p>
+<p>Crear un repositorio en SourceTree también es bastante fácil. Una vez que tengas la ruta para tu repositorio, ve a SourceTree, haz clic en <code>"New Repository"</code> -&gt; <code>"Clone from URL"</code> (Figura 3). Agrega la ruta ssh o http://, decide dónde deseas que viva el repositorio en tu computadora y luego haz clic en <code>"clone"</code>. Esto descargará los contenidos del repositorio (si no está vacío) y configurará esta conexión en SourceTree para que puedas comenzar a rastrear y enviar al servidor. Si el repositorio ya existe en tu computadora y deseas agregarlo a SourceTree, simplemente haz clic en <code>"Add existing local repository"</code> en lugar de <code>"Clone from URL"</code>.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="Version_control_Fig31.png" class="img-fluid figure-img"></p>
+<figcaption class="figure-caption"><strong>Figura 3</strong> - Configurando un repositorio en tu computadora en SourceTree</figcaption>
+</figure>
+</div>
+</section>
+<section id="rastreo-de-archivos-y-envío-a-la-nube" class="level3">
+<h3 class="anchored" data-anchor-id="rastreo-de-archivos-y-envío-a-la-nube">Rastreo de archivos y envío a la nube</h3>
+<p>Ahora que estás configurado y has clonado o iniciado un repositorio en una carpeta local, el truco está en hacer un seguimiento de los archivos importantes, como datos, código R y documentos (es decir, .Rmd, .md, .txt, etc.). ¿Cómo hace esto Git? Bueno, básicamente hay un conjunto de comandos clave que se necesitan y que se implementan continuamente para realizar un seguimiento de los archivos nuevos o modificados. Utilizas estos comandos al final de tu día de trabajo o cuando hayas realizado un gran avance y quieras enviar los cambios al servidor lo antes posible. Los comandos clave y su orden de ejecución son los siguientes:</p>
+<ol type="1">
+<li><p>Consigue una taza grande de café (o té).</p></li>
+<li><p>Este comando obtiene los nuevos archivos del servidor.</p></li>
+</ol>
+<ul>
+<li><em><code>git pull</code></em></li>
+</ul>
+<ol start="3" type="1">
+<li>Realiza una serie de acciones en los archivos del proyecto y luego verifica qué ha cambiado.</li>
+</ol>
+<ul>
+<li><em><code>git status</code></em></li>
+</ul>
+<ol start="4" type="1">
+<li>Agrega un archivo modificado o no rastreado al área de preparación. Reemplaza <code>"nombre de archivo"</code> con la ruta y el nombre del archivo (por ejemplo, <code>"/R/function.R"</code>). También puedes agregar muchos archivos a la vez usando <code>"--all"</code> en lugar de <code>"nombre de archivo"</code>.</li>
+</ol>
+<ul>
+<li><em><code>git add nombre_de_archivo</code></em></li>
+</ul>
+<ol start="5" type="1">
+<li>Una vez agregado, deja un mensaje sobre qué hace el archivo, cómo ha cambiado, etc.</li>
+</ol>
+<ul>
+<li><em><code>git commit -m "agrega un mensaje sobre los cambios en el archivo"</code></em></li>
+</ul>
+<ol start="6" type="1">
+<li>Envía los cambios al servidor.</li>
+</ol>
+<ul>
+<li><em><code>git push</code></em></li>
+</ul>
+<ol start="7" type="1">
+<li>¡Ve a casa y relájate! Tu proyecto está bajo control de versiones.</li>
+</ol>
+<p>Los procedimientos paso a paso mencionados anteriormente se utilizan cuando deseas realizar un seguimiento de los cambios, y estos comandos se escriben literalmente en la línea de comandos en el orden presentado (ver Figura 4). El Paso 2 solo es necesario al comenzar a trabajar en el directorio y recuperará cualquier cambio que los colaboradores hayan realizado y que aún no conozcas. Si eres el único que trabaja en el proyecto y solo usas una computadora, entonces el Paso 2 es opcional porque tu directorio local siempre tendrá los archivos más actualizados.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="Version_control_Fig3.png" class="img-fluid figure-img"></p>
+<figcaption class="figure-caption"><strong>Figura 4</strong> - Ejemplo de secuencia de pasos en la ventana de la Terminal. Los comandos están resaltados en azul y muestran cómo inicializar un nuevo repositorio, hacer seguimiento de archivos no rastreados, agregar esos archivos y confirmarlos y enviarlos al servidor.</figcaption>
+</figure>
+</div>
+<p>SourceTree hace todo esto mucho más fácil al proporcionarte una serie de casillas de selección y botones que puedes utilizar para hacer todo esto muy rápidamente. Para agregar un archivo para realizar su seguimiento, simplemente haz clic en las casillas de los archivos relevantes (o en todas) en el área de “Archivos sin preparar” (Figura 5). Una vez que hayas seleccionado todas las casillas, los archivos estarán en el área de “Archivos preparados”. Esto es equivalente a <em><code>git add</code></em> en la línea de comandos. Ahora están listos para ser confirmados, y puedes dejar un mensaje de confirmación en la ventana en la parte inferior de la pantalla y hacer clic en el botón <code>Commit</code> en la esquina derecha. Esto es equivalente a <code>git commit -m "mensaje"</code> en la línea de comandos.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="Version_control_Fig4.png" class="img-fluid figure-img"></p>
+<figcaption class="figure-caption"><strong>Figura 5</strong> - Ejemplo de cómo agregar, confirmar y enviar en SourceTree</figcaption>
+</figure>
+</div>
+<p>Una vez que tus archivos hayan sido confirmados, los archivos listos para ser enviados aparecerán en el botón “Push” en la parte superior de la pantalla (Figura 5). Haz clic en esto y serán movidos al servidor. A medida que edites y agregues archivos, nuevos archivos aparecerán en el área de preparación y simplemente puedes repetir la secuencia anterior para agregar, confirmar y enviar estos al servidor. El botón “Pull” corresponde al paso dos en la secuencia de Git mencionada anteriormente y siempre debe ser utilizado al inicio del día si estás trabajando con colaboradores.</p>
+<p><strong>Ignorar archivos que no deseas rastrear</strong></p>
+<p>En muchos casos, habrá archivos dentro de un proyecto que no deseas rastrear. Esto puede ser porque no son necesarios para la reproducibilidad del proyecto, o son archivos solo para ti y no necesarios para tus colaboradores. Estos podrían incluir notas útiles relevantes solo para ti, documentos en los que estás interesado o incluso archivos de salida grandes. Estos archivos no necesitan ser rastreados, por ejemplo, puede que no haya necesidad de rastrear figuras y tablas, ya que en muchos casos se pueden regenerar a partir del código del proyecto y ocupan mucho espacio en el servidor. Ignorar estos archivos es fácil usando lo que se llama un archivo <code>.gitignore</code>. El “.” al inicio del archivo significa que está oculto y no se mostrará en un directorio de trabajo normal. Afortunadamente, Git y SourceTree reconocerán estos archivos. El <code>.gitignore</code> es un archivo que se mantiene en el directorio principal de la carpeta de tu proyecto y generalmente se rastrea. Puedes crear un archivo <code>.gitignore</code> fácilmente en la línea de comandos utilizando algunas líneas de código (Figura 6).</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="Version_control_Fig5.png" class="img-fluid figure-img"></p>
+<figcaption class="figure-caption"><strong>Figura 6</strong> - Ejemplo de cómo crear un archivo .gitignore e ignorar la carpeta de fotos/ del repositorio imaginario de Git</figcaption>
+</figure>
+</div>
+<p>En la Figura 6, he ignorado una carpeta “photos/”. Podemos ver que ahora desaparece (comparado con la Figura 4) de nuestra área de preparación en la ventana de Terminal. Simplemente podemos agregar cualquier archivo o carpeta que no queremos rastrear aquí antes de agregarlo para que Git los ignore. Si queremos comenzar a rastrear un archivo que hemos ignorado, simplemente abre el archivo .gitignore en un editor de texto y elimina el archivo que deseas rastrear. Guarda el archivo .gitignore y luego agrega, commit y push como se menciona anteriormente.</p>
+</section>
+<section id="ayuda-adicional" class="level3">
+<h3 class="anchored" data-anchor-id="ayuda-adicional">Ayuda adicional</h3>
+<p>Los sistemas de control de versiones, y Git en particular, pueden hacer mucho más de lo que hemos cubierto anteriormente. Hemos proporcionado una breve introducción sobre cómo comenzar y usar Git para rastrear los archivos de tu proyecto. Si deseas saber más sobre cómo crear ramas, manejar conflictos y muchas otras características útiles, puedes visitar la página web de <a href="https://git-scm.com">Git</a>, donde encontrarás toda la información relevante para realizar tareas más avanzadas.</p>
+<p><strong>Autor</strong>: Daniel Noble</p>
+<p><strong>Año:</strong> 2016</p>
+<p><strong>Última actualización:</strong> <code>r format(Sys.time(), "%b %Y")</code></p>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const disableStylesheet = (stylesheets) => {
+    for (let i=0; i < stylesheets.length; i++) {
+      const stylesheet = stylesheets[i];
+      stylesheet.rel = 'prefetch';
+    }
+  }
+  const enableStylesheet = (stylesheets) => {
+    for (let i=0; i < stylesheets.length; i++) {
+      const stylesheet = stylesheets[i];
+      stylesheet.rel = 'stylesheet';
+    }
+  }
+  const manageTransitions = (selector, allowTransitions) => {
+    const els = window.document.querySelectorAll(selector);
+    for (let i=0; i < els.length; i++) {
+      const el = els[i];
+      if (allowTransitions) {
+        el.classList.remove('notransition');
+      } else {
+        el.classList.add('notransition');
+      }
+    }
+  }
+  const toggleColorMode = (alternate) => {
+    // Switch the stylesheets
+    const alternateStylesheets = window.document.querySelectorAll('link.quarto-color-scheme.quarto-color-alternate');
+    manageTransitions('#quarto-margin-sidebar .nav-link', false);
+    if (alternate) {
+      enableStylesheet(alternateStylesheets);
+      for (const sheetNode of alternateStylesheets) {
+        if (sheetNode.id === "quarto-bootstrap") {
+          toggleBodyColorMode(sheetNode);
+        }
+      }
+    } else {
+      disableStylesheet(alternateStylesheets);
+      toggleBodyColorPrimary();
+    }
+    manageTransitions('#quarto-margin-sidebar .nav-link', true);
+    // Switch the toggles
+    const toggles = window.document.querySelectorAll('.quarto-color-scheme-toggle');
+    for (let i=0; i < toggles.length; i++) {
+      const toggle = toggles[i];
+      if (toggle) {
+        if (alternate) {
+          toggle.classList.add("alternate");     
+        } else {
+          toggle.classList.remove("alternate");
+        }
+      }
+    }
+    // Hack to workaround the fact that safari doesn't
+    // properly recolor the scrollbar when toggling (#1455)
+    if (navigator.userAgent.indexOf('Safari') > 0 && navigator.userAgent.indexOf('Chrome') == -1) {
+      manageTransitions("body", false);
+      window.scrollTo(0, 1);
+      setTimeout(() => {
+        window.scrollTo(0, 0);
+        manageTransitions("body", true);
+      }, 40);  
+    }
+  }
+  const isFileUrl = () => { 
+    return window.location.protocol === 'file:';
+  }
+  const hasAlternateSentinel = () => {  
+    let styleSentinel = getColorSchemeSentinel();
+    if (styleSentinel !== null) {
+      return styleSentinel === "alternate";
+    } else {
+      return false;
+    }
+  }
+  const setStyleSentinel = (alternate) => {
+    const value = alternate ? "alternate" : "default";
+    if (!isFileUrl()) {
+      window.localStorage.setItem("quarto-color-scheme", value);
+    } else {
+      localAlternateSentinel = value;
+    }
+  }
+  const getColorSchemeSentinel = () => {
+    if (!isFileUrl()) {
+      const storageValue = window.localStorage.getItem("quarto-color-scheme");
+      return storageValue != null ? storageValue : localAlternateSentinel;
+    } else {
+      return localAlternateSentinel;
+    }
+  }
+  let localAlternateSentinel = 'default';
+  // Dark / light mode switch
+  window.quartoToggleColorScheme = () => {
+    // Read the current dark / light value 
+    let toAlternate = !hasAlternateSentinel();
+    toggleColorMode(toAlternate);
+    setStyleSentinel(toAlternate);
+  };
+  // Ensure there is a toggle, if there isn't float one in the top right
+  if (window.document.querySelector('.quarto-color-scheme-toggle') === null) {
+    const a = window.document.createElement('a');
+    a.classList.add('top-right');
+    a.classList.add('quarto-color-scheme-toggle');
+    a.href = "";
+    a.onclick = function() { try { window.quartoToggleColorScheme(); } catch {} return false; };
+    const i = window.document.createElement("i");
+    i.classList.add('bi');
+    a.appendChild(i);
+    window.document.body.appendChild(a);
+  }
+  // Switch to dark mode if need be
+  if (hasAlternateSentinel()) {
+    toggleColorMode(true);
+  } else {
+    toggleColorMode(false);
+  }
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="../../coding-skills/loops/index.html" class="pagination-link">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Usando bucles</span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="../../coding-skills/writing-functions/index.html" class="pagination-link">
+        <span class="nav-page-text">Funciones</span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">Environmental Computing</div>   
+    <div class="nav-footer-center">
+      &nbsp;
+    </div>
+    <div class="nav-footer-right">Made with <a href="https://quarto.org/">Quarto</a>.</div>
+  </div>
+</footer>
+
+
+
+</body></html>

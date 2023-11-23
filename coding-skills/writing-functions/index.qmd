@@ -1,6 +1,6 @@
 ---
 weight: 2
-title: "Funciones"
+title: "Como escribir funciones"
 ---
 
 <!-- ## Metas de esta publicación
@@ -8,19 +8,21 @@ title: "Funciones"
 2. Comprender la sintaxis de las funciones en R (listas de argumentos, valores predeterminados, semántica de retorno) y las reglas de ámbito.
  -->
 
-Una función es un fragmento de código independiente que realiza una tarea específica. Piensa en ellas como "mini-scripts" que se escriben por separado de tu script principal.
+Una función es un fragmento de código independiente que realiza una tarea **específica**. Piensa en ellas como secuencias de código puntuales que se escriben por de forma que complementan la secuencia de código principal.
 
-El código bien escrito utiliza muchas funciones. Esto incluye:
+El código bien escrito utiliza muchas funciones, esto incluye:
 
-- funciones de R base,
-- funciones de paquetes que hayas instalado, y
-- funciones que hayas escrito tú mismo.
+- funciones básicas de {{< fa brands r-project >}},
+- funciones de otros paquetes que hayas instalado, y
+- funciones que personalizadas.
 
-Es difícil hacer algo en R sin utilizar algunas de las funciones incorporadas, pero ¿has escrito tus propias funciones? Si no es así, es hora de empezar.
+Es difícil hacer algo en {{< fa brands r-project >}} sin utilizar algunas de las funciones incorporadas, pero ¿has escrito tus propias funciones? Si no es así, es hora de empezar.
 
 A continuación, dedicaremos algo de tiempo a describir los dos principales [*tipos* de función](#tipos), [*por qué* usar funciones](#por-qué) y luego [*cómo* se construyen](#cómo).
 
-Para ilustrar nuestros ejemplos, utilizaremos un conjunto de datos de muestra que contiene una serie de medidas diferentes de muestras de algas replicadas. Puedes leer los datos directamente en R desde la web:
+#### Ejemplo:
+
+Para ilustrar nuestros ejemplos, utilizaremos un conjunto de datos de muestra que contiene una serie de medidas diferentes de muestras de algas replicadas. Puedes leer los datos directamente en {{< fa brands r-project >}} desde la web:
 
 
 ```{r, message=FALSE, warning=FALSE, results="hide"}

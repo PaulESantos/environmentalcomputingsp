@@ -2,18 +2,15 @@
 weight: 3
 title: "Prueba Exacta de Fisher"
 ---
-
+<center>
 ![](Fishers_exact_test_Q1_image.jpg)
-
+</center>
 
 Algunas personas perciben un olor distintivo en su orina después de comer espárragos, mientras que otras nunca perciben el olor. Estas diferencias podrían surgir de la variación entre las personas en el perfil químico de la orina (es decir, cómo se metabolizan los compuestos del espárrago) o de la variación en la capacidad de diferentes personas para detectar el olor.
 
 Un artículo (Pelchat *et al.* 2010 *Chemical Senses*) revisó estos estudios y presentó los siguientes datos que describen la variación entre cuatro poblaciones de estudio:
 
-Israel (Lison et al. 1980), 328, 0
-China (Hoffenberg 1983), 96, 2
-EE. UU. (Sugarman and Neelon 1985), 10, 5
-EE. UU. (Lison et al. 1980), 11, 10
+Israel (Lison et al. 1980) | China (Hoffenberg 1983) | EE. UU. (Sugarman and Neelon 1985) | EE. UU. (Lison et al. 1980)
 
 
 ```{r}
@@ -24,7 +21,7 @@ asparagus
 **Q1** ¿Cuántas personas se esperaría que perciban el olor en cada población si todas las poblaciones de estudio tuvieran la misma proporción de personas capaces de detectar el olor?
 
 
-```{r}
+```{r, warning=FALSE}
 chisq.test(asparagus, correct = F)$expected
 ```
 
@@ -38,7 +35,7 @@ fisher.test(asparagus)
 ```
 
 
-```{r, echo=FALSE}
+```{r, echo=FALSE, warning=FALSE}
 # If instructor copy, use INST = TRUE to see inline code output.
 library(knitr)
 INST <- FALSE
@@ -46,8 +43,9 @@ INST <- FALSE
 if (INST == TRUE) opts_chunk$set(fig.keep = "all", results = "markup", echo = TRUE)
 if (INST == FALSE) opts_chunk$set(fig.keep = "none", results = "hide", echo = FALSE)
 ```
-
+<center>
 ![](Fishers_exact_test_Q2_image.jpg)
+</center>
 
 
 Eres un ecólogo conductual que estudia la dieta de los possums cola de anillo comunes (*Pseudocheirus peregrinus*) en dos sitios (sitios A y B) dominados por dos especies de Eucalyptus (*E. ovata* y *E. sideroxylon*).
@@ -59,7 +57,7 @@ En el sitio A, ves que seis possums comen *E. ovata* y uno come *E. sideroxylon*
 **Q1** ¿Cuál es la probabilidad exacta de observar este patrón o uno más extremo por pura casualidad?
 
 
-```{r}
+```{r, echo=TRUE}
 possum <- matrix(c(6, 0, 1, 8), nrow = 2, dimnames = list(c("Site A", "Site B"), c("E. ovata", "E. sideroxylon")))
 possum
 fisher.test(possum)
@@ -71,6 +69,4 @@ fisher.test(possum)
 
 **Autor**: Alistair Poore
 
-**Año**: 2016
 
-**Última actualización**: `r format(Sys.time(), "%b %Y")`

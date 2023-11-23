@@ -1,10 +1,11 @@
 ---
-title: 'Habilidades de programación'
-weight: 4
+title: 'Introducción a la programación '
+weight: 1
 output: html_document
 ---
 
-Podrías pensar que tener habilidades en programación es solo para desarrolladores de sitios web y juegos, pero las habilidades en programación son cada vez más valiosas para los científicos ambientales. Ejecutar tareas de análisis de datos y gráficos usando código significa que los métodos de investigación están explícitamente guardados, son reproducibles y se pueden compartir fácilmente con colegas.
+
+Podrías pensar que tener habilidades en programación es solo para desarrolladores de sitios web y juegos, pero las habilidades en programación son cada vez más valiosas para los científicos ambientales. Ejecutar tareas de análisis de datos y gráficos usando código significa que los métodos de investigación están explícitamente guardados, son reproducibles y se pueden compartir fácilmente con otros investigadores.
 
 En estas páginas, ofrecemos algunos consejos para escribir código efectivo y algunas de las habilidades de programación muy útiles que te ahorrarán mucho tiempo.
 

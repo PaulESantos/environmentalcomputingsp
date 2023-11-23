@@ -1,5 +1,5 @@
 ---
-title: 'Títulos y etiquetas de ejes'
+title: 'Títulos y etiquetas'
 weight: 3
 ---
 

@@ -1,32 +1,31 @@
 ---
 weight: 7
-title: "Power Analyses"
+title: "Análisis de poder"
 ---
 
-### ¿Qué es el análisis de potencia y por qué es importante?
+### ¿Qué es el análisis de poder y por qué es importante?
 Recopilas datos para responder una pregunta, generalmente con el objetivo de detectar un efecto particular (por ejemplo, efecto del tratamiento). La potencia de tu prueba es *la probabilidad de detectar un efecto (es decir, obtener un valor p < 0.05) con el diseño experimental que tienes y el tamaño de efecto que esperas o consideras significativo*.
 
-Comenzaré simulando un conjunto de datos que tiene un efecto (una diferencia entre el grupo de control y el grupo de tratamiento), y veremos si podemos detectar el efecto. Realizaremos una simple [prueba t de dos muestras](../t-tests/two-sample-t-test) como ejemplo.
-
-
+Comenzaré simulando un conjunto de datos que tiene un efecto (una diferencia entre el grupo de control y el grupo de tratamiento), y veremos si podemos detectar el efecto. Realizaremos una simple [prueba t de dos muestras](/t-tests/two-sample-t-test/) como ejemplo.
 
 ```{r}
-set.seed(1)
+set.seed(1) # Establece la semilla del generador de números aleatorios
 
-N <- 20 # the sample size
+N <- 20 # el tamaño de la muestra
 
-trt.effect <- 0.2 # difference between control and treatment means
-sigma <- 0.5 # standard deviation of control and treatment groups
+trt.effect <- 0.2 # diferencia entre las medias del control y del tratamiento
+sigma <- 0.5 # desviación estándar de los grupos de control y tratamiento
 
-mean.con <- 0 # mean of control group
+mean.con <- 0 # media del grupo de control
 
-mean.trt <- mean.con + trt.effect # mean of treatment group
+mean.trt <- mean.con + trt.effect # media del grupo de tratamiento
 
-control <- rnorm(N, mean.con, sigma) # 20 data points for the control group taken from a normal distribution with known sample size, mean and s.d.
+control <- rnorm(N, mean.con, sigma) # 20 puntos de datos para el grupo de control tomados de una distribución normal con tamaño de muestra, media y d.e. conocidos
 
-treatment <- rnorm(N, mean.trt, sigma) # data for the treatment group
+treatment <- rnorm(N, mean.trt, sigma) # datos para el grupo de tratamiento
 
-t.test(control, treatment)
+t.test(control, treatment) # realiza una prueba t para comparar los grupos de control y tratamiento
+
 ```
 
 Podemos ver las diferencias entre los grupos con un diagrama de caja y probar esas diferencias con una prueba t:
@@ -41,7 +40,6 @@ Sabemos que hay un efecto del tratamiento, con un tamaño de efecto de 0.2, pero
 
 
 ```{r}
-#
 set.seed(3)
 N <- 20
 trt.effect <- 0.2
@@ -56,14 +54,15 @@ t.test(control, treatment)
 
 Esta vez detectamos un efecto. Esto siempre ocurre, sin importar cuál sea tu diseño experimental, si hay un efecto presente, tienes alguna posibilidad de detectarlo, esto se llama potencia. Para no perder tiempo y dinero, solo debemos realizar experimentos que tengan alta potencia, es decir, alta probabilidad de detectar un efecto si existe. Podemos calcular la potencia de este experimento.
 
-### Análisis de potencia simple con 'pwr'
+### Análisis de poder simple con 'pwr'
 
-Existen varios paquetes que realizan análisis de potencia en R. [pwr](https://cran.r-project.org/web/packages/pwr/index.html) realiza cosas simples hasta `lm` y [simR](https://cran.r-project.org/web/packages/simr/index.html) realiza modelos más complejos [modelos mixtos](../mixed-models) y [glms](../glms).
+Existen varios paquetes que realizan análisis de potencia en R. [pwr](https://cran.r-project.org/web/packages/pwr/index.html) realiza cosas simples hasta `lm` y [simR](https://cran.r-project.org/web/packages/simr/index.html) realiza modelos más complejos [modelos mixtos](/statistics/mixed-models/) y [glms](/statistics/glms/).
 
-Primero, descarga e instala el paquete.
+Primero, instala el paquete `pwr`.
 
 
 ```{r, warning=FALSE}
+# install.packages("pwr")
 library(pwr)
 ```
 
@@ -72,7 +71,7 @@ Para realizar cálculos de potencia en pwr, debes dejar uno de los valores como 
 Aquí usaré la función `pwr.t.test` y dejaré en blanco el valor de potencia. Calculará la potencia para el diseño experimental dado el tamaño de muestra y el tamaño de efecto especificados. Ten cuidado; la variable d, que en el archivo de ayuda se llama tamaño de efecto, es nuestro efecto de tratamiento (diferencia entre medias) dividido por la desviación estándar.
 
 
-```{r,}
+```{r}
 pwr.t.test(n = 20, d = trt.effect / sigma, sig.level = 0.05, power = NULL)
 ```
 
@@ -127,9 +126,10 @@ Ten en cuenta que especificar el tamaño de efecto no es una pregunta estadísti
 
 Si estás llevando a cabo un experimento con factores aleatorios y necesitas realizar un [modelo mixto](../mixed-models/) y tu análisis de potencia debe reflejar eso, esto es mucho más complicado que los ejemplos anteriores y deberemos utilizar métodos de simulación. El paquete [simR](https://cran.r-project.org/web/packages/simr/index.html) está diseñado para esto.
 
-Descarga e instala el paquete.
+Instala el paquete.
 
 ```{r,message=FALSE, warning=FALSE}
+# install.packages("simr")
 library(simr)
 simrOptions(progress = FALSE)
 ```
@@ -160,7 +160,7 @@ boxplot(abundance ~ modification, data = Pilot, main = "modification")
 boxplot(abundance ~ site, data = Pilot, main = "site")
 ```
 
-Estos datos de conteo con un efecto aleatorio de sitio se modelan mejor con un [modelo lineal mixto generalizado](../mixed-models/mixed-model-3) utilizando `glmer` del paquete lme4.
+Estos datos de conteo con un efecto aleatorio de sitio se modelan mejor con un [modelo lineal mixto generalizado](/statistics/mixed-models/mixed-model-3/) utilizando `glmer()` del paquete `lme4`.
 
 
 ```{r}
@@ -184,7 +184,7 @@ Ahora podemos usar la función `powerSim` para calcular la probabilidad de que u
 
 ```{r}
 powerSim(Pilot.mod, fixed("modification", "lr"), nsim = 50)
-# this is a small number of sims for demonstration, the default of 1000 is more appropriate
+# este es un número pequeño de simulaciones para demostración, el valor predeterminado de 1000 es más apropiado
 ```
 
 Así que esperamos tener un poder de alrededor del 45% para una prueba de razón de verosimilitud para 'modificación' con el número actual de observaciones. Esto es bastante bajo, nos gustaría ver un poder por encima del 80%, así que veamos cómo afecta el aumento del tamaño de la muestra.

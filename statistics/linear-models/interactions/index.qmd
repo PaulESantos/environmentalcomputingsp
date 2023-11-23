@@ -1,6 +1,6 @@
 ---
 weight: 4
-title: "Comprensión de las interacciones"
+title: "Comprendiendo las interacciones"
 ---
 
 Los diseños de muestreo o experimentales con más de un factor nos brindan la oportunidad de probar si los factores interactúan. Una interacción entre factores ocurre cuando el efecto de un factor depende de las condiciones en el otro factor. Si no hay interacción, entonces los dos factores actúan de manera independiente. Al aprender estadística, las interacciones complican un poco nuestras vidas porque no podemos hacer afirmaciones simples sobre los efectos principales (cada factor de manera aislada): los resultados observados son debido a la combinación de factores. Sin embargo, es muy importante comprender esto, ya que a menudo nos interesa saber si varias variables ambientales actúan conjuntamente de manera independiente. Considera alguna de las siguientes preguntas:
@@ -19,8 +19,9 @@ Los diseños de muestreo o experimentales con más de un factor nos brindan la o
 Todas estas son preguntas que se responderían mediante una prueba estadística formal de la interacción entre factores.
 
 
-
+<center>
 ![](Interactions_image.jpg)
+</center>
 
 
 La comprensión de las interacciones se puede entender mejor visualmente. Consideremos cómo el crecimiento de los corales puede verse afectado por dos factores de estrés muy importantes que actualmente afectan los océanos del mundo: el aumento de la temperatura y la acidificación. Un diseño experimental para probar esto podría ser aquel que cultiva corales en el laboratorio en todas las combinaciones posibles de varias temperaturas y varias condiciones de pH.

@@ -1,6 +1,6 @@
 ---
 weight: 8
-title: "Análisis multivariado con mvabund"
+title: "Análisis multivariado con `mvabund`"
 ---
 
 Los datos multivariados son comunes en las ciencias ambientales, ocurren cuando medimos varias variables de respuesta en cada muestra replicada. Preguntas como cómo varía la composición de especies de una comunidad entre sitios, o cómo varía la forma de los árboles (medida por varias características morfológicas) con la altitud, son preguntas multivariadas.
@@ -8,11 +8,11 @@ Los datos multivariados son comunes en las ciencias ambientales, ocurren cuando 
 Utilizaremos el paquete [mvabund](https://cran.r-project.org/web/packages/mvabund/index.html) para especificar y ajustar modelos estadísticos multivariados a este tipo de datos.
 
 **¿En qué se diferencia este método de otros análisis multivariados?**
-Muchos análisis comúnmente utilizados para conjuntos de datos multivariados (por ejemplo, PERMANOVA, ANOSIM, CCA, RDA, etc.) son "análisis basados en distancias". Esto significa que el primer paso del análisis es calcular una medida de similitud entre cada par de muestras, convirtiendo así un conjunto de datos multivariado en univariable.
+Muchos análisis comúnmente utilizados para conjuntos de datos multivariados (por ejemplo, PERMANOVA, ANOSIM, CCA, RDA, etc.) son "análisis basados en distancias". Esto significa que el primer paso del análisis es calcular una medida de similitud entre cada par de muestras, convirtiendo así un conjunto de datos multivariado en univariado.
 
 Existen algunos problemas con este tipo de análisis. En primer lugar, su poder estadístico es muy bajo, excepto para variables con alta varianza. Esto significa que para variables que son menos variables, es menos probable que los análisis detecten un efecto de tratamiento. En segundo lugar, no tienen en cuenta una propiedad muy importante de los datos multivariados, que es la relación media-varianza. Típicamente, en conjuntos de datos multivariados como conjuntos de datos de abundancia de especies, las cuentas de especies raras tendrán muchos ceros con poca varianza, y las cuentas más altas para especies más abundantes serán más variables.
 
-El enfoque de mvabund mejora el poder estadístico en una variedad de especies con diferentes varianzas e incluye una suposición de una relación media-varianza. Esto se logra ajustando un único [modelo lineal generalizado](../glms/) (GLM) a cada variable de respuesta con un conjunto común de variables predictoras. Luego podemos usar remuestreo para probar las respuestas significativas a nivel de comunidad o a nivel de especie ante nuestros predictores.
+El enfoque de `mvabund` mejora el poder estadístico en una variedad de especies con diferentes varianzas e incluye una suposición de una relación media-varianza. Esto se logra ajustando un único [modelo lineal generalizado](/statistics/glms/) (GLM) a cada variable de respuesta con un conjunto común de variables predictoras. Luego podemos usar remuestreo para probar las respuestas significativas a nivel de comunidad o a nivel de especie ante nuestros predictores.
 
 Además, el marco basado en modelos facilita verificar nuestras suposiciones e interpretar la incertidumbre en torno a nuestros resultados.
 

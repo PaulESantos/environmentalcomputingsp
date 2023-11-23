@@ -1,0 +1,1315 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.3.340">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Environmental Computing - Factores Cruzados y Anidados</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="../../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../../">
+<link href="../../../statistics/mixed-models/mixed-model-3/index.html" rel="next">
+<link href="../../../statistics/mixed-models/mixed-model-1/index.html" rel="prev">
+<link href="../../../images/favicon.png" rel="icon" type="image/png">
+<script src="../../../site_libs/quarto-html/quarto.js"></script>
+<script src="../../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="../../../site_libs/quarto-html/quarto-syntax-highlighting-dark.css" rel="prefetch" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<script src="../../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../../../site_libs/bootstrap/bootstrap-dark.min.css" rel="prefetch" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit"
+  }
+}</script>
+
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<link rel="stylesheet" href="../../../styles.css">
+</head>
+
+<body class="nav-sidebar docked">
+
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../../statistics/index.html">Statistics</a></li><li class="breadcrumb-item"><a href="../../../statistics/mixed-models/mixed-model-2/index.html">Factores Cruzados y Anidados</a></li></ol></nav>
+      <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+      </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal sidebar-navigation docked overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+      <a href="../../../index.html" class="sidebar-logo-link">
+      <img src="../../../images/hexsticker_EC.png" alt="" class="sidebar-logo py-0 d-lg-inline d-none">
+      </a>
+      <div class="sidebar-tools-main">
+  <a href="" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="Toggle dark mode"><i class="bi"></i></a>
+</div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Bienvenido a Environmental Computing</span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="../../../getting-started-with-r/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Empezando con R</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../getting-started-with-r/data-entry/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Estructura de una base de datos - Data Entry</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../getting-started-with-r/data-types-structure/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Tipos de datos + Estructura</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../getting-started-with-r/importing-data/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Importing Data</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../getting-started-with-r/installing-r-rstudio/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Instalando R y RStudio</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../getting-started-with-r/project-management/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Gestión de proyectos</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../getting-started-with-r/rstudio-notebooks/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Utilizando R Notebooks</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="../../../data-manipulation/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Manipulación de Datos</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../data-manipulation/combining-datasets/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Combinando conjuntos de datos.</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../data-manipulation/making-new-variables/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Creación de nuevas variables</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../data-manipulation/reshaping-data/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Reorganización de datos</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../data-manipulation/subsetting-data/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Subconjuntos de datos</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../data-manipulation/summarising-data/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Resumiendo datos</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="../../../coding-skills/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Habilidades de programación</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../coding-skills/asking-code-questions/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Preguntas sobre código</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../coding-skills/good-practice/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Buenas prácticas de codificación</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../coding-skills/loops/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Usando bucles</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../coding-skills/version-control/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Control de versiones</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../coding-skills/writing-functions/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Funciones</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="../../../graphics/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Gráficos</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../graphics/basic-plotting/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Gráficos básicos en R</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../graphics/basic-plotting/one-continuous-one-factor/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Una Variable Continua y una Variable Categórica</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../graphics/basic-plotting/one-continuous/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Una Variable Continua</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../graphics/basic-plotting/two-continuous/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Dos Variables Continuas</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../graphics/ggplot/ggplot-appearance/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Personalización de un gráfico en ggplot</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../graphics/ggplot/ggplot-barplot/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Gráfico de barras con barras de error</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../graphics/ggplot/ggplot-basics/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Fundamentos de ggplot2</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../graphics/ggplot/ggplot-colour-shapes/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Colores y formas</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../graphics/ggplot/ggplot-labels/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Títulos y etiquetas de ejes</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../graphics/ggplot/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Gráficos en R con ggplot2</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../graphics/multivariate-vis/cluster-analysis/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Análisis de Clúster</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../graphics/multivariate-vis/heatmaps/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Heatmaps - Mapa de Calor</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../graphics/multivariate-vis/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Datos Multivariados</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../graphics/multivariate-vis/mds/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Escalamiento multidimensional</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../graphics/multivariate-vis/pca/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Análisis de Componentes Principales</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../graphics/spatial-vis/basic-raster/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Los fundamentos de los Rasters</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../graphics/spatial-vis/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Datos espaciales</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../graphics/spatial-vis/interactive/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Mapas interactivos en R</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../graphics/spatial-vis/simple-maps/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Mapas simples con ggmap</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="../../../statistics/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Statistics</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-5" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../statistics/categorical/contingency-tables/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Tablas de contingencia</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../statistics/categorical/fishers-exact/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Prueba Exacta de Fisher</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../statistics/categorical/goodness-of-fit/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Prueba de bondad de ajuste</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../statistics/categorical/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Análisis de datos categóricos</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../statistics/gams/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Modelos Aditivos Generalizados (GAM)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../statistics/glms/glm-1/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Introducción y Datos Binarios</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../statistics/glms/glm-2/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Datos de recuento</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../statistics/glms/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Modelos Lineales Generalizados (GLM)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../statistics/glms/interpret-glm-coeffs/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Interpretación de los GLMs</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../statistics/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Statistics</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../statistics/linear-models/anova/anova-factorial/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">ANOVA Factorial</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../statistics/linear-models/anova/anova-nested/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">ANOVA anidado</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../statistics/linear-models/anova/anova-single/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">ANOVA de un solo factor</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../statistics/linear-models/anova/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">ANOVA</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../statistics/linear-models/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Modelos Lineales</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../statistics/linear-models/interactions/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Comprensión de las interacciones</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../statistics/linear-models/linear-regression/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Regresión Lineal</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../statistics/linear-models/linear-regression/interpret-lm-coeffs/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Interpretación de Regresiones Lineales</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../statistics/meta-analysis/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Meta-Análisis</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../statistics/meta-analysis/meta-analysis-1/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Introduction al meta-análisis</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../statistics/meta-analysis/meta-analysis-2/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Fixed-effect and Random-effect Models</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../statistics/meta-analysis/meta-analysis-3/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Multilevel Models</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../statistics/mixed-models/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Mmodelos mixtos</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../statistics/mixed-models/mixed-model-1/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Introducción</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../statistics/mixed-models/mixed-model-2/index.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text">Factores Cruzados y Anidados</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../statistics/mixed-models/mixed-model-3/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Modelos mixtos generalizados</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../statistics/mvabund/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Análisis multivariado con mvabund</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../statistics/power-analysis/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Power Analyses</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../statistics/t-tests/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">T-tests</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../statistics/t-tests/one-sample-t-test/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Prueba de una muestra con t de Student</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../statistics/t-tests/paired-t-test/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">T-test emparejado</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../statistics/t-tests/two-sample-t-test/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Two Sample T-test</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../statistics/time-series/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Predicción de series temporales</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="../../../datasets/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Datasets</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-6" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../datasets/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Datasets</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#ejecutando-el-análisis" id="toc-ejecutando-el-análisis" class="nav-link active" data-scroll-target="#ejecutando-el-análisis">Ejecutando el análisis</a></li>
+  <li><a href="#verificación-de-supuestos" id="toc-verificación-de-supuestos" class="nav-link" data-scroll-target="#verificación-de-supuestos">Verificación de supuestos</a></li>
+  <li><a href="#interpretación-de-los-resultados" id="toc-interpretación-de-los-resultados" class="nav-link" data-scroll-target="#interpretación-de-los-resultados">Interpretación de los resultados</a></li>
+  <li><a href="#comunicación-de-los-resultados" id="toc-comunicación-de-los-resultados" class="nav-link" data-scroll-target="#comunicación-de-los-resultados">Comunicación de los resultados</a>
+  <ul class="collapse">
+  <li><a href="#más-ayuda" id="toc-más-ayuda" class="nav-link" data-scroll-target="#más-ayuda">Más ayuda</a></li>
+  </ul></li>
+  </ul>
+<div class="toc-actions"><div><i class="bi bi-github"></i></div><div class="action-links"><p><a href="https://github.com/PaulESantos/environmentalcomputingsp/edit/main/statistics/mixed-models/mixed-model-2/index.qmd" class="toc-action">Edit this page</a></p><p><a href="https://github.com/PaulESantos/environmentalcomputingsp/issues/new" class="toc-action">Report an issue</a></p></div></div></nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Factores Cruzados y Anidados</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+</header>
+
+<p><a href="../../../statistics/mixed-models/mixed-model-1/">Mixed models 1</a> es una introducción a los modelos mixtos con un factor aleatorio. Después de leer eso, si crees que tienes más de un factor aleatorio, continúa leyendo. Por ejemplo, es posible que tengas factores cruzados o anidados.</p>
+<p>Muchos diseños experimentales en ecología y ciencias ambientales requieren modelos mixtos con varios efectos aleatorios (factores). Es posible que hayas oído hablar de factores anidados y cruzados. A menudo definimos estos como diseños bastante distintos (por ejemplo, de <a href="http://www.theanalysisfactor.com">www.theanalysisfactor.com</a>)</p>
+<p>Dos factores están <strong>cruzados</strong> cuando cada categoría (nivel) de un factor coocurre en el diseño con cada categoría del otro factor. En otras palabras, hay al menos una observación en cada combinación de categorías para los dos factores.</p>
+<p>Un factor está <strong>anidado</strong> dentro de otro factor cuando cada categoría del primer factor coocurre con solo una categoría del otro. En otras palabras, una observación debe estar dentro de una categoría del Factor 2 para tener una categoría específica del Factor 1. No se representan todas las combinaciones de categorías.</p>
+<p>También existen diseños intermedios que están parcialmente cruzados, donde algunos niveles de un factor ocurren en varios (pero no todos) los niveles del segundo factor. Estos diseños a menudo se han enseñado como problemas separados con diferentes formas de llevar a cabo análisis de varianza (ANOVA) dependiendo de si tienes factores cruzados o anidados. Usando modelos mixtos con el paquete lme4, podemos pensar en todos estos en un marco de trabajo, donde los diseños anidados y cruzados se modelan de la misma manera. Pensar en los factores como cruzados o anidados se simplifica mediante una identificación cuidadosa de los niveles del factor, pero hablaremos más sobre esto más adelante.</p>
+<section id="ejecutando-el-análisis" class="level3">
+<h3 class="anchored" data-anchor-id="ejecutando-el-análisis">Ejecutando el análisis</h3>
+<p>Utilizaremos el paquete <a href="https://cran.r-project.org/web/packages/lme4/index.html">lme4</a> para todos nuestros modelos de efectos mixtos. Nos permitirá modelar datos continuos y discretos con uno o más efectos aleatorios. Primero, carga el paquete:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(lme4)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Analizaremos un conjunto de datos que tiene como objetivo probar el efecto de la contaminación del agua en la abundancia de algunos invertebrados marinos submareales mediante la comparación de muestras de estuarios modificados y prístinos. Dado que los recuentos totales son grandes, asumiremos que los datos son continuos. Más adelante, en <a href="../../../statistics/mixed-models/mixed-model-3/">Modelos mixtos 3</a>, modelaremos los recuentos como discretos utilizando modelos lineales mixtos generalizados (GLMMs).</p>
+<p><img src="Mixed_models_2_image.jpg" class="img-fluid"></p>
+<p>Descarga el conjunto de datos de muestra, <a href="../../../datasets/Estuaries.csv">Estuaries.csv</a>, y cárgalo en R.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>Estuaries <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">"Estuaries.csv"</span>, <span class="at">header =</span> T)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p><strong>Ajuste de un modelo con un efecto fijo y varios efectos aleatorios</strong></p>
+<p>En este conjunto de datos, tenemos un efecto fijo (Modificación; modificado vs.&nbsp;prístino) y dos efectos aleatorios (Estuario y Sitio). El Sitio está anidado dentro del Estuario, ya que cada sitio solo puede pertenecer a un estuario. Sin embargo, al ingresar los datos, hemos sido descuidados y numerado los sitios dentro de cada estuario como 1, 2, 3, etc.</p>
+<p>Podemos ver esto al observar los datos y una tabla cruzada.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>Estuaries[<span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>, ]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>    X Modification Estuary Site Hydroid Total Schizoporella.errata
+1   1     Modified     JAK    1       0    44                   15
+2   2     Modified     JAK    1       0    42                    8
+3   3     Modified     JAK    2       0    32                    9
+4   4     Modified     JAK    2       0    44                   14
+5   5     Modified     JAK    3       1    42                    6
+6   6     Modified     JAK    3       1    48                   12
+7   7     Modified     JAK    4       0    45                   28
+8   8     Modified     JAK    4       0    34                    1
+9   9     Pristine     JER    1       7    29                    0
+10 10     Pristine     JER    1       5    51                    0</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">xtabs</span>(<span class="sc">~</span> Estuary <span class="sc">+</span> Site, Estuaries, <span class="at">sparse =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>7 x 4 sparse Matrix of class "dgCMatrix"
+       Site
+Estuary 1 2 3 4
+    BOT 2 2 2 2
+    CLY 2 2 2 2
+    HAK 2 2 2 2
+    JAK 2 2 2 2
+    JER 2 2 2 2
+    KEM 2 2 . 2
+    WAG 2 2 2 2</code></pre>
+</div>
+</div>
+<p>Los estuarios JAK y JER tienen sitios numerados como 1, aunque estos sitios no están conectados de ninguna manera. También podemos ver esto en la tabla cruzada <code>xtabs</code>. Esta etiqueta de sitios parece estar cruzada, donde cada sitio ocurre en cada estuario, en lugar de estar anidado.</p>
+<p>Podemos solucionar esto simplemente indicando a R que el Sitio está anidado en el Estuario. Sin embargo, es mejor práctica hacer esto en la etapa de entrada de datos. Si las cosas son iguales, deben etiquetarse de la misma manera, y si no lo son, deben etiquetarse de manera diferente.</p>
+<p>Para crear una etiqueta única para cada sitio en este conjunto de datos, convertimos el Sitio en un factor (era un número entero) y creamos una nueva variable (SiteWithin) que es la combinación de Estuario y Sitio.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>Estuaries<span class="sc">$</span>Site <span class="ot">&lt;-</span> <span class="fu">as.factor</span>(Estuaries<span class="sc">$</span>Site)</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>Estuaries<span class="sc">$</span>SiteWithin <span class="ot">&lt;-</span> <span class="fu">paste0</span>(Estuaries<span class="sc">$</span>Estuary, <span class="st">"_"</span>, Estuaries<span class="sc">$</span>Site)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Ahora, verifica la estructura para asegurarte de que cada sitio esté anidado en un solo estuario, de acuerdo con el diseño experimental.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">xtabs</span>(<span class="sc">~</span> Estuary <span class="sc">+</span> SiteWithin, Estuaries, <span class="at">sparse =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>7 x 27 sparse Matrix of class "dgCMatrix"</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>  [[ suppressing 27 column names 'BOT_1', 'BOT_2', 'BOT_3' ... ]]</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>       SiteWithin
+Estuary                                                      
+    BOT 2 2 2 2 . . . . . . . . . . . . . . . . . . . . . . .
+    CLY . . . . 2 2 2 2 . . . . . . . . . . . . . . . . . . .
+    HAK . . . . . . . . 2 2 2 2 . . . . . . . . . . . . . . .
+    JAK . . . . . . . . . . . . 2 2 2 2 . . . . . . . . . . .
+    JER . . . . . . . . . . . . . . . . 2 2 2 2 . . . . . . .
+    KEM . . . . . . . . . . . . . . . . . . . . 2 2 2 . . . .
+    WAG . . . . . . . . . . . . . . . . . . . . . . . 2 2 2 2</code></pre>
+</div>
+</div>
+<p>Para ajustar un modelo para la abundancia total, utilizaríamos:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>fit.mod <span class="ot">&lt;-</span> <span class="fu">lmer</span>(Total <span class="sc">~</span> Modification <span class="sc">+</span> (<span class="dv">1</span> <span class="sc">|</span> Estuary) <span class="sc">+</span> (<span class="dv">1</span> <span class="sc">|</span> SiteWithin), <span class="at">data =</span> Estuaries)</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(fit.mod)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Linear mixed model fit by REML ['lmerMod']
+Formula: Total ~ Modification + (1 | Estuary) + (1 | SiteWithin)
+   Data: Estuaries
+
+REML criterion at convergence: 386.6
+
+Scaled residuals: 
+    Min      1Q  Median      3Q     Max 
+-1.8686 -0.6687  0.1504  0.6505  1.9816 
+
+Random effects:
+ Groups     Name        Variance Std.Dev.
+ SiteWithin (Intercept) 49.85    7.061   
+ Estuary    (Intercept) 47.59    6.899   
+ Residual               43.65    6.607   
+Number of obs: 54, groups:  SiteWithin, 27; Estuary, 7
+
+Fixed effects:
+                     Estimate Std. Error t value
+(Intercept)            41.053      4.739   8.662
+ModificationPristine  -14.553      6.232  -2.335
+
+Correlation of Fixed Effects:
+            (Intr)
+MdfctnPrstn -0.760</code></pre>
+</div>
+</div>
+<p>donde <code>Total</code> es la variable dependiente (a la izquierda de ~), <code>Modification</code> es el efecto fijo, <code>Estuary</code> y <code>SiteWithin</code> son los efectos aleatorios.</p>
+<p>También ajustaremos el modelo incorrecto para ver la diferencia si hubiéramos utilizado las etiquetas antiguas para cada sitio.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>fit.wrong <span class="ot">&lt;-</span> <span class="fu">lmer</span>(Total <span class="sc">~</span> Modification <span class="sc">+</span> (<span class="dv">1</span> <span class="sc">|</span> Estuary) <span class="sc">+</span> (<span class="dv">1</span> <span class="sc">|</span> Site), <span class="at">data =</span> Estuaries)</span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(fit.wrong)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Linear mixed model fit by REML ['lmerMod']
+Formula: Total ~ Modification + (1 | Estuary) + (1 | Site)
+   Data: Estuaries
+
+REML criterion at convergence: 393.6
+
+Scaled residuals: 
+    Min      1Q  Median      3Q     Max 
+-2.3312 -0.7631  0.1040  0.5766  1.8202 
+
+Random effects:
+ Groups   Name        Variance Std.Dev.
+ Estuary  (Intercept) 53.613   7.322   
+ Site     (Intercept)  7.686   2.772   
+ Residual             80.045   8.947   
+Number of obs: 54, groups:  Estuary, 7; Site, 4
+
+Fixed effects:
+                     Estimate Std. Error t value
+(Intercept)            41.257      4.849   8.508
+ModificationPristine  -14.757      6.124  -2.410
+
+Correlation of Fixed Effects:
+            (Intr)
+MdfctnPrstn -0.727</code></pre>
+</div>
+</div>
+<p>El único lugar donde podemos ver una diferencia obvia es en la tabla de efectos aleatorios. Para el modelo correcto tenemos <font face="monospace">Número de obs: 52, grupos: <code>SiteWithin</code>, 26; <code>Estuary</code>, 7</font>, mientras que el modelo incorrecto nos indica que solo tenemos 4 sitios, lo cual sabemos que es incorrecto.</p>
+<p>Nota: <code>fit.wrong</code> sería correcto si tuviéramos factores cruzados.</p>
+</section>
+<section id="verificación-de-supuestos" class="level3">
+<h3 class="anchored" data-anchor-id="verificación-de-supuestos">Verificación de supuestos</h3>
+<p>Los supuestos son los mismos que para un factor aleatorio, pero no está de más listarlos nuevamente:</p>
+<ol type="1">
+<li>Las observaciones <span class="math inline">\(y\)</span> son independientes, condicionales a algunos predictores <span class="math inline">\(x\)</span>.</li>
+<li>La respuesta <span class="math inline">\(y\)</span> sigue una distribución normal condicional a algunos predictores <span class="math inline">\(x\)</span>.</li>
+<li>La respuesta <span class="math inline">\(y\)</span> tiene una varianza constante, condicional a algunos predictores <span class="math inline">\(x\)</span>.</li>
+<li>Existe una relación lineal entre <span class="math inline">\(y\)</span> y los predictores <span class="math inline">\(x\)</span> y los efectos aleatorios <span class="math inline">\(z\)</span>.</li>
+<li>Los efectos aleatorios <span class="math inline">\(z\)</span> son independientes de <span class="math inline">\(y\)</span>.</li>
+<li>Los efectos aleatorios <span class="math inline">\(z\)</span> siguen una distribución normal.</li>
+</ol>
+<p>Consulta <a href="../../../statistics/mixed-models/mixed-model-1/">Modelos mixtos 1</a> para obtener orientación detallada sobre los supuestos en modelos mixtos lineales. En resumen, no se pueden verificar los supuestos 1 y 5, pero se pueden garantizar mediante la toma de muestras aleatorias, y el supuesto 6 no es crucial y es difícil de verificar. Para verificar el supuesto 2, buscamos una relación lineal en el gráfico cuantil-normal. Para verificar los supuestos 3 y 4, buscamos una forma de abanico y una forma de U en el gráfico de residuos vs valores ajustados.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>))</span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a><span class="fu">qqnorm</span>(<span class="fu">residuals</span>(fit.mod))</span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a><span class="fu">scatter.smooth</span>(<span class="fu">residuals</span>(fit.mod) <span class="sc">~</span> <span class="fu">fitted</span>(fit.mod)) <span class="co"># residual plot</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="index_files/figure-html/unnamed-chunk-9-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>El gráfico de cuantiles normales parece razonable, sin embargo, aquí podemos observar claramente una forma de abanico en el gráfico de residuos vs.&nbsp;valores ajuste. Intentemos transformar la variable de respuesta y veamos si obtenemos mejores resultados.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>fit.mod <span class="ot">&lt;-</span> <span class="fu">lmer</span>(<span class="fu">log</span>(Total) <span class="sc">~</span> Modification <span class="sc">+</span> (<span class="dv">1</span> <span class="sc">|</span> Estuary) <span class="sc">+</span> (<span class="dv">1</span> <span class="sc">|</span> SiteWithin), <span class="at">data =</span> Estuaries)</span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>))</span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a><span class="fu">qqnorm</span>(<span class="fu">residuals</span>(fit.mod))</span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a><span class="fu">scatter.smooth</span>(<span class="fu">residuals</span>(fit.mod) <span class="sc">~</span> <span class="fu">fitted</span>(fit.mod)) <span class="co"># residual plot</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="index_files/figure-html/unnamed-chunk-10-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>Este diagrama de dispersión es mucho mejor, la forma de abanico prácticamente ha desaparecido. La línea suave está por debajo de cero en la parte izquierda, pero hay relativamente pocos puntos allí, por lo que no es de gran preocupación.</p>
+</section>
+<section id="interpretación-de-los-resultados" class="level3">
+<h3 class="anchored" data-anchor-id="interpretación-de-los-resultados">Interpretación de los resultados</h3>
+<p><strong>Prueba de hipótesis para el efecto fijo</strong></p>
+<p>Podemos utilizar <code>anova</code> como antes para obtener p-valores aproximados para los efectos fijos.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>ft.mod <span class="ot">&lt;-</span> <span class="fu">lmer</span>(<span class="fu">log</span>(Total) <span class="sc">~</span> Modification <span class="sc">+</span> (<span class="dv">1</span> <span class="sc">|</span> Estuary) <span class="sc">+</span> (<span class="dv">1</span> <span class="sc">|</span> SiteWithin), <span class="at">data =</span> Estuaries, <span class="at">REML =</span> F)</span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>ft.mod<span class="fl">.0</span> <span class="ot">&lt;-</span> <span class="fu">lmer</span>(<span class="fu">log</span>(Total) <span class="sc">~</span> (<span class="dv">1</span> <span class="sc">|</span> Estuary) <span class="sc">+</span> (<span class="dv">1</span> <span class="sc">|</span> SiteWithin), <span class="at">data =</span> Estuaries, <span class="at">REML =</span> F)</span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a><span class="fu">anova</span>(ft.mod<span class="fl">.0</span>, ft.mod)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Data: Estuaries
+Models:
+ft.mod.0: log(Total) ~ (1 | Estuary) + (1 | SiteWithin)
+ft.mod: log(Total) ~ Modification + (1 | Estuary) + (1 | SiteWithin)
+         npar    AIC    BIC  logLik deviance  Chisq Df Pr(&gt;Chisq)  
+ft.mod.0    4 79.223 87.179 -35.611   71.223                       
+ft.mod      5 77.397 87.342 -33.698   67.397 3.8258  1    0.05047 .
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
+</div>
+</div>
+<p>Encontramos una evidencia débil de un efecto de Modificación (p=0.05047).</p>
+<p><strong>Prueba de hipótesis para los efectos aleatorios</strong></p>
+<p>Como en <a href="../../../statistics/mixed-models/mixed-model-1/">Modelos mixtos 1</a>, utilizaremos un bootstrap paramétrico. Probaremos si necesitamos tener un efecto aleatorio para el Sitio, dado que ya tenemos un efecto aleatorio para el Estuario en el modelo. Tomamos el código de <a href="../../../statistics/mixed-models/mixed-model-1/">Modelos mixtos 1</a> y cambiado las partes relevantes, puedes comparar los dos para tener una idea de cómo escribir tu propio código de bootstrap paramétrico.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>nBoot <span class="ot">&lt;-</span> <span class="dv">1000</span></span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>lrStat <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="cn">NA</span>, nBoot)</span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>ft.null <span class="ot">&lt;-</span> <span class="fu">lmer</span>(<span class="fu">log</span>(Total) <span class="sc">~</span> Modification <span class="sc">+</span> (<span class="dv">1</span> <span class="sc">|</span> Estuary), Estuaries, <span class="at">REML =</span> F) <span class="co"># modelo nulo</span></span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>ft.alt <span class="ot">&lt;-</span> <span class="fu">lmer</span>(<span class="fu">log</span>(Total) <span class="sc">~</span> Modification <span class="sc">+</span> (<span class="dv">1</span> <span class="sc">|</span> Estuary) <span class="sc">+</span> (<span class="dv">1</span> <span class="sc">|</span> SiteWithin), Estuaries, <span class="at">REML =</span> F) <span class="co"># modelo alterno</span></span>
+<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a>lrObs <span class="ot">&lt;-</span> <span class="dv">2</span> <span class="sc">*</span> <span class="fu">logLik</span>(ft.alt) <span class="sc">-</span> <span class="dv">2</span> <span class="sc">*</span> <span class="fu">logLik</span>(ft.null) <span class="co">#</span></span>
+<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (iBoot <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>nBoot)</span>
+<span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a>{</span>
+<span id="cb20-8"><a href="#cb20-8" aria-hidden="true" tabindex="-1"></a>  Estuaries<span class="sc">$</span>logTotalSim <span class="ot">&lt;-</span> <span class="fu">unlist</span>(<span class="fu">simulate</span>(ft.null)) <span class="co"># </span></span>
+<span id="cb20-9"><a href="#cb20-9" aria-hidden="true" tabindex="-1"></a>  bNull <span class="ot">&lt;-</span> <span class="fu">lmer</span>(logTotalSim <span class="sc">~</span> Modification <span class="sc">+</span> (<span class="dv">1</span> <span class="sc">|</span> Estuary), Estuaries, <span class="at">REML =</span> F) <span class="co"># modelo nulo</span></span>
+<span id="cb20-10"><a href="#cb20-10" aria-hidden="true" tabindex="-1"></a>  bAlt <span class="ot">&lt;-</span> <span class="fu">lmer</span>(logTotalSim <span class="sc">~</span> Modification <span class="sc">+</span> (<span class="dv">1</span> <span class="sc">|</span> Estuary) <span class="sc">+</span> (<span class="dv">1</span> <span class="sc">|</span> SiteWithin), Estuaries, <span class="at">REML =</span> F) <span class="co"># modelo alterno</span></span>
+<span id="cb20-11"><a href="#cb20-11" aria-hidden="true" tabindex="-1"></a>  lrStat[iBoot] <span class="ot">&lt;-</span> <span class="dv">2</span> <span class="sc">*</span> <span class="fu">logLik</span>(bAlt) <span class="sc">-</span> <span class="dv">2</span> <span class="sc">*</span> <span class="fu">logLik</span>(bNull) <span class="co">#</span></span>
+<span id="cb20-12"><a href="#cb20-12" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb20-13"><a href="#cb20-13" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(lrStat <span class="sc">&gt;</span> lrObs) <span class="co"># p-value</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0</code></pre>
+</div>
+</div>
+<p>El p-valor es 0, muy pequeño. Tenemos una fuerte evidencia de un efecto del Sitio y debemos mantenerlo en el modelo.</p>
+</section>
+<section id="comunicación-de-los-resultados" class="level2">
+<h2 class="anchored" data-anchor-id="comunicación-de-los-resultados">Comunicación de los resultados</h2>
+<p><strong>Escrito.</strong> Los resultados de los modelos mixtos lineales se comunican de manera similar a los resultados de los modelos lineales. En la sección de resultados, debes mencionar que estás utilizando modelos mixtos con el paquete R <code>lme4</code>, y listar tus efectos aleatorios y fijos. También debes mencionar cómo realizaste la inferencia, es decir, pruebas de razón de verosimilitud (utilizando la función <code>anova</code>) o bootstrap paramétrico. En la sección de resultados para un predictor, basta con escribir una línea, por ejemplo: “Hay una fuerte evidencia (p &lt; 0.001) de un efecto negativo de la modificación en la abundancia total”. Para múltiples predictores, es mejor mostrar los resultados en una tabla.</p>
+<p><strong>Visual.</strong> La mejor manera de comunicar visualmente los resultados dependerá de tu pregunta. Para un modelo mixto simple con un efecto aleatorio, una gráfica de los datos crudos con las medias del modelo superpuestas es una posibilidad. Se requiere un poco de código para esta gráfica, y será un poco diferente para tus datos y modelo.</p>
+<p>Puedes hacer gráficas dentro de cada sitio, pero esto es un poco extraño para un diagrama de caja, ya que solo hay dos observaciones por sitio. Puedes hacer esto para tus datos si tienes más observaciones dentro de cada Sitio.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(Hmisc)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>
+Attaching package: 'Hmisc'</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>The following objects are masked from 'package:base':
+
+    format.pval, units</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>ModEst <span class="ot">&lt;-</span> <span class="fu">unique</span>(Estuaries[<span class="fu">c</span>(<span class="st">"SiteWithin"</span>, <span class="st">"Modification"</span>)]) <span class="co"># find which Estuaries are modified</span></span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>cols <span class="ot">&lt;-</span> <span class="fu">as.numeric</span>(ModEst[<span class="fu">order</span>(ModEst[, <span class="dv">1</span>]), <span class="dv">2</span>]) <span class="sc">+</span> <span class="dv">3</span> <span class="co"># Assign colour by modification</span></span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a><span class="fu">boxplot</span>(<span class="fu">log</span>(Total) <span class="sc">~</span> SiteWithin, <span class="at">data =</span> Estuaries, <span class="at">col =</span> cols, <span class="at">xlab =</span> <span class="st">"Estuary"</span>, <span class="at">ylab =</span> <span class="st">"Total invertebrates"</span>)</span>
+<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a><span class="fu">legend</span>(<span class="st">"bottomleft"</span>,</span>
+<span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">inset =</span> .<span class="dv">02</span>,</span>
+<span id="cb25-6"><a href="#cb25-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">c</span>(<span class="st">" Modified "</span>, <span class="st">" Pristine "</span>), <span class="at">fill =</span> <span class="fu">unique</span>(cols), <span class="at">horiz =</span> <span class="cn">TRUE</span>, <span class="at">cex =</span> <span class="fl">0.8</span></span>
+<span id="cb25-7"><a href="#cb25-7" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb25-8"><a href="#cb25-8" aria-hidden="true" tabindex="-1"></a>means <span class="ot">&lt;-</span> <span class="fu">fitted</span>(fit.mod) <span class="co"># this will give the estimate at each data point</span></span>
+<span id="cb25-9"><a href="#cb25-9" aria-hidden="true" tabindex="-1"></a>Est.means <span class="ot">&lt;-</span> <span class="fu">summarize</span>(means, Estuaries<span class="sc">$</span>SiteWithin, mean)<span class="sc">$</span>means <span class="co"># extract means by site</span></span>
+<span id="cb25-10"><a href="#cb25-10" aria-hidden="true" tabindex="-1"></a><span class="fu">stripchart</span>(Est.means <span class="sc">~</span> <span class="fu">sort</span>(<span class="fu">unique</span>(SiteWithin)), <span class="at">data =</span> Estuaries, <span class="at">pch =</span> <span class="dv">18</span>, <span class="at">col =</span> <span class="st">"red"</span>, <span class="at">vertical =</span> <span class="cn">TRUE</span>, <span class="at">add =</span> <span class="cn">TRUE</span>) <span class="co"># plot means by site</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="index_files/figure-html/unnamed-chunk-13-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>Alternativamente, puedes hacer gráficas por Estuario (ver <a href="../../../statistics/mixed-models/mixed-model-1/">Modelos mixtos 1</a>).</p>
+<section id="más-ayuda" class="level3">
+<h3 class="anchored" data-anchor-id="más-ayuda">Más ayuda</h3>
+<p>Puedes escribir <code>?lmer</code> en R para obtener ayuda con estas funciones.</p>
+<p><a href="http://lme4.r-forge.r-project.org/book/Ch2.pdf">Borrador de capítulo de libro</a> de los autores de lme4.</p>
+<p style="margin-left:.5in;text-indent:-.5in">
+Faraway, JJ (2005) <em>Extending the linear model with R: generalized linear, mixed effects and nonparametric regression models</em>. CRC Press.
+</p>
+<p style="margin-left:.5in;text-indent:-.5in">
+Zuur, A, EN Ieno and GM Smith (2007) <em>Analysing ecological data</em>. Springer Science &amp; Business Media.
+</p>
+<p><strong>Autor</strong>: Gordana Popovic</p>
+<p><strong>Año</strong>: 2016</p>
+<p><strong>Última actualización</strong>: Nov.&nbsp;2023</p>
+
+
+</section>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const disableStylesheet = (stylesheets) => {
+    for (let i=0; i < stylesheets.length; i++) {
+      const stylesheet = stylesheets[i];
+      stylesheet.rel = 'prefetch';
+    }
+  }
+  const enableStylesheet = (stylesheets) => {
+    for (let i=0; i < stylesheets.length; i++) {
+      const stylesheet = stylesheets[i];
+      stylesheet.rel = 'stylesheet';
+    }
+  }
+  const manageTransitions = (selector, allowTransitions) => {
+    const els = window.document.querySelectorAll(selector);
+    for (let i=0; i < els.length; i++) {
+      const el = els[i];
+      if (allowTransitions) {
+        el.classList.remove('notransition');
+      } else {
+        el.classList.add('notransition');
+      }
+    }
+  }
+  const toggleColorMode = (alternate) => {
+    // Switch the stylesheets
+    const alternateStylesheets = window.document.querySelectorAll('link.quarto-color-scheme.quarto-color-alternate');
+    manageTransitions('#quarto-margin-sidebar .nav-link', false);
+    if (alternate) {
+      enableStylesheet(alternateStylesheets);
+      for (const sheetNode of alternateStylesheets) {
+        if (sheetNode.id === "quarto-bootstrap") {
+          toggleBodyColorMode(sheetNode);
+        }
+      }
+    } else {
+      disableStylesheet(alternateStylesheets);
+      toggleBodyColorPrimary();
+    }
+    manageTransitions('#quarto-margin-sidebar .nav-link', true);
+    // Switch the toggles
+    const toggles = window.document.querySelectorAll('.quarto-color-scheme-toggle');
+    for (let i=0; i < toggles.length; i++) {
+      const toggle = toggles[i];
+      if (toggle) {
+        if (alternate) {
+          toggle.classList.add("alternate");     
+        } else {
+          toggle.classList.remove("alternate");
+        }
+      }
+    }
+    // Hack to workaround the fact that safari doesn't
+    // properly recolor the scrollbar when toggling (#1455)
+    if (navigator.userAgent.indexOf('Safari') > 0 && navigator.userAgent.indexOf('Chrome') == -1) {
+      manageTransitions("body", false);
+      window.scrollTo(0, 1);
+      setTimeout(() => {
+        window.scrollTo(0, 0);
+        manageTransitions("body", true);
+      }, 40);  
+    }
+  }
+  const isFileUrl = () => { 
+    return window.location.protocol === 'file:';
+  }
+  const hasAlternateSentinel = () => {  
+    let styleSentinel = getColorSchemeSentinel();
+    if (styleSentinel !== null) {
+      return styleSentinel === "alternate";
+    } else {
+      return false;
+    }
+  }
+  const setStyleSentinel = (alternate) => {
+    const value = alternate ? "alternate" : "default";
+    if (!isFileUrl()) {
+      window.localStorage.setItem("quarto-color-scheme", value);
+    } else {
+      localAlternateSentinel = value;
+    }
+  }
+  const getColorSchemeSentinel = () => {
+    if (!isFileUrl()) {
+      const storageValue = window.localStorage.getItem("quarto-color-scheme");
+      return storageValue != null ? storageValue : localAlternateSentinel;
+    } else {
+      return localAlternateSentinel;
+    }
+  }
+  let localAlternateSentinel = 'default';
+  // Dark / light mode switch
+  window.quartoToggleColorScheme = () => {
+    // Read the current dark / light value 
+    let toAlternate = !hasAlternateSentinel();
+    toggleColorMode(toAlternate);
+    setStyleSentinel(toAlternate);
+  };
+  // Ensure there is a toggle, if there isn't float one in the top right
+  if (window.document.querySelector('.quarto-color-scheme-toggle') === null) {
+    const a = window.document.createElement('a');
+    a.classList.add('top-right');
+    a.classList.add('quarto-color-scheme-toggle');
+    a.href = "";
+    a.onclick = function() { try { window.quartoToggleColorScheme(); } catch {} return false; };
+    const i = window.document.createElement("i");
+    i.classList.add('bi');
+    a.appendChild(i);
+    window.document.body.appendChild(a);
+  }
+  // Switch to dark mode if need be
+  if (hasAlternateSentinel()) {
+    toggleColorMode(true);
+  } else {
+    toggleColorMode(false);
+  }
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="../../../statistics/mixed-models/mixed-model-1/index.html" class="pagination-link">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Introducción</span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="../../../statistics/mixed-models/mixed-model-3/index.html" class="pagination-link">
+        <span class="nav-page-text">Modelos mixtos generalizados</span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">Environmental Computing</div>   
+    <div class="nav-footer-center">
+      &nbsp;
+    </div>
+    <div class="nav-footer-right">Made with <a href="https://quarto.org/">Quarto</a>.</div>
+  </div>
+</footer>
+
+
+
+</body></html>

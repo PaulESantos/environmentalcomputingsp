@@ -1,5 +1,5 @@
 ---
-title: 'Los fundamentos de los Rasters'
+title: 'Fundamentos de imagenes raster'
 weight: 1
 ---
 

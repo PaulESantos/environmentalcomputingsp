@@ -8,8 +8,93 @@ R cuenta con una amplia gama de funciones y paquetes para visualizar datos.
 
 Estas páginas ofrecen una breve introducción a:
 
-* [Graficación básica en R](basic-plotting/)
-* [Graficación más avanzada con ggplot](ggplot/)
-* [Visualización de datos multivariables](multivariate-vis/)
-* [Visualización de datos espaciales (incluyendo mapas)](spatial-vis/)
+## [Graficos basicos en R](basic-plotting/)
 
+```{r,echo=F,fig.width=6, fig.height=2.5}
+Plant_height <- read.csv(file = "basic-plotting/data/Plant_Height.csv", header = TRUE)
+
+par(mfrow = c(1, 3))
+
+hist(Plant_height$height, main = NULL, xlab = "Plant heigth (cm)", col = "red")
+
+model <- lm(loght ~ temp, data = Plant_height)
+plot(loght ~ temp, data = Plant_height, xlab = "Temperature (C)", ylab = "log(Plant height)", pch = 16, col = "darkgreen")
+abline(model, col = "red")
+
+boxplot(loght ~ hemisphere, data = Plant_height, ylab = "log(Plant height)", xlab = "Hemisphere", names = c("South", "North"), col = "lightblue")
+```
+
+R cuenta con una amplia gama de funciones y paquetes para visualizar datos. Aquí tienes ayuda para realizar algunos gráficos muy simples utilizando las funciones básicas en R para datos con:
+
+* [una variable continua](/graphics/basic-plotting/one-continuous/) - histogramas y diagramas de caja
+* [dos variables continuas](/graphics/basic-plotting/two-continuous/) - gráficos de dispersión
+* [una variable continua vs variables categóricas](/graphics/basic-plotting/one-continuous-one-factor/) - diagramas de caja y gráficos de barras
+
+
+
+## [Graficos con ggplot](ggplot/)
+
+[ggplot2](https://ggplot2.tidyverse.org) es un paquete poderoso para la producción de gráficos en R que se puede utilizar para crear gráficos de aspecto profesional para informes, ensayos o trabajos académicos. Puede crear una variedad de gráficos, incluyendo diagramas de caja, gráficos de dispersión e histogramas, y se pueden personalizar ampliamente para adaptarse a tus datos.
+
+El paquete lleva el nombre de un libro llamado [The Grammar of Graphics](https://books.google.com.au/books/about/The_Grammar_of_Graphics.html?id=ZiwLCAAAQBAJ&source=kp_cover&hl=en)  que introduce un enfoque sistemático y estructurado para crear gráficos estadísticos.
+
+Comienza con los [conceptos básicos](/graphics/ggplot/ggplot-basics) para aprender la sintaxis básica de cómo crear un gráfico.
+
+Luego, visita nuestras otras páginas para personalizar aún más la estética del gráfico, incluyendo el color y el formato:
+
+* [Fundamentos de ggplot2](/graphics/ggplot/ggplot-basic/)
+* [Personalización de un gráfico ggplot](/graphics/ggplot/ggplot-appearance/)
+* [Títulos y etiquetas](/graphics/ggplot/ggplot-labels/)
+* [Colores y formas](/graphics/ggplot/ggplot-colour-shapes/)
+* [Gráfico de barras con error intervalos de error](/graphics/ggplot/ggplot-barplot/)
+
+## [Datos multivaridos](multivariate-vis/)
+
+
+```{r,echo=F,fig.width=8, fig.height=4,warning=FALSE,message=FALSE}
+
+Herbivores <- read.csv(file = "multivariate-vis/data/Herbivore_specialisation.csv", header = TRUE)
+
+par(mfrow = c(1, 2))
+
+# MDS
+
+Habitat <- Herbivores$Habitat
+Herb_community <- Herbivores[, 4:10]
+library(vegan)
+Herb_community.mds <- metaMDS(comm = Herb_community, distance = "bray", trace = FALSE)
+plot(Herb_community.mds$points, col = as.factor(Habitat), pch = 16, xlab = "", ylab = "", xaxt = "n", yaxt = "n")
+
+# Cluster
+
+library(dendextend)
+Harbour_metals <- read.csv(file = "multivariate-vis/data/Harbour_metals.csv", header = TRUE)
+Harbour_metals2 <- Harbour_metals[, 4:8]
+rownames(Harbour_metals2) <- Harbour_metals$Rep
+H_metals.sim <- dist(Harbour_metals2, method = "euclidean")
+H_metals.cluster <- hclust(H_metals.sim, method = "single")
+dend <- as.dendrogram(H_metals.cluster)
+sample_colours <- as.numeric(Harbour_metals$Location)
+sample_colours <- sample_colours[order.dendrogram(dend)]
+labels_colors(dend) <- sample_colours
+plot(dend, ylab = "")
+```
+
+R cuenta con una amplia gama de funciones y paquetes para visualizar datos multivariados. Aquí tienes ayuda para algunas de las técnicas más comúnmente utilizadas:
+
+* [Escalamiento multidimensional](/graphics/multivariate-vis/mds/)  
+* [Análisis de componentes principales](/graphics/multivariate-vis/pca/)  
+* [Análisis de agrupamiento - Cluster](/graphics/multivariate-vis/cluster-analysis/)
+* [Heatmaps - Mapa de Calor](/graphics/multivariate-vis/heatmaps/)
+
+
+
+## [Visualización de datos espaciales](spatial-vis/)
+
+R cuenta con una amplia variedad de funciones y paquetes para visualizar datos espaciales. Esta página enlazará con una serie de tutoriales para manejar datos espaciales y crear mapas.
+
+* [Creación de mapas simples con ggmap](/graphics/spatial-vis/simple-maps/)
+* [Fundamentos de imagenes raster](/graphics/spatial-vis/basic-raster/)
+* [Mapas interactivos con R](/graphics/spatial-vis/interactive/)
+
+![](spatial-vis/images/Visualising_spatial_data_intro_image.jpg)

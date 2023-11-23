@@ -10,8 +10,7 @@ website:
   repo-actions: [edit, issue]
   favicon: images/favicon.png
   page-footer: 
-    right: "Made with [Quarto](https://quarto.org/)."
-    left: "Environmental Computing"
+    right: "Environmental Computing - Spanish | Made with [Quarto](https://quarto.org/)."
     
   sidebar:
     logo: images/hexsticker_EC.png
@@ -45,61 +44,60 @@ website:
           - coding-skills/version-control/index.qmd
           - coding-skills/writing-functions/index.qmd
       - section: graphics/index.qmd
-        contents:
-          - graphics/basic-plotting/index.qmd
-          - graphics/basic-plotting/one-continuous-one-factor/index.qmd
+        contents: 
           - graphics/basic-plotting/one-continuous/index.qmd  
-          - graphics/basic-plotting/two-continuous/index.qmd           
-          - graphics/ggplot/ggplot-appearance/index.qmd            
-          - graphics/ggplot/ggplot-barplot/index.qmd                 
-          - graphics/ggplot/ggplot-basics/index.qmd                    
+          - graphics/basic-plotting/two-continuous/index.qmd 
+          - graphics/basic-plotting/one-continuous-one-factor/index.qmd
+          - graphics/ggplot/ggplot-basics/index.qmd  
+          - graphics/ggplot/ggplot-appearance/index.qmd  
+          - graphics/ggplot/ggplot-labels/index.qmd 
           - graphics/ggplot/ggplot-colour-shapes/index.qmd
-          - graphics/ggplot/ggplot-labels/index.qmd              
-          - graphics/ggplot/index.qmd                     
-          - graphics/multivariate-vis/cluster-analysis/index.qmd
-          - graphics/multivariate-vis/heatmaps/index.qmd        
-          - graphics/multivariate-vis/index.qmd                
+          - graphics/ggplot/ggplot-barplot/index.qmd                 
           - graphics/multivariate-vis/mds/index.qmd
           - graphics/multivariate-vis/pca/index.qmd
+          - graphics/multivariate-vis/cluster-analysis/index.qmd
+          - graphics/multivariate-vis/heatmaps/index.qmd        
           - graphics/spatial-vis/basic-raster/index.qmd
-          - graphics/spatial-vis/index.qmd                 
-          - graphics/spatial-vis/interactive/index.qmd
           - graphics/spatial-vis/simple-maps/index.qmd
+          - graphics/spatial-vis/interactive/index.qmd
       - section: statistics/index.qmd
         contents:
-          - statistics/categorical/contingency-tables/index.qmd
-          - statistics/categorical/fishers-exact/index.qmd                      
-          - statistics/categorical/goodness-of-fit/index.qmd
-          - statistics/categorical/index.qmd                         
-          - statistics/gams/index.qmd                                         
-          - statistics/glms/glm-1/index.qmd
-          - statistics/glms/glm-2/index.qmd                                         
-          - statistics/glms/index.qmd                                          
-          - statistics/glms/interpret-glm-coeffs/index.qmd
-          - statistics/index.qmd                          
-          - statistics/linear-models/anova/anova-factorial/index.qmd
-          - statistics/linear-models/anova/anova-nested/index.qmd                
-          - statistics/linear-models/anova/anova-single/index.qmd
-          - statistics/linear-models/anova/index.qmd                   
-          - statistics/linear-models/index.qmd                                
-          - statistics/linear-models/interactions/index.qmd      
+          - statistics/t-tests/one-sample-t-test/index.qmd                       
+          - statistics/t-tests/paired-t-test/index.qmd                            
+          - statistics/t-tests/two-sample-t-test/index.qmd 
+          
           - statistics/linear-models/linear-regression/index.qmd
           - statistics/linear-models/linear-regression/interpret-lm-coeffs/index.qmd
-          - statistics/meta-analysis/index.qmd
+          
+          - statistics/linear-models/anova/anova-single/index.qmd
+          - statistics/linear-models/anova/anova-factorial/index.qmd
+          - statistics/linear-models/anova/anova-nested/index.qmd                
+          - statistics/linear-models/interactions/index.qmd      
+          
+          - statistics/glms/glm-1/index.qmd
+          - statistics/glms/glm-2/index.qmd                                         
+          - statistics/glms/interpret-glm-coeffs/index.qmd
+          
+          - statistics/mixed-models/mixed-model-1/index.qmd                       
+          - statistics/mixed-models/mixed-model-2/index.qmd                       
+          - statistics/mixed-models/mixed-model-3/index.qmd 
+          
+          - statistics/gams/index.qmd 
+          
+          - statistics/categorical/goodness-of-fit/index.qmd
+          - statistics/categorical/contingency-tables/index.qmd
+          - statistics/categorical/fishers-exact/index.qmd  
+          
+          - statistics/power-analysis/index.qmd 
+          
+          - statistics/mvabund/index.qmd 
+          
+          - statistics/time-series/index.qmd
+
           - statistics/meta-analysis/meta-analysis-1/index.qmd
           - statistics/meta-analysis/meta-analysis-2/index.qmd                    
           - statistics/meta-analysis/meta-analysis-3/index.qmd                    
-          - statistics/mixed-models/index.qmd                                     
-          - statistics/mixed-models/mixed-model-1/index.qmd                       
-          - statistics/mixed-models/mixed-model-2/index.qmd                       
-          - statistics/mixed-models/mixed-model-3/index.qmd                       
-          - statistics/mvabund/index.qmd                                         
-          - statistics/power-analysis/index.qmd                                 
-          - statistics/t-tests/index.qmd                                       
-          - statistics/t-tests/one-sample-t-test/index.qmd                       
-          - statistics/t-tests/paired-t-test/index.qmd                            
-          - statistics/t-tests/two-sample-t-test/index.qmd                        
-          - statistics/time-series/index.qmd
+
       - section: datasets/index.qmd 
         contents:
           - datasets/index.qmd
