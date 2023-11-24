@@ -1,16 +1,29 @@
 ---
-title: "About"
+title: ""
 ---
 
-Este sitio presenta una breve introducción a técnicas para la organización de datos, generación de gráficos y análisis de datos, que incluye:
+<center>
+**Una Introducción al Manejo de Datos, Producción de Gráficos y Desarrollo de Análisis Estadístico en Ciencias Ambientales**
+</center>
 
-- Cómo organizar datos durante la [entrada de datos](/getting-started-with-r/data-entry/).
 
-- Cómo [manipular y administrar datos](/data-manipulation/) para tener transparencia y control de versiones.
+Los estudiantes e investigadores en el campo de las ciencias ambientales necesitan adquirir una amplia variedad de habilidades cuantitativas en el uso de software analíticos y herramientas de procesamiento de datos. Entre estas habilidades se incluyen el dominio de R, sistemas de información geográfica (SIG) y el procesamiento de datos remotos. Es cada vez más importante asegurar la transparencia en el procesamiento de datos, respaldado por un análisis estadístico sólido, para respaldar las conclusiones de la investigación científica y los monitoreos utilizados en la gestión y formulación de políticas. En este sitio web, ofrecemos una breve introducción a las técnicas de organización de datos, creación de gráficos y análisis estadísticos para apoyar a los profesionales en este campo.
 
-- Instrucciones para ejecutar [análisis estadísticos](/statistics/) con código de muestra en R u otro software relevante (primero consulte [Introducción a R](/getting-started-with-r/)).
+<center>
+   <img src="images/DSC06364.jpg" style="width:400px; height:250px;"/>
+</center>
 
-- La justificación de la técnica en lenguaje sencillo (por qué se usa).
+### Objetivos:
+
+Este sitio presenta una breve introducción a técnicas para la organización de datos, generación de gráficos y análisis de datos, que incluye los siguientes temas:
+
+- Consideraciones para organizar datos durante la [entrada de datos](/getting-started-with-r/data-entry/).
+
+- Cómo [manipular y administrar datos](/data-manipulation/) para garantizar la transparencia y control de versiones.
+
+- Instrucciones para ejecutar [análisis estadístico](/statistics/) con código de muestra en R u otro software relevante ([Introducción a R](/getting-started-with-r/)).
+
+- La justificación de la técnica de los diferentes análisis estadísticos en lenguaje sencillo (por qué se usa).
 
 - Cómo interpretar los resultados y las suposiciones que se deben comprobar.
 
@@ -18,28 +31,23 @@ Este sitio presenta una breve introducción a técnicas para la organización de
 
 - Dónde encontrar ayuda adicional.
 
-Este sitio integra diferentes técnicas utilizadas por investigadores y posgraduados de la [Universidad de Nueva Gales del Sur, Australia](https://www.unsw.edu.au/), quienes han proporcionado sus conocimientos y habilidades para ayudar a otros a desarrollar habilidades en el procesamiento y análisis de datos.
+### Producción del contenido:
 
-Los recursos fueron desarrollados inicialmente para ayudar en la enseñanza de habilidades cuantitativas a estudiantes de pregrado y posgrado en la [Escuela de Ciencias Biológicas, Terrestres y Ambientales](http://www.bees.unsw.edu.au/) en la Universidad de Nueva Gales del Sur, con el apoyo de una subvención de Innovación en Enseñanza y Aprendizaje otorgada a `Alistair Poore, Will Cornwell, Iain Suthers y Richard Kingsford`. El desarrollo de la segunda generación de este sitio fue posible gracias al apoyo del [Centro de Investigación en Evolución y Ecología](http://www.eerc.unsw.edu.au/).
+Este sitio web integra diferentes técnicas utilizadas por investigadores y posgraduados de la [Universidad de Nueva Gales del Sur, Australia](https://www.unsw.edu.au/), quienes han proporcionado sus conocimientos y habilidades para ayudar a otros a desarrollar habilidades en el procesamiento y análisis de datos.
 
-**Editores del sitio:**
+Los recursos que se presentan fueron desarrollados inicialmente para ayudar en la enseñanza de habilidades cuantitativas a estudiantes de pregrado y posgrado en la [Escuela de Ciencias Biológicas, Terrestres y Ambientales](http://www.bees.unsw.edu.au/) en la Universidad de Nueva Gales del Sur, con el apoyo de una subvención de **Innovación en Enseñanza y Aprendizaje** otorgada a Alistair Poore, Will Cornwell, Iain Suthers y Richard Kingsford. El desarrollo de la segunda generación de este sitio fue posible gracias al apoyo del [Centro de Investigación en Evolución y Ecología](http://www.eerc.unsw.edu.au/).
 
-[Profesor Alistair Poore](https://alistairpoore.org)
+### Editores del sitio:
 
-[Profesor Asociado Will Cornwell](http://willcornwell.org/)
+- [Profesor Alistair Poore](https://alistairpoore.org)
+- [Profesor Asociado Will Cornwell](http://willcornwell.org/)
+- [Profesor Asociado Danial Falster](https://danielfalster.com/)
+- [Dr. Fonti Kar](https://fontikar.wordpress.com/)
 
-[Profesor Asociado Danial Falster](https://danielfalster.com/)
+### Autores de la página:
 
-[Dr. Fonti Kar](https://fontikar.wordpress.com/)
+Keryn Bain, Rachel Blakey, Stephanie Brodie, Corey Callaghan, Will Cornwell, Kingsley Griffin, Matt Holland, James Lavender, Andrew Letten, Shinichi Nakagawa, Shaun Nielsen, Alistair Poore, Gordana Popovic, Fiona Robinson y Jakub Stoklosa.
 
-**Autores de la página:** Keryn Bain, Rachel Blakey, Stephanie Brodie, Corey Callaghan, Will Cornwell, Kingsley Griffin, Matt Holland, James Lavender, Andrew Letten, Shinichi Nakagawa, Shaun Nielsen, Alistair Poore, Gordana Popovic, Fiona Robinson y Jakub Stoklosa.
+### Colaboradores
 
-**Año:** 2016
-
-**Última actualización:** `r format(Sys.time(), "%b %Y")`
-
-## Colaboradores
-
-¡Gracias a ellos {{< fa heart >}}  por hacer de los programas de código abierto un lugar mejor!
-
-
+¡Gracias a ellos {{< fa heart >}} por hacer de los programas de código abierto un lugar mejor!

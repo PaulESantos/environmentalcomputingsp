@@ -71,8 +71,4 @@ Si tienes varios archivos de proyectos de R, puedes cambiar fácilmente entre el
 La ayuda de RStudio sobre [el uso de proyectos](https://support.rstudio.com/hc/en-us/articles/200526207-Using-Projects)
 Nuestra introducción al [control de versiones](/coding-skills/version-control/) para realizar un seguimiento de las revisiones de los archivos del proyecto.
 
-**Autor**: Alistair Poore y Will Cornwell
-
-**Año**: 2016
-
-**Última actualización**: `r format(Sys.time(), "%b %Y")`
+**Autor**: Alistair Poore y Will Cornwell - 2016

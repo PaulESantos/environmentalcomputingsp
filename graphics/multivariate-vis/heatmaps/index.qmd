@@ -246,8 +246,4 @@ Y los resultados son como se esperaba. La mitad superior del mapa de calor muest
 
 Escribe `?pheatmap` para obtener ayuda de R sobre esta función.
 
-**Autor:** Shaun Nielsen
-
-**Año:** 2016
-
-**Última actualización:** `r format(Sys.time(), "%b %Y")`
+**Autor:** Shaun Nielsen - 2016

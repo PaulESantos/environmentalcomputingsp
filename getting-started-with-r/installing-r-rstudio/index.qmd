@@ -73,8 +73,4 @@ Nuestros módulos de ayuda sobre [Buenas prácticas para escribir scripts](/codi
 [Formación en línea en R](https://education.rstudio.com/learn/beginner/).
 
 
-**Autor**: Alistair Poore y Will Cornwel.
-
-**Año**: 2016.
-
-**Última actualización**: `r format(Sys.time(), "%b %Y")`.
+**Autor**: Alistair Poore y Will Cornwel - 2016

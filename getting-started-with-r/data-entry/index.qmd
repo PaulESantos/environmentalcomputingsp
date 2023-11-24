@@ -56,8 +56,4 @@ Una vez que sus datos estén en formato .csv o .txt, consulte [Importación de d
 <p style="margin-left:.5in;text-indent:-.5in">Borer, ET, EW Seabloom, MB Jones & M Schildhauer. 2009. Algunas pautas simples para la gestión efectiva de datos. *Bulletin of the Ecological Society of America*, 90: 205-214. [enlace](http://dx.doi.org/10.1890/0012-9623-90.2.205)</p>
 <p style="margin-left:.5in;text-indent:-.5in">Wickham, H. 2014. Tidy data. *Journal of Statistical Software*, 59:(10). [enlace](http://www.jstatsoft.org/v59/i10/paper)</p>
 
-**Autor:** Andrew Letten
-
-**Año:** 2016
-
-**Última actualización:** `r format(Sys.time(), "%b %Y")`
+**Autor:** Andrew Letten - 2016

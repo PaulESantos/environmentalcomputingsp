@@ -235,8 +235,4 @@ summary(Snail_feeding)
 
 [R-bloggers - errores comunes en la importación de tablas](http://www.r-bloggers.com/using-r-common-errors-in-table-import/)
 
-**Autor**: Keryn Bain
-
-**Año:** 2016
-
-**Última actualización:** `r format(Sys.time(), "%b %Y")`
+**Autor**: Keryn Bain - 2016

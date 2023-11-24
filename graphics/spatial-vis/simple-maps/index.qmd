@@ -189,10 +189,6 @@ Lee la documentación de [ggmap](https://cran.r-project.org/web/packages/ggmap/i
 
 Consulta la [hoja de referencia de ggmap](https://www.nceas.ucsb.edu/~frazier/RSpatialGuides/ggmap/ggmapCheatsheet.pdf) del Centro Nacional para el Análisis y la Síntesis Ecológica.
 
-**Autor**: Kingsley Griffin, ediciones de Daniel Falster
-
-**Año**: 2017
-
-**Última actualización**: `r format(Sys.time(), "%b %Y")`
+**Autor**: Kingsley Griffin, ediciones de Daniel Falster - 2017
 
 

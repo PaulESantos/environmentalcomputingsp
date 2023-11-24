@@ -167,8 +167,4 @@ Escribe `?metaMDS` para obtener ayuda sobre esta función en R.
 
 <p style="margin-left: .5in; text-indent: -.5in;">McKillup, S (2012) *Statistics explained. An introductory guide for life scientists.* Cambridge University Press. Capítulo 22. Conceptos introductorios del análisis multivariado.</p>
 
-**Autor:** Andrew Letten
-
-**Año:** 2016
-
-**Última actualización:** `r format(Sys.time(), "%b %Y")`
+**Autor:** Andrew Letten - 2016

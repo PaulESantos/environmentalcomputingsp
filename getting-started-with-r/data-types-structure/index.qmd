@@ -155,9 +155,5 @@ is.numeric(eg_data_frame$numeric)
 
 Puedes encontrar más información sobre los tipos de datos en R [aquí](https://www.stat.auckland.ac.nz/~paul/ItDT/HTML/node64.html) y [aquí](http://www.statmethods.net/input/datatypes.html).
 
-**Autor**: Keryn Bain
-
-**Año**: 2016
-
-**Última actualización**: May 2023
+**Autor**: Keryn Bain - 2016
 

@@ -128,11 +128,11 @@ a:hover {
 
 
 .sidebar-logo {
-  max-width: 200px;
+  max-width: 300px;
 }
 
 .sidebar-title {
-  font-size: 1.7rem; /* Esta medida parece excesivamente grande, podrías querer revisarla */
+  font-size: 3.7rem; /* Esta medida parece excesivamente grande, podrías querer revisarla */
     color: #2c3e50; /* Añade color al título del sidebar, en este caso, un azul oscuro */
 }
 
@@ -151,3 +151,5 @@ a:hover {
   margin-bottom: 0.4rem;
   background-color: #3c3e50; /* Añade un color de fondo a los bloques de código, en este caso, un gris claro */
 }
+
+

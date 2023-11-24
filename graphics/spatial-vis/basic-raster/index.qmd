@@ -577,8 +577,4 @@ map(database = "world", col = "grey")
 ```
 
 
-**Autor**: Mitchell Lyons
-
-**Año**: 2017
-
-**Última actualización**: `r format(Sys.time(), "%b %Y")`
+**Autor**: Mitchell Lyons - 2017
