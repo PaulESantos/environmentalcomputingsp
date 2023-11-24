@@ -58,13 +58,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 
 <script src="../../../site_libs/quarto-nav/quarto-nav.js"></script>
-<script src="../../../site_libs/quarto-nav/headroom.min.js"></script>
 <script src="../../../site_libs/clipboard/clipboard.min.js"></script>
 <script src="../../../site_libs/quarto-search/autocomplete.umd.js"></script>
 <script src="../../../site_libs/quarto-search/fuse.min.js"></script>
 <script src="../../../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../../../">
-<link href="../../../statistics/categorical/goodness-of-fit/index.html" rel="next">
+<link href="../../../statistics/power-analysis/index.html" rel="next">
 <link href="../../../statistics/categorical/contingency-tables/index.html" rel="prev">
 <link href="../../../images/favicon.png" rel="icon" type="image/png">
 <script src="../../../site_libs/quarto-html/quarto.js"></script>
@@ -125,11 +124,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
 <!-- sidebar -->
   <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal sidebar-navigation docked overflow-auto">
-    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="pt-lg-2 mt-2 text-center sidebar-header">
       <a href="../../../index.html" class="sidebar-logo-link">
-      <img src="../../../images/hexsticker_EC.png" alt="" class="sidebar-logo py-0 d-lg-inline d-none">
+      <img src="../../../images/E_C_01-01.png" alt="" class="sidebar-logo py-0 d-lg-inline d-none">
       </a>
-      <div class="sidebar-tools-main">
+      <div class="sidebar-tools-main tools-wide">
+    <a href="https://environmentalcomputing.net/" title="Environmental Computing" class="quarto-navigation-tool px-1" aria-label="Environmental Computing"><i class="bi bi-globe"></i></a>
+    <a href="https://github.com/PaulESantos/environmentalcomputingsp" title="GitHub Repository" class="quarto-navigation-tool px-1" aria-label="GitHub Repository"><i class="bi bi-github"></i></a>
   <a href="" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="Toggle dark mode"><i class="bi"></i></a>
 </div>
       </div>
@@ -143,13 +144,19 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../../index.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Bienvenido a Environmental Computing</span></a>
+ <span class="menu-text">Bienvenido</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../about.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Sobre el sitio web</span></a>
   </div>
 </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
             <a href="../../../getting-started-with-r/index.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Empezando con R</span></a>
+ <span class="menu-text">Introducción a la programación con R</span></a>
           <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="false" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
@@ -195,54 +202,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a href="../../../data-manipulation/index.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Manipulación de Datos</span></a>
+            <a href="../../../coding-skills/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Introducción a la programación</span></a>
           <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="false" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
       <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 ">  
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../../data-manipulation/combining-datasets/index.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Combinando conjuntos de datos.</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../../data-manipulation/making-new-variables/index.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Creación de nuevas variables</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../../data-manipulation/reshaping-data/index.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Reorganización de datos</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../../data-manipulation/subsetting-data/index.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Subconjuntos de datos</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../../data-manipulation/summarising-data/index.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Resumiendo datos</span></a>
-  </div>
-</li>
-      </ul>
-  </li>
-        <li class="sidebar-item sidebar-item-section">
-      <div class="sidebar-item-container"> 
-            <a href="../../../coding-skills/index.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Introducción a la programación</span></a>
-          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-expanded="false" aria-label="Toggle section">
-            <i class="bi bi-chevron-right ms-2"></i>
-          </a> 
-      </div>
-      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 ">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../../coding-skills/asking-code-questions/index.html" class="sidebar-item-text sidebar-link">
@@ -271,6 +237,47 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <div class="sidebar-item-container"> 
   <a href="../../../coding-skills/writing-functions/index.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Como escribir funciones</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="../../../data-manipulation/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Manipulación de Datos</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../data-manipulation/combining-datasets/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Combinando conjuntos de datos.</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../data-manipulation/making-new-variables/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Creación de nuevas variables</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../data-manipulation/reshaping-data/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Reorganización de datos</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../data-manipulation/subsetting-data/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Subconjuntos de datos</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../data-manipulation/summarising-data/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Resumiendo datos</span></a>
   </div>
 </li>
       </ul>
@@ -387,98 +394,20 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <ul id="quarto-sidebar-section-5" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../../statistics/categorical/contingency-tables/index.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Tablas de contingencia</span></a>
+  <a href="../../../statistics/t-tests/one-sample-t-test/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Prueba de una muestra con t de Student</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../../statistics/categorical/fishers-exact/index.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text">Prueba Exacta de Fisher</span></a>
+  <a href="../../../statistics/t-tests/paired-t-test/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">T-test emparejado</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../../statistics/categorical/goodness-of-fit/index.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Prueba de bondad de ajuste</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../../statistics/categorical/index.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Análisis de datos categóricos</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../../statistics/gams/index.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Modelos Aditivos Generalizados (GAM)</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../../statistics/glms/glm-1/index.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Introducción y Datos Binarios</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../../statistics/glms/glm-2/index.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Datos de recuento</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../../statistics/glms/index.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Modelos Lineales Generalizados (GLM)</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../../statistics/glms/interpret-glm-coeffs/index.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Interpretación de los GLMs</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../../statistics/index.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Statistics</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../../statistics/linear-models/anova/anova-factorial/index.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">ANOVA Factorial</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../../statistics/linear-models/anova/anova-nested/index.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">ANOVA anidado</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../../statistics/linear-models/anova/anova-single/index.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">ANOVA de un solo factor</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../../statistics/linear-models/anova/index.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">ANOVA</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../../statistics/linear-models/index.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Modelos Lineales</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../../statistics/linear-models/interactions/index.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Comprendiendo las interacciones</span></a>
+  <a href="../../../statistics/t-tests/two-sample-t-test/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Two Sample T-test</span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -495,32 +424,44 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../../statistics/meta-analysis/index.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Meta-Análisis</span></a>
+  <a href="../../../statistics/linear-models/anova/anova-single/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">ANOVA de un solo factor</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../../statistics/meta-analysis/meta-analysis-1/index.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Introduction al meta-análisis</span></a>
+  <a href="../../../statistics/linear-models/anova/anova-factorial/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">ANOVA Factorial</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../../statistics/meta-analysis/meta-analysis-2/index.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Fixed-effect and Random-effect Models</span></a>
+  <a href="../../../statistics/linear-models/anova/anova-nested/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">ANOVA anidado</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../../statistics/meta-analysis/meta-analysis-3/index.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Multilevel Models</span></a>
+  <a href="../../../statistics/linear-models/interactions/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Comprendiendo las interacciones</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../../statistics/mixed-models/index.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Modelos mixtos</span></a>
+  <a href="../../../statistics/glms/glm-1/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Introducción y Datos Binarios</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../statistics/glms/glm-2/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Datos de recuento</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../statistics/glms/interpret-glm-coeffs/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Interpretación de los GLMs</span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -543,44 +484,62 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../../statistics/mvabund/index.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Análisis multivariado con mvabund</span></a>
+  <a href="../../../statistics/gams/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Modelos Aditivos Generalizados (GAM)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../statistics/categorical/goodness-of-fit/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Prueba de bondad de ajuste</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../statistics/categorical/contingency-tables/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Tablas de contingencia</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../statistics/categorical/fishers-exact/index.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text">Prueba Exacta de Fisher</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../../statistics/power-analysis/index.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Power Analyses</span></a>
+ <span class="menu-text">Análisis de poder</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../../statistics/t-tests/index.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">T-tests</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../../statistics/t-tests/one-sample-t-test/index.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Prueba de una muestra con t de Student</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../../statistics/t-tests/paired-t-test/index.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">T-test emparejado</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../../statistics/t-tests/two-sample-t-test/index.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Two Sample T-test</span></a>
+  <a href="../../../statistics/mvabund/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Análisis multivariado con <code>mvabund</code></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../../statistics/time-series/index.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Predicción de series temporales</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../statistics/meta-analysis/meta-analysis-1/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Introduction al meta-análisis</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../statistics/meta-analysis/meta-analysis-2/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Fixed-effect and Random-effect Models</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../statistics/meta-analysis/meta-analysis-3/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Multilevel Models</span></a>
   </div>
 </li>
       </ul>
@@ -1045,8 +1004,8 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="../../../statistics/categorical/goodness-of-fit/index.html" class="pagination-link">
-        <span class="nav-page-text">Prueba de bondad de ajuste</span> <i class="bi bi-arrow-right-short"></i>
+      <a href="../../../statistics/power-analysis/index.html" class="pagination-link">
+        <span class="nav-page-text">Análisis de poder</span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>

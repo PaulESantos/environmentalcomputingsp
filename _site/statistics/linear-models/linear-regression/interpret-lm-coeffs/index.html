@@ -58,13 +58,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 
 <script src="../../../../site_libs/quarto-nav/quarto-nav.js"></script>
-<script src="../../../../site_libs/quarto-nav/headroom.min.js"></script>
 <script src="../../../../site_libs/clipboard/clipboard.min.js"></script>
 <script src="../../../../site_libs/quarto-search/autocomplete.umd.js"></script>
 <script src="../../../../site_libs/quarto-search/fuse.min.js"></script>
 <script src="../../../../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../../../../">
-<link href="../../../../statistics/meta-analysis/index.html" rel="next">
+<link href="../../../../statistics/linear-models/anova/anova-single/index.html" rel="next">
 <link href="../../../../statistics/linear-models/linear-regression/index.html" rel="prev">
 <link href="../../../../images/favicon.png" rel="icon" type="image/png">
 <script src="../../../../site_libs/quarto-html/quarto.js"></script>
@@ -125,11 +124,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
 <!-- sidebar -->
   <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal sidebar-navigation docked overflow-auto">
-    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="pt-lg-2 mt-2 text-center sidebar-header">
       <a href="../../../../index.html" class="sidebar-logo-link">
-      <img src="../../../../images/hexsticker_EC.png" alt="" class="sidebar-logo py-0 d-lg-inline d-none">
+      <img src="../../../../images/E_C_01-01.png" alt="" class="sidebar-logo py-0 d-lg-inline d-none">
       </a>
-      <div class="sidebar-tools-main">
+      <div class="sidebar-tools-main tools-wide">
+    <a href="https://environmentalcomputing.net/" title="Environmental Computing" class="quarto-navigation-tool px-1" aria-label="Environmental Computing"><i class="bi bi-globe"></i></a>
+    <a href="https://github.com/PaulESantos/environmentalcomputingsp" title="GitHub Repository" class="quarto-navigation-tool px-1" aria-label="GitHub Repository"><i class="bi bi-github"></i></a>
   <a href="" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="Toggle dark mode"><i class="bi"></i></a>
 </div>
       </div>
@@ -143,13 +144,19 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../../../index.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Bienvenido a Environmental Computing</span></a>
+ <span class="menu-text">Bienvenido</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../../about.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Sobre el sitio web</span></a>
   </div>
 </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
             <a href="../../../../getting-started-with-r/index.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Empezando con R</span></a>
+ <span class="menu-text">Introducción a la programación con R</span></a>
           <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="false" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
@@ -195,13 +202,54 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a href="../../../../data-manipulation/index.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Manipulación de Datos</span></a>
+            <a href="../../../../coding-skills/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Introducción a la programación</span></a>
           <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="false" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
       <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../../coding-skills/asking-code-questions/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Preguntas sobre código</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../../coding-skills/good-practice/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Buenas prácticas de codificación</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../../coding-skills/loops/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Usando bucles</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../../coding-skills/version-control/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Control de versiones</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../../coding-skills/writing-functions/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Como escribir funciones</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="../../../../data-manipulation/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Manipulación de Datos</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 ">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../../../data-manipulation/combining-datasets/index.html" class="sidebar-item-text sidebar-link">
@@ -236,47 +284,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a href="../../../../coding-skills/index.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Habilidades de programación</span></a>
-          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-expanded="false" aria-label="Toggle section">
-            <i class="bi bi-chevron-right ms-2"></i>
-          </a> 
-      </div>
-      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 ">  
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../../../coding-skills/asking-code-questions/index.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Preguntas sobre código</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../../../coding-skills/good-practice/index.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Buenas prácticas de codificación</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../../../coding-skills/loops/index.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Usando bucles</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../../../coding-skills/version-control/index.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Control de versiones</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../../../coding-skills/writing-functions/index.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Funciones</span></a>
-  </div>
-</li>
-      </ul>
-  </li>
-        <li class="sidebar-item sidebar-item-section">
-      <div class="sidebar-item-container"> 
             <a href="../../../../graphics/index.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Gráficos</span></a>
           <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" aria-expanded="false" aria-label="Toggle section">
@@ -284,18 +291,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
           </a> 
       </div>
       <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 ">  
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../../../graphics/basic-plotting/index.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Gráficos básicos en R</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../../../graphics/basic-plotting/one-continuous-one-factor/index.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Una Variable Continua y una Variable Categórica</span></a>
-  </div>
-</li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../../../graphics/basic-plotting/one-continuous/index.html" class="sidebar-item-text sidebar-link">
@@ -310,14 +305,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../../../graphics/ggplot/ggplot-appearance/index.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Personalización de un gráfico en ggplot</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../../../graphics/ggplot/ggplot-barplot/index.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Gráfico de barras con barras de error</span></a>
+  <a href="../../../../graphics/basic-plotting/one-continuous-one-factor/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Una Variable Continua y una Variable Categórica</span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -328,38 +317,26 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="../../../../graphics/ggplot/ggplot-appearance/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Personalización de un gráfico en ggplot</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../../graphics/ggplot/ggplot-labels/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Títulos y etiquetas</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="../../../../graphics/ggplot/ggplot-colour-shapes/index.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Colores y formas</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../../../graphics/ggplot/ggplot-labels/index.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Títulos y etiquetas de ejes</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../../../graphics/ggplot/index.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Gráficos en R con ggplot2</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../../../graphics/multivariate-vis/cluster-analysis/index.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Análisis de Clúster</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../../../graphics/multivariate-vis/heatmaps/index.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Heatmaps - Mapa de Calor</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../../../graphics/multivariate-vis/index.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Datos Multivariados</span></a>
+  <a href="../../../../graphics/ggplot/ggplot-barplot/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Gráfico de barras con barras de error</span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -376,26 +353,32 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="../../../../graphics/multivariate-vis/cluster-analysis/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Análisis de Clúster</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../../graphics/multivariate-vis/heatmaps/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Heatmaps - Mapa de Calor</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="../../../../graphics/spatial-vis/basic-raster/index.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Los fundamentos de los Rasters</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../../../graphics/spatial-vis/index.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Datos espaciales</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../../../graphics/spatial-vis/interactive/index.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Mapas interactivos en R</span></a>
+ <span class="menu-text">Fundamentos de imagenes raster</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../../../graphics/spatial-vis/simple-maps/index.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Mapas simples con ggmap</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../../graphics/spatial-vis/interactive/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Mapas interactivos en R</span></a>
   </div>
 </li>
       </ul>
@@ -411,98 +394,20 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <ul id="quarto-sidebar-section-5" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../../../statistics/categorical/contingency-tables/index.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Tablas de contingencia</span></a>
+  <a href="../../../../statistics/t-tests/one-sample-t-test/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Prueba de una muestra con t de Student</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../../../statistics/categorical/fishers-exact/index.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Prueba Exacta de Fisher</span></a>
+  <a href="../../../../statistics/t-tests/paired-t-test/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">T-test emparejado</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../../../statistics/categorical/goodness-of-fit/index.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Prueba de bondad de ajuste</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../../../statistics/categorical/index.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Análisis de datos categóricos</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../../../statistics/gams/index.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Modelos Aditivos Generalizados (GAM)</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../../../statistics/glms/glm-1/index.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Introducción y Datos Binarios</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../../../statistics/glms/glm-2/index.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Datos de recuento</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../../../statistics/glms/index.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Modelos Lineales Generalizados (GLM)</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../../../statistics/glms/interpret-glm-coeffs/index.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Interpretación de los GLMs</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../../../statistics/index.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Statistics</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../../../statistics/linear-models/anova/anova-factorial/index.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">ANOVA Factorial</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../../../statistics/linear-models/anova/anova-nested/index.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">ANOVA anidado</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../../../statistics/linear-models/anova/anova-single/index.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">ANOVA de un solo factor</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../../../statistics/linear-models/anova/index.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">ANOVA</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../../../statistics/linear-models/index.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Modelos Lineales</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../../../statistics/linear-models/interactions/index.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Comprensión de las interacciones</span></a>
+  <a href="../../../../statistics/t-tests/two-sample-t-test/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Two Sample T-test</span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -519,32 +424,44 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../../../statistics/meta-analysis/index.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Meta-Análisis</span></a>
+  <a href="../../../../statistics/linear-models/anova/anova-single/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">ANOVA de un solo factor</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../../../statistics/meta-analysis/meta-analysis-1/index.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Introduction al meta-análisis</span></a>
+  <a href="../../../../statistics/linear-models/anova/anova-factorial/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">ANOVA Factorial</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../../../statistics/meta-analysis/meta-analysis-2/index.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Fixed-effect and Random-effect Models</span></a>
+  <a href="../../../../statistics/linear-models/anova/anova-nested/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">ANOVA anidado</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../../../statistics/meta-analysis/meta-analysis-3/index.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Multilevel Models</span></a>
+  <a href="../../../../statistics/linear-models/interactions/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Comprendiendo las interacciones</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../../../statistics/mixed-models/index.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Mmodelos mixtos</span></a>
+  <a href="../../../../statistics/glms/glm-1/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Introducción y Datos Binarios</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../../statistics/glms/glm-2/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Datos de recuento</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../../statistics/glms/interpret-glm-coeffs/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Interpretación de los GLMs</span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -567,44 +484,62 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../../../statistics/mvabund/index.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Análisis multivariado con mvabund</span></a>
+  <a href="../../../../statistics/gams/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Modelos Aditivos Generalizados (GAM)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../../statistics/categorical/goodness-of-fit/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Prueba de bondad de ajuste</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../../statistics/categorical/contingency-tables/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Tablas de contingencia</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../../statistics/categorical/fishers-exact/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Prueba Exacta de Fisher</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../../../statistics/power-analysis/index.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Power Analyses</span></a>
+ <span class="menu-text">Análisis de poder</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../../../statistics/t-tests/index.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">T-tests</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../../../statistics/t-tests/one-sample-t-test/index.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Prueba de una muestra con t de Student</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../../../statistics/t-tests/paired-t-test/index.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">T-test emparejado</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../../../statistics/t-tests/two-sample-t-test/index.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Two Sample T-test</span></a>
+  <a href="../../../../statistics/mvabund/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Análisis multivariado con <code>mvabund</code></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../../../statistics/time-series/index.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Predicción de series temporales</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../../statistics/meta-analysis/meta-analysis-1/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Introduction al meta-análisis</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../../statistics/meta-analysis/meta-analysis-2/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Fixed-effect and Random-effect Models</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../../statistics/meta-analysis/meta-analysis-3/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Multilevel Models</span></a>
   </div>
 </li>
       </ul>
@@ -696,9 +631,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="fu">data.frame</span>(<span class="at">estimated =</span> <span class="fu">round</span>(lm_both<span class="sc">$</span>coefficients, <span class="dv">2</span>), <span class="at">true =</span> beta)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>            estimated true
-(Intercept)      1.95    2
-temp             0.91    1
-alt             -1.02   -1</code></pre>
+(Intercept)      1.99    2
+temp             0.94    1
+alt             -0.99   -1</code></pre>
 </div>
 </div>
 <p>La interpretación de estos coeficientes es que si mantienes todo lo demás en el modelo constante (es decir, la temperatura) y agregas 1 a la altitud, entonces la altura media estimada disminuirá en 1.09. Ten en cuenta que el coeficiente depende de las unidades en las que se mide la altitud. Si la altitud se mide en metros, entonces el coeficiente te dice qué sucede cuando subes 1 metro.</p>
@@ -709,7 +644,7 @@ alt             -1.02   -1</code></pre>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>lm1<span class="sc">$</span>coefficients</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>(Intercept)        temp 
-   1.949036    1.311288 </code></pre>
+   1.916260    1.343841 </code></pre>
 </div>
 </div>
 <p>El coeficiente de temperatura ahora es <code>1.38</code>, ¿qué está pasando? La altitud es un predictor importante de la altura de las plantas, y parte de la información sobre la altitud está contenida en la temperatura (recuerda que están correlacionadas, por lo que a medida que la altitud aumenta, la temperatura disminuye). El modelo tiene en cuenta esto cambiando el efecto de la temperatura para tener en cuenta la información que contiene sobre la altitud. Observa que el coeficiente de temperatura está incorrecto en aproximadamente 0.4, que es la cantidad de correlación entre las variables.</p>
@@ -730,18 +665,18 @@ lm(formula = height ~ temp)
 
 Residuals:
     Min      1Q  Median      3Q     Max 
--8.4669 -1.4440  0.0415  1.4019  6.3182 
+-6.4168 -1.3871  0.0002  1.3837  6.5856 
 
 Coefficients:
             Estimate Std. Error t value Pr(&gt;|t|)    
-(Intercept)  2.17215    0.06691  32.464  &lt; 2e-16 ***
-temp         0.52793    0.06726   7.849 1.08e-14 ***
+(Intercept)  1.90153    0.07036  27.025  &lt; 2e-16 ***
+temp         0.37797    0.06828   5.535 3.97e-08 ***
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 
-Residual standard error: 2.115 on 998 degrees of freedom
-Multiple R-squared:  0.05814,   Adjusted R-squared:  0.0572 
-F-statistic: 61.61 on 1 and 998 DF,  p-value: 1.076e-14</code></pre>
+Residual standard error: 2.225 on 998 degrees of freedom
+Multiple R-squared:  0.02979,   Adjusted R-squared:  0.02881 
+F-statistic: 30.64 on 1 and 998 DF,  p-value: 3.974e-08</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">anova</span>(mod_temp)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -749,8 +684,8 @@ F-statistic: 61.61 on 1 and 998 DF,  p-value: 1.076e-14</code></pre>
 
 Response: height
            Df Sum Sq Mean Sq F value    Pr(&gt;F)    
-temp        1  275.7 275.714  61.609 1.076e-14 ***
-Residuals 998 4466.2   4.475                      
+temp        1  151.7 151.680  30.638 3.974e-08 ***
+Residuals 998 4940.8   4.951                      
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
 </div>
@@ -767,29 +702,29 @@ lm(formula = height ~ alt + temp)
 
 Residuals:
     Min      1Q  Median      3Q     Max 
--7.8432 -1.2804  0.0401  1.4006  5.8354 
+-5.7545 -1.3827  0.0116  1.4017  6.6308 
 
 Coefficients:
             Estimate Std. Error t value Pr(&gt;|t|)    
-(Intercept)  2.17447    0.06203  35.057   &lt;2e-16 ***
-alt         -0.89438    0.06976 -12.821   &lt;2e-16 ***
-temp         0.17408    0.06818   2.553   0.0108 *  
+(Intercept)  1.97947    0.06388  30.989   &lt;2e-16 ***
+alt         -1.05451    0.07075 -14.904   &lt;2e-16 ***
+temp        -0.04747    0.06806  -0.697    0.486    
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 
-Residual standard error: 1.961 on 997 degrees of freedom
-Multiple R-squared:  0.1914,    Adjusted R-squared:  0.1898 
-F-statistic:   118 on 2 and 997 DF,  p-value: &lt; 2.2e-16</code></pre>
+Residual standard error: 2.013 on 997 degrees of freedom
+Multiple R-squared:  0.2066,    Adjusted R-squared:  0.205 
+F-statistic: 129.8 on 2 and 997 DF,  p-value: &lt; 2.2e-16</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">anova</span>(mod_temp_alt)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Analysis of Variance Table
 
 Response: height
-           Df Sum Sq Mean Sq  F value  Pr(&gt;F)    
-alt         1  882.8  882.77 229.5506 &lt; 2e-16 ***
-temp        1   25.1   25.07   6.5178 0.01083 *  
-Residuals 997 3834.1    3.85                     
+           Df Sum Sq Mean Sq  F value Pr(&gt;F)    
+alt         1 1049.9 1049.95 259.0719 &lt;2e-16 ***
+temp        1    2.0    1.97   0.4864 0.4857    
+Residuals 997 4040.6    4.05                    
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
 </div>
@@ -826,20 +761,20 @@ Call:
 lm(formula = Y ~ treatment)
 
 Residuals:
-   Min     1Q Median     3Q    Max 
--5.763 -1.121 -0.085  1.138  6.566 
+    Min      1Q  Median      3Q     Max 
+-5.1663 -1.3331 -0.2593  1.5723  4.2109 
 
 Coefficients:
              Estimate Std. Error t value Pr(&gt;|t|)    
-(Intercept)    3.3214     0.3305  10.049  &lt; 2e-16 ***
-treatmentlow  -2.4975     0.4674  -5.343 4.56e-07 ***
-treatmentmed  -1.8318     0.4674  -3.919  0.00015 ***
+(Intercept)    3.4683     0.3273  10.595  &lt; 2e-16 ***
+treatmentlow  -2.8122     0.4629  -6.075 1.59e-08 ***
+treatmentmed  -1.0622     0.4629  -2.294   0.0235 *  
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 
-Residual standard error: 2.09 on 117 degrees of freedom
-Multiple R-squared:  0.2075,    Adjusted R-squared:  0.1939 
-F-statistic: 15.31 on 2 and 117 DF,  p-value: 1.238e-06</code></pre>
+Residual standard error: 2.07 on 117 degrees of freedom
+Multiple R-squared:  0.2434,    Adjusted R-squared:  0.2305 
+F-statistic: 18.82 on 2 and 117 DF,  p-value: 8.201e-08</code></pre>
 </div>
 </div>
 <p>Entonces, el grupo “high” tiene una media de <code>2.65</code>, y la diferencia entre las medias del grupo “low” y el grupo “high” es de <code>-0.66</code>, y la diferencia entre el grupo “med” y el grupo “high” es de <code>-1.48</code>. Si deseas tener otro grupo como grupo de referencia, puedes usar <code>relevel</code> para recodificar tu factor de tratamiento.</p>
@@ -853,20 +788,20 @@ Call:
 lm(formula = Y ~ treatment)
 
 Residuals:
-   Min     1Q Median     3Q    Max 
--5.763 -1.121 -0.085  1.138  6.566 
+    Min      1Q  Median      3Q     Max 
+-5.1663 -1.3331 -0.2593  1.5723  4.2109 
 
 Coefficients:
               Estimate Std. Error t value Pr(&gt;|t|)    
-(Intercept)     0.8239     0.3305   2.493   0.0141 *  
-treatmenthigh   2.4975     0.4674   5.343 4.56e-07 ***
-treatmentmed    0.6657     0.4674   1.424   0.1571    
+(Intercept)     0.6561     0.3273   2.004 0.047349 *  
+treatmenthigh   2.8122     0.4629   6.075 1.59e-08 ***
+treatmentmed    1.7500     0.4629   3.780 0.000248 ***
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 
-Residual standard error: 2.09 on 117 degrees of freedom
-Multiple R-squared:  0.2075,    Adjusted R-squared:  0.1939 
-F-statistic: 15.31 on 2 and 117 DF,  p-value: 1.238e-06</code></pre>
+Residual standard error: 2.07 on 117 degrees of freedom
+Multiple R-squared:  0.2434,    Adjusted R-squared:  0.2305 
+F-statistic: 18.82 on 2 and 117 DF,  p-value: 8.201e-08</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="fu">boxplot</span>(Y <span class="sc">~</span> treatment)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
@@ -883,20 +818,20 @@ Call:
 lm(formula = Y ~ treatment - 1)
 
 Residuals:
-   Min     1Q Median     3Q    Max 
--5.763 -1.121 -0.085  1.138  6.566 
+    Min      1Q  Median      3Q     Max 
+-5.1663 -1.3331 -0.2593  1.5723  4.2109 
 
 Coefficients:
               Estimate Std. Error t value Pr(&gt;|t|)    
-treatmentlow    0.8239     0.3305   2.493   0.0141 *  
-treatmenthigh   3.3214     0.3305  10.049  &lt; 2e-16 ***
-treatmentmed    1.4896     0.3305   4.507 1.57e-05 ***
+treatmentlow    0.6561     0.3273   2.004   0.0473 *  
+treatmenthigh   3.4683     0.3273  10.595  &lt; 2e-16 ***
+treatmentmed    2.4061     0.3273   7.350 2.91e-11 ***
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 
-Residual standard error: 2.09 on 117 degrees of freedom
-Multiple R-squared:  0.5215,    Adjusted R-squared:  0.5092 
-F-statistic: 42.51 on 3 and 117 DF,  p-value: &lt; 2.2e-16</code></pre>
+Residual standard error: 2.07 on 117 degrees of freedom
+Multiple R-squared:  0.5928,    Adjusted R-squared:  0.5823 
+F-statistic: 56.77 on 3 and 117 DF,  p-value: &lt; 2.2e-16</code></pre>
 </div>
 </div>
 <p>Ahora, los tres coeficientes son las medias de los grupos.</p>
@@ -918,9 +853,9 @@ Fit: lm(formula = Y ~ treatment - 1)
 
 Linear Hypotheses:
                 Estimate Std. Error t value Pr(&gt;|t|)    
-high - low == 0   2.4975     0.4674   5.343  &lt; 1e-04 ***
-med - low == 0    0.6657     0.4674   1.424 0.331852    
-med - high == 0  -1.8318     0.4674  -3.919 0.000436 ***
+high - low == 0   2.8122     0.4629   6.075   &lt;0.001 ***
+med - low == 0    1.7500     0.4629   3.780   &lt;0.001 ***
+med - high == 0  -1.0622     0.4629  -2.294   0.0606 .  
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 (Adjusted p values reported -- single-step method)</code></pre>
@@ -938,15 +873,15 @@ Multiple Comparisons of Means: Tukey Contrasts
 
 Fit: lm(formula = Y ~ treatment - 1)
 
-Quantile = 2.3738
+Quantile = 2.3737
 95% family-wise confidence level
  
 
 Linear Hypotheses:
-                Estimate lwr     upr    
-high - low == 0  2.4975   1.3880  3.6070
-med - low == 0   0.6657  -0.4439  1.7752
-med - high == 0 -1.8318  -2.9414 -0.7223</code></pre>
+                Estimate lwr      upr     
+high - low == 0  2.81222  1.71334  3.91110
+med - low == 0   1.75002  0.65114  2.84890
+med - high == 0 -1.06220 -2.16108  0.03668</code></pre>
 </div>
 </div>
 <p>Nota: En un modelo con múltiples covariables, las mismas reglas siguen aplicándose en cuanto a las interpretaciones condicionales y marginales de los coeficientes.</p>
@@ -1312,19 +1247,21 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="../../../../statistics/meta-analysis/index.html" class="pagination-link">
-        <span class="nav-page-text">Meta-Análisis</span> <i class="bi bi-arrow-right-short"></i>
+      <a href="../../../../statistics/linear-models/anova/anova-single/index.html" class="pagination-link">
+        <span class="nav-page-text">ANOVA de un solo factor</span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>
 </div> <!-- /content -->
 <footer class="footer">
   <div class="nav-footer">
-    <div class="nav-footer-left">Environmental Computing</div>   
+    <div class="nav-footer-left">
+      &nbsp;
+    </div>   
     <div class="nav-footer-center">
       &nbsp;
     </div>
-    <div class="nav-footer-right">Made with <a href="https://quarto.org/">Quarto</a>.</div>
+    <div class="nav-footer-right">Environmental Computing - Spanish | Made with <a href="https://quarto.org/">Quarto</a>.</div>
   </div>
 </footer>
 
