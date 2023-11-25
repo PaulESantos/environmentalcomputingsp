@@ -1,6 +1,6 @@
 ---
 weight: 9
-title: "Predicción de series temporales"
+title: "Series temporales"
 ---
 
 
