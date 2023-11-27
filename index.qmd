@@ -10,6 +10,6 @@ Bienvenidos al sitio web de la versión en español de [Environmental Computing]
 
 ## Sobre la Traducción
 
-La versión en español de [Environmental Computing](https://environmentalcomputing.net/) es un proyecto desarrollado con el fin de proporcionar a los profesionales de las ciencias biológicas una herramienta de consulta accesible para el uso de R. La traducción fue realizada por [Paul Efren Santos Andrade](https://paulefrensa.netlify.app/). Extendemos nuestro agradecimiento al profesor [Will Cornwell](http://willcornwell.org/) por su generosidad al compartir la información y otorgarnos la autorización para difundir la traducción del contenido original de [Environmental Computing](https://environmentalcomputing.net/).
+La versión en español de [Environmental Computing](https://environmentalcomputing.net/) es un proyecto desarrollado con el fin de proporcionar a los profesionales de las ciencias biológicas una herramienta de consulta accesible para el uso de R. La traducción fue realizada por [Paul Efren Santos Andrade](https://paulefrensa.netlify.app/). Extendemos nuestro agradecimiento al profesor [Will Cornwell](http://willcornwell.org/) - [Alistair Poore](https://alistairpoore.org/) por su generosidad al compartir la información y otorgarnos la autorización para difundir la traducción del contenido original de [Environmental Computing](https://environmentalcomputing.net/).
 
 
