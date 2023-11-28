@@ -631,9 +631,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="fu">data.frame</span>(<span class="at">estimated =</span> <span class="fu">round</span>(lm_both<span class="sc">$</span>coefficients, <span class="dv">2</span>), <span class="at">true =</span> beta)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>            estimated true
-(Intercept)      1.99    2
-temp             0.94    1
-alt             -0.99   -1</code></pre>
+(Intercept)      2.02    2
+temp             0.99    1
+alt             -0.96   -1</code></pre>
 </div>
 </div>
 <p>La interpretación de estos coeficientes es que si mantienes todo lo demás en el modelo constante (es decir, la temperatura) y agregas 1 a la altitud, entonces la altura media estimada disminuirá en 1.09. Ten en cuenta que el coeficiente depende de las unidades en las que se mide la altitud. Si la altitud se mide en metros, entonces el coeficiente te dice qué sucede cuando subes 1 metro.</p>
@@ -644,7 +644,7 @@ alt             -0.99   -1</code></pre>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>lm1<span class="sc">$</span>coefficients</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>(Intercept)        temp 
-   1.916260    1.343841 </code></pre>
+   2.009652    1.354432 </code></pre>
 </div>
 </div>
 <p>El coeficiente de temperatura ahora es <code>1.38</code>, ¿qué está pasando? La altitud es un predictor importante de la altura de las plantas, y parte de la información sobre la altitud está contenida en la temperatura (recuerda que están correlacionadas, por lo que a medida que la altitud aumenta, la temperatura disminuye). El modelo tiene en cuenta esto cambiando el efecto de la temperatura para tener en cuenta la información que contiene sobre la altitud. Observa que el coeficiente de temperatura está incorrecto en aproximadamente 0.4, que es la cantidad de correlación entre las variables.</p>
@@ -665,18 +665,18 @@ lm(formula = height ~ temp)
 
 Residuals:
     Min      1Q  Median      3Q     Max 
--6.4168 -1.3871  0.0002  1.3837  6.5856 
+-6.8915 -1.4806  0.0858  1.5078  6.9137 
 
 Coefficients:
             Estimate Std. Error t value Pr(&gt;|t|)    
-(Intercept)  1.90153    0.07036  27.025  &lt; 2e-16 ***
-temp         0.37797    0.06828   5.535 3.97e-08 ***
+(Intercept)  1.90357    0.07111  26.771  &lt; 2e-16 ***
+temp         0.35480    0.06982   5.082 4.46e-07 ***
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 
-Residual standard error: 2.225 on 998 degrees of freedom
-Multiple R-squared:  0.02979,   Adjusted R-squared:  0.02881 
-F-statistic: 30.64 on 1 and 998 DF,  p-value: 3.974e-08</code></pre>
+Residual standard error: 2.248 on 998 degrees of freedom
+Multiple R-squared:  0.02522,   Adjusted R-squared:  0.02425 
+F-statistic: 25.82 on 1 and 998 DF,  p-value: 4.464e-07</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">anova</span>(mod_temp)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -684,8 +684,8 @@ F-statistic: 30.64 on 1 and 998 DF,  p-value: 3.974e-08</code></pre>
 
 Response: height
            Df Sum Sq Mean Sq F value    Pr(&gt;F)    
-temp        1  151.7 151.680  30.638 3.974e-08 ***
-Residuals 998 4940.8   4.951                      
+temp        1  130.5 130.537  25.824 4.464e-07 ***
+Residuals 998 5044.8   5.055                      
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
 </div>
@@ -702,19 +702,19 @@ lm(formula = height ~ alt + temp)
 
 Residuals:
     Min      1Q  Median      3Q     Max 
--5.7545 -1.3827  0.0116  1.4017  6.6308 
+-7.6093 -1.3188  0.0373  1.3496  6.0585 
 
 Coefficients:
             Estimate Std. Error t value Pr(&gt;|t|)    
-(Intercept)  1.97947    0.06388  30.989   &lt;2e-16 ***
-alt         -1.05451    0.07075 -14.904   &lt;2e-16 ***
-temp        -0.04747    0.06806  -0.697    0.486    
+(Intercept)  1.91753    0.06457  29.698   &lt;2e-16 ***
+alt         -0.99286    0.06794 -14.614   &lt;2e-16 ***
+temp        -0.02152    0.06842  -0.314    0.753    
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 
-Residual standard error: 2.013 on 997 degrees of freedom
-Multiple R-squared:  0.2066,    Adjusted R-squared:  0.205 
-F-statistic: 129.8 on 2 and 997 DF,  p-value: &lt; 2.2e-16</code></pre>
+Residual standard error: 2.041 on 997 degrees of freedom
+Multiple R-squared:  0.1972,    Adjusted R-squared:  0.1956 
+F-statistic: 122.5 on 2 and 997 DF,  p-value: &lt; 2.2e-16</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">anova</span>(mod_temp_alt)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -722,9 +722,9 @@ F-statistic: 129.8 on 2 and 997 DF,  p-value: &lt; 2.2e-16</code></pre>
 
 Response: height
            Df Sum Sq Mean Sq  F value Pr(&gt;F)    
-alt         1 1049.9 1049.95 259.0719 &lt;2e-16 ***
-temp        1    2.0    1.97   0.4864 0.4857    
-Residuals 997 4040.6    4.05                    
+alt         1 1020.2 1020.19 244.8087 &lt;2e-16 ***
+temp        1    0.4    0.41   0.0989 0.7532    
+Residuals 997 4154.8    4.17                    
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
 </div>
@@ -762,19 +762,19 @@ lm(formula = Y ~ treatment)
 
 Residuals:
     Min      1Q  Median      3Q     Max 
--5.1663 -1.3331 -0.2593  1.5723  4.2109 
+-4.5662 -1.5108  0.1593  1.4340  4.3690 
 
 Coefficients:
              Estimate Std. Error t value Pr(&gt;|t|)    
-(Intercept)    3.4683     0.3273  10.595  &lt; 2e-16 ***
-treatmentlow  -2.8122     0.4629  -6.075 1.59e-08 ***
-treatmentmed  -1.0622     0.4629  -2.294   0.0235 *  
+(Intercept)    2.9487     0.3358   8.781 1.59e-14 ***
+treatmentlow  -2.2074     0.4749  -4.648 8.86e-06 ***
+treatmentmed  -0.7660     0.4749  -1.613    0.109    
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 
-Residual standard error: 2.07 on 117 degrees of freedom
-Multiple R-squared:  0.2434,    Adjusted R-squared:  0.2305 
-F-statistic: 18.82 on 2 and 117 DF,  p-value: 8.201e-08</code></pre>
+Residual standard error: 2.124 on 117 degrees of freedom
+Multiple R-squared:   0.16, Adjusted R-squared:  0.1456 
+F-statistic: 11.14 on 2 and 117 DF,  p-value: 3.728e-05</code></pre>
 </div>
 </div>
 <p>Entonces, el grupo “high” tiene una media de <code>2.65</code>, y la diferencia entre las medias del grupo “low” y el grupo “high” es de <code>-0.66</code>, y la diferencia entre el grupo “med” y el grupo “high” es de <code>-1.48</code>. Si deseas tener otro grupo como grupo de referencia, puedes usar <code>relevel</code> para recodificar tu factor de tratamiento.</p>
@@ -789,19 +789,19 @@ lm(formula = Y ~ treatment)
 
 Residuals:
     Min      1Q  Median      3Q     Max 
--5.1663 -1.3331 -0.2593  1.5723  4.2109 
+-4.5662 -1.5108  0.1593  1.4340  4.3690 
 
 Coefficients:
               Estimate Std. Error t value Pr(&gt;|t|)    
-(Intercept)     0.6561     0.3273   2.004 0.047349 *  
-treatmenthigh   2.8122     0.4629   6.075 1.59e-08 ***
-treatmentmed    1.7500     0.4629   3.780 0.000248 ***
+(Intercept)     0.7413     0.3358   2.208  0.02922 *  
+treatmenthigh   2.2074     0.4749   4.648 8.86e-06 ***
+treatmentmed    1.4414     0.4749   3.035  0.00296 ** 
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 
-Residual standard error: 2.07 on 117 degrees of freedom
-Multiple R-squared:  0.2434,    Adjusted R-squared:  0.2305 
-F-statistic: 18.82 on 2 and 117 DF,  p-value: 8.201e-08</code></pre>
+Residual standard error: 2.124 on 117 degrees of freedom
+Multiple R-squared:   0.16, Adjusted R-squared:  0.1456 
+F-statistic: 11.14 on 2 and 117 DF,  p-value: 3.728e-05</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="fu">boxplot</span>(Y <span class="sc">~</span> treatment)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
@@ -819,19 +819,19 @@ lm(formula = Y ~ treatment - 1)
 
 Residuals:
     Min      1Q  Median      3Q     Max 
--5.1663 -1.3331 -0.2593  1.5723  4.2109 
+-4.5662 -1.5108  0.1593  1.4340  4.3690 
 
 Coefficients:
               Estimate Std. Error t value Pr(&gt;|t|)    
-treatmentlow    0.6561     0.3273   2.004   0.0473 *  
-treatmenthigh   3.4683     0.3273  10.595  &lt; 2e-16 ***
-treatmentmed    2.4061     0.3273   7.350 2.91e-11 ***
+treatmentlow    0.7413     0.3358   2.208   0.0292 *  
+treatmenthigh   2.9487     0.3358   8.781 1.59e-14 ***
+treatmentmed    2.1828     0.3358   6.500 2.05e-09 ***
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 
-Residual standard error: 2.07 on 117 degrees of freedom
-Multiple R-squared:  0.5928,    Adjusted R-squared:  0.5823 
-F-statistic: 56.77 on 3 and 117 DF,  p-value: &lt; 2.2e-16</code></pre>
+Residual standard error: 2.124 on 117 degrees of freedom
+Multiple R-squared:  0.515, Adjusted R-squared:  0.5026 
+F-statistic: 41.41 on 3 and 117 DF,  p-value: &lt; 2.2e-16</code></pre>
 </div>
 </div>
 <p>Ahora, los tres coeficientes son las medias de los grupos.</p>
@@ -853,9 +853,9 @@ Fit: lm(formula = Y ~ treatment - 1)
 
 Linear Hypotheses:
                 Estimate Std. Error t value Pr(&gt;|t|)    
-high - low == 0   2.8122     0.4629   6.075   &lt;0.001 ***
-med - low == 0    1.7500     0.4629   3.780   &lt;0.001 ***
-med - high == 0  -1.0622     0.4629  -2.294   0.0606 .  
+high - low == 0   2.2074     0.4749   4.648  &lt; 1e-04 ***
+med - low == 0    1.4414     0.4749   3.035  0.00824 ** 
+med - high == 0  -0.7660     0.4749  -1.613  0.24424    
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 (Adjusted p values reported -- single-step method)</code></pre>
@@ -873,15 +873,15 @@ Multiple Comparisons of Means: Tukey Contrasts
 
 Fit: lm(formula = Y ~ treatment - 1)
 
-Quantile = 2.3737
+Quantile = 2.3743
 95% family-wise confidence level
  
 
 Linear Hypotheses:
-                Estimate lwr      upr     
-high - low == 0  2.81222  1.71334  3.91110
-med - low == 0   1.75002  0.65114  2.84890
-med - high == 0 -1.06220 -2.16108  0.03668</code></pre>
+                Estimate lwr     upr    
+high - low == 0  2.2074   1.0799  3.3349
+med - low == 0   1.4414   0.3139  2.5690
+med - high == 0 -0.7660  -1.8935  0.3616</code></pre>
 </div>
 </div>
 <p>Nota: En un modelo con múltiples covariables, las mismas reglas siguen aplicándose en cuanto a las interpretaciones condicionales y marginales de los coeficientes.</p>

@@ -523,7 +523,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../../statistics/time-series/index.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Predicción de series temporales</span></a>
+ <span class="menu-text">Series temporales</span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -622,12 +622,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>glm1<span class="sc">$</span>coefficients</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>(Intercept)           x 
-  0.9683343   0.1133311 </code></pre>
+  0.9774531   0.2146345 </code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">exp</span>(glm1<span class="sc">$</span>coefficients[<span class="dv">2</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>       x 
-1.120003 </code></pre>
+1.239409 </code></pre>
 </div>
 </div>
 </section>
@@ -652,16 +652,16 @@ glm(formula = bY ~ x, family = binomial)
 
 Coefficients:
             Estimate Std. Error z value Pr(&gt;|z|)    
-(Intercept)   2.5265     0.3512   7.193 6.32e-13 ***
-x            -0.1305     0.3220  -0.405    0.685    
+(Intercept)   2.5783     0.3699   6.969 3.19e-12 ***
+x             0.4818     0.3361   1.434    0.152    
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 
 (Dispersion parameter for binomial family taken to be 1)
 
     Null deviance: 63.932  on 119  degrees of freedom
-Residual deviance: 63.769  on 118  degrees of freedom
-AIC: 67.769
+Residual deviance: 61.803  on 118  degrees of freedom
+AIC: 65.803
 
 Number of Fisher Scoring iterations: 5</code></pre>
 </div>
@@ -678,9 +678,9 @@ Number of Fisher Scoring iterations: 5</code></pre>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>bin2 <span class="ot">&lt;-</span> <span class="fu">manyglm</span>(bY <span class="sc">~</span> x, <span class="at">family =</span> <span class="fu">binomial</span>(<span class="at">link =</span> <span class="st">"cloglog"</span>))</span>
 <span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="fu">coef</span>(bin2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>                    bY
-(Intercept)  0.9555107
-x           -0.0438863</code></pre>
+<pre><code>                   bY
+(Intercept) 0.9647877
+x           0.1834676</code></pre>
 </div>
 </div>
 <p>La interpretación es ahora la misma que en el caso de Poisson, cuando aumentamos <span class="math inline">\(x\)</span> en 1 unidad, la media del recuento subyacente se multiplica por <span class="math inline">\(exp( \beta_1 )\)</span>.</p>
@@ -711,15 +711,17 @@ Call:
 glm(formula = Y ~ depth + offset(log(soil)), family = poisson)
 
 Coefficients:
-             Estimate Std. Error z value Pr(&gt;|z|)
-(Intercept)  0.067789   0.055915   1.212    0.225
-depth       -0.008256   0.051265  -0.161    0.872
+            Estimate Std. Error z value Pr(&gt;|z|)   
+(Intercept)  0.14388    0.05517   2.608   0.0091 **
+depth        0.02192    0.05411   0.405   0.6854   
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 
 (Dispersion parameter for poisson family taken to be 1)
 
-    Null deviance: 143.33  on 119  degrees of freedom
-Residual deviance: 143.31  on 118  degrees of freedom
-AIC: 459.94
+    Null deviance: 145.38  on 119  degrees of freedom
+Residual deviance: 145.21  on 118  degrees of freedom
+AIC: 466.22
 
 Number of Fisher Scoring iterations: 5</code></pre>
 </div>
@@ -734,16 +736,18 @@ Call:
 glm(formula = Y ~ depth + log(soil), family = poisson)
 
 Coefficients:
-             Estimate Std. Error z value Pr(&gt;|z|)
-(Intercept)  0.755676   0.650483   1.162    0.245
-depth       -0.007653   0.051417  -0.149    0.882
-log(soil)    0.247392   0.710823   0.348    0.728
+            Estimate Std. Error z value Pr(&gt;|z|)  
+(Intercept) -0.09894    0.51350  -0.193    0.847  
+depth        0.02520    0.05446   0.463    0.644  
+log(soil)    1.27449    0.57629   2.212    0.027 *
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 
 (Dispersion parameter for poisson family taken to be 1)
 
-    Null deviance: 142.35  on 119  degrees of freedom
-Residual deviance: 142.21  on 117  degrees of freedom
-AIC: 460.84
+    Null deviance: 150.17  on 119  degrees of freedom
+Residual deviance: 144.98  on 117  degrees of freedom
+AIC: 467.99
 
 Number of Fisher Scoring iterations: 5</code></pre>
 </div>

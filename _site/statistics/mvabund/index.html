@@ -521,7 +521,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../statistics/time-series/index.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Predicción de series temporales</span></a>
+ <span class="menu-text">Series temporales</span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -693,7 +693,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="cell">
 <div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">anova</span>(mod2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>Time elapsed: 0 hr 0 min 20 sec</code></pre>
+<pre><code>Time elapsed: 0 hr 0 min 26 sec</code></pre>
 </div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Analysis of Deviance Table
@@ -717,7 +717,7 @@ Arguments:
 <div class="cell">
 <div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="fu">anova</span>(mod2, <span class="at">p.uni =</span> <span class="st">"adjusted"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>Time elapsed: 0 hr 0 min 15 sec</code></pre>
+<pre><code>Time elapsed: 0 hr 0 min 26 sec</code></pre>
 </div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Analysis of Deviance Table
@@ -759,7 +759,7 @@ P-value calculated using 999 iterations via PIT-trap resampling.</code></pre>
 <div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>mod3 <span class="ot">&lt;-</span> <span class="fu">manyglm</span>(Herb_spp <span class="sc">~</span> Herbivores<span class="sc">$</span>Habitat <span class="sc">*</span> Herbivores<span class="sc">$</span>DayNight, <span class="at">family =</span> <span class="st">"negative_binomial"</span>)</span>
 <span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a><span class="fu">anova</span>(mod3)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>Time elapsed: 0 hr 1 min 4 sec</code></pre>
+<pre><code>Time elapsed: 0 hr 1 min 21 sec</code></pre>
 </div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Analysis of Deviance Table
@@ -770,8 +770,8 @@ Multivariate test:
                                        Res.Df Df.diff   Dev Pr(&gt;Dev)    
 (Intercept)                                99                           
 Herbivores$Habitat                         95       4 625.2    0.001 ***
-Herbivores$DayNight                        94       1   6.2    0.596    
-Herbivores$Habitat:Herbivores$DayNight     90       4  25.4    0.419    
+Herbivores$DayNight                        94       1   6.2    0.576    
+Herbivores$Habitat:Herbivores$DayNight     90       4  25.4    0.425    
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 Arguments:
@@ -1156,7 +1156,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
   </div>
   <div class="nav-page nav-page-next">
       <a href="../../statistics/time-series/index.html" class="pagination-link">
-        <span class="nav-page-text">Predicción de series temporales</span> <i class="bi bi-arrow-right-short"></i>
+        <span class="nav-page-text">Series temporales</span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>

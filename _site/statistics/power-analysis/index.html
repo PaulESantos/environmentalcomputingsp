@@ -521,7 +521,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../statistics/time-series/index.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Predicción de series temporales</span></a>
+ <span class="menu-text">Series temporales</span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -923,7 +923,7 @@ Test: Likelihood ratio
 Based on 50 simulations, (0 warnings, 0 errors)
 alpha = 0.05, nrow = 18
 
-Time elapsed: 0 h 0 m 10 s</code></pre>
+Time elapsed: 0 h 0 m 16 s</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="co"># este es un número pequeño de simulaciones para demostración, el valor predeterminado de 1000 es más apropiado</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
@@ -963,7 +963,7 @@ Test: Likelihood ratio
 Based on 50 simulations, (0 warnings, 0 errors)
 alpha = 0.05, nrow = 72
 
-Time elapsed: 0 h 0 m 11 s</code></pre>
+Time elapsed: 0 h 0 m 18 s</code></pre>
 </div>
 </div>
 <p>Así que obtenemos alrededor del 90% de poder, suena genial. Para ver si agregar más observaciones por sitio haría que fuera mejor o peor, utilizamos el argumento <code>within</code>.</p>
@@ -1000,7 +1000,7 @@ Test: Likelihood ratio
 Based on 50 simulations, (0 warnings, 0 errors)
 alpha = 0.05, nrow = 72
 
-Time elapsed: 0 h 0 m 13 s</code></pre>
+Time elapsed: 0 h 0 m 18 s</code></pre>
 </div>
 </div>
 <p>Eso solo nos da alrededor del 60% de poder. Entonces, para estos datos, diseño de muestreo y pregunta, es mejor agregar más sitios. Por supuesto, también puedes hacer combinaciones, tal vez duplicar los sitios y duplicar las observaciones por sitio.</p>
@@ -1032,7 +1032,7 @@ Test: Likelihood ratio
 Based on 50 simulations, (0 warnings, 0 errors)
 alpha = 0.05, nrow = 72
 
-Time elapsed: 0 h 0 m 12 s</code></pre>
+Time elapsed: 0 h 0 m 18 s</code></pre>
 </div>
 </div>
 <p>Esto nos da un 75% de poder, que está a medio camino entre los otros. Entonces, en este caso, nuevamente es mejor agregar más sitios que más observaciones por sitio. Esto no siempre es cierto y depende en gran medida de la variabilidad dentro y entre sitios, de tu diseño experimental y de tu pregunta.</p>

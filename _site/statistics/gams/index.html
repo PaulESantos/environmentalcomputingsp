@@ -523,7 +523,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../statistics/time-series/index.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Predicción de series temporales</span></a>
+ <span class="menu-text">Series temporales</span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -704,17 +704,17 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="cell-output cell-output-stdout">
 <pre><code>
 Method: REML   Optimizer: outer newton
-full convergence after 6 iterations.
-Gradient range [-4.31303e-10,3.669678e-10]
-(score 28.63696 &amp; scale 0.1017739).
-Hessian positive definite, eigenvalue range [2.064479,30.74066].
+full convergence after 5 iterations.
+Gradient range [-2.590719e-05,5.607645e-06]
+(score 31.19693 &amp; scale 0.1069359).
+Hessian positive definite, eigenvalue range [1.893879,30.78121].
 Model rank =  10 / 10 
 
 Basis dimension (k) checking results. Low p-value (k-index&lt;1) may
 indicate that k is too low, especially if edf is close to k'.
 
        k'  edf k-index p-value
-s(x) 9.00 6.23    1.03    0.50</code></pre>
+s(x) 9.00 6.67    1.04    0.58</code></pre>
 </div>
 </div>
 <p>Utilizando <code>summary</code> con el objeto del modelo te dará la significancia del término suave (junto con cualquier término paramétrico, si los has incluido), junto con la varianza explicada. En este ejemplo, es un ajuste bastante decente. El ‘edf’ es el número estimado de grados de libertad, esencialmente, cuanto mayor sea el número, más ondulado será el modelo ajustado. Los valores alrededor de 1 tienden a ser cercanos a un término lineal. Puedes leer sobre penalización y contracción para obtener más información sobre lo que refleja el edf.</p>
@@ -730,16 +730,16 @@ y ~ s(x)
 
 Parametric coefficients:
             Estimate Std. Error t value Pr(&gt;|t|)
-(Intercept) -0.02845    0.04019  -0.708    0.482
+(Intercept) -0.02691    0.04120  -0.653    0.516
 
 Approximate significance of smooth terms:
        edf Ref.df     F p-value    
-s(x) 6.232  7.388 43.77  &lt;2e-16 ***
+s(x) 6.672  7.795 40.22  &lt;2e-16 ***
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 
-R-sq.(adj) =  0.839   Deviance explained = 85.5%
--REML = 28.637  Scale est. = 0.10177   n = 63</code></pre>
+R-sq.(adj) =  0.834   Deviance explained = 85.2%
+-REML = 31.197  Scale est. = 0.10694   n = 63</code></pre>
 </div>
 </div>
 </section>

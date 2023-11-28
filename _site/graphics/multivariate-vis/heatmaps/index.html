@@ -521,7 +521,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../../statistics/time-series/index.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Predicción de series temporales</span></a>
+ <span class="menu-text">Series temporales</span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -609,20 +609,17 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="cell" data-layout-align="center">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(pheatmap)</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Warning: package 'dplyr' was built under R version 4.3.2</code></pre>
-</div>
 </div>
 <section id="lectura-de-los-datos" class="level3">
 <h3 class="anchored" data-anchor-id="lectura-de-los-datos">Lectura de los datos</h3>
 <p>Con datos multivariados, a menudo tenemos dos marcos de datos con 1) los recuentos por muestra y 2) los factores que agrupan las muestras. Descarga estos dos archivos de datos, <a href="../../../datasets/Bac.counts.csv">Bac.counts.csv</a> y <a href="../../../datasets/Bac.factors.csv">Bac.factors.csv</a>, e impórtalos en R.</p>
 <div class="cell" data-layout-align="center">
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>Bac.counts <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="at">file =</span> <span class="st">"Bac.counts.csv"</span>, <span class="at">header =</span> <span class="cn">TRUE</span>, <span class="at">row.names =</span> <span class="dv">1</span>)</span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>Bac.factors <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="at">file =</span> <span class="st">"Bac.factors.csv"</span>, <span class="at">header =</span> <span class="cn">TRUE</span>, <span class="at">row.names =</span> <span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>Bac.counts <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="at">file =</span> <span class="st">"Bac.counts.csv"</span>, <span class="at">header =</span> <span class="cn">TRUE</span>, <span class="at">row.names =</span> <span class="dv">1</span>)</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>Bac.factors <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="at">file =</span> <span class="st">"Bac.factors.csv"</span>, <span class="at">header =</span> <span class="cn">TRUE</span>, <span class="at">row.names =</span> <span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>El argumento <code>row.names=1</code> asigna la primera columna de la hoja de cálculo como nombres de fila en el marco de datos. Deberíamos verificar la estructura de los datos de los recuentos utilizando el comando <code>head</code>. Dado que hay muchas columnas, solo revisaremos las primeras 10 utilizando indexación (uso de <code>[,]</code> después del objeto, con números de fila antes de la coma y números de columna después).</p>
 <div class="cell" data-layout-align="center">
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(Bac.counts[, <span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(Bac.counts[, <span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>          DC1  DC2  DC3  DS1  DS2  DS3  SC1  SC2  SC3  SS1
 Otu00002 2906 2619 2200 2959 3205 2455 2815 2761 2275 3519
@@ -635,7 +632,7 @@ Otu00007 1112 1042 1211 1060 1155 1103 1283 1198 1175 1485</code></pre>
 </div>
 <p>Podemos ver que los nombres de las filas de los datos tienen los números de código para cada unidad taxonómica operativa (<code>OTU</code>) de bacterias, y hay recuentos enteros de estas en cada muestra. Ahora, vamos a verificar las dimensiones de los datos (número de filas y columnas).</p>
 <div class="cell" data-layout-align="center">
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">dim</span>(Bac.counts)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">dim</span>(Bac.counts)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 4299   15</code></pre>
 </div>
@@ -643,7 +640,7 @@ Otu00007 1112 1042 1211 1060 1155 1103 1283 1198 1175 1485</code></pre>
 <p>Hay 4299 unidades taxonómicas operativas (<code>OTUs</code>) de bacterias como filas entre 15 muestras como columnas.</p>
 <p>A continuación, podemos verificar la estructura de la información de factor utilizando la función <code>str</code>. En este experimento, las muestras están categorizadas por un <code>ID</code> de tratamiento (cada combinación de densidad y especie), niveles de densidad y niveles de especie. Las otras columnas son para fines de trazado en otro lugar.</p>
 <div class="cell" data-layout-align="center">
-<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(Bac.factors)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(Bac.factors)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>'data.frame':   15 obs. of  6 variables:
  $ Treatment_ID: chr  "DC" "DC" "DC" "DS" ...
@@ -659,9 +656,9 @@ Otu00007 1112 1042 1211 1060 1155 1103 1283 1198 1175 1485</code></pre>
 <h3 class="anchored" data-anchor-id="dibujando-un-mapa-de-calor">Dibujando un mapa de calor</h3>
 <p>La función básica es <code>pheatmap</code>. Vamos a intentarlo sin argumentos especiales, excepto que solo observaremos las primeras 500 OTUs (ya están ordenadas de mayor a menor abundancia total). La función <code>slice</code> en dplyr puede tomar cualquier subconjunto de filas numeradas (ver <a href="../../../data-manipulation/subsetting-data/">Subconjunto de datos</a>).</p>
 <div class="cell" data-layout-align="center">
-<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>Bac.counts500 <span class="ot">&lt;-</span> <span class="fu">slice</span>(Bac.counts, <span class="dv">1</span><span class="sc">:</span><span class="dv">500</span>)</span>
-<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a><span class="fu">pheatmap</span>(Bac.counts500)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>Bac.counts500 <span class="ot">&lt;-</span> <span class="fu">slice</span>(Bac.counts, <span class="dv">1</span><span class="sc">:</span><span class="dv">500</span>)</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="fu">pheatmap</span>(Bac.counts500)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
@@ -673,8 +670,8 @@ Otu00007 1112 1042 1211 1060 1155 1103 1283 1198 1175 1485</code></pre>
 <p>En la figura, las muestras son columnas y las OTUs bacterianas son filas, con el color representando el rango de recuentos de cada OTU en cada muestra. El rojo significa más abundante (~3500 recuentos), el azul menos abundante (0 recuentos) y el amarillo claro está en algún punto intermedio. Ten en cuenta que tanto las filas como las columnas se han reorganizado en función de medidas de similitud entre filas y columnas (ver <a href="../../../graphics/cluster-analysis/">Análisis de clúster</a>).</p>
 <p><strong>Transformación de datos</strong>. Ahora puedes notar que tenemos un problema de escala. Los datos están llenos de bacterias poco comunes (azules) y eso es todo lo que podemos ver en el mapa de calor. Para visualizar esto de manera más efectiva, podemos intentar una transformación logarítmica con una constante de +1 para lidiar con los ceros.</p>
 <div class="cell" data-layout-align="center">
-<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>Bac.Log10.counts500 <span class="ot">&lt;-</span> <span class="fu">log10</span>(Bac.counts500 <span class="sc">+</span> <span class="dv">1</span>)</span>
-<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="fu">pheatmap</span>(Bac.Log10.counts500)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>Bac.Log10.counts500 <span class="ot">&lt;-</span> <span class="fu">log10</span>(Bac.counts500 <span class="sc">+</span> <span class="dv">1</span>)</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="fu">pheatmap</span>(Bac.Log10.counts500)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
@@ -686,7 +683,7 @@ Otu00007 1112 1042 1211 1060 1155 1103 1283 1198 1175 1485</code></pre>
 <p>La vista de los datos ha cambiado realmente con la transformación, al igual que el agrupamiento de filas y columnas. Parece haber algunas OTUs muy abundantes (rojo/amarillo), algunas de abundancia media (blanco/baja) y otras de baja abundancia (azul).</p>
 <p>Esto no se habría visto tan claramente si no hubiéramos agrupado las filas y columnas, y si las hubiéramos representado “tal cual” desde la tabla de datos (aunque aquí ya se había hecho un ordenamiento de filas). Puedes ver esto si dibujamos el mapa de calor nuevamente sin agrupar las filas y columnas.</p>
 <div class="cell" data-layout-align="center">
-<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">pheatmap</span>(Bac.Log10.counts500, <span class="at">cluster_rows =</span> <span class="cn">FALSE</span>, <span class="at">cluster_cols =</span> <span class="cn">FALSE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">pheatmap</span>(Bac.Log10.counts500, <span class="at">cluster_rows =</span> <span class="cn">FALSE</span>, <span class="at">cluster_cols =</span> <span class="cn">FALSE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
@@ -706,9 +703,9 @@ Otu00007 1112 1042 1211 1060 1155 1103 1283 1198 1175 1485</code></pre>
 </ol>
 <p>Para extraer solo las columnas <code>density</code> y <code>species</code> de nuestro data frame de factores, podemos utilizar la función <code>select</code> del paquete “dplyr” y luego usar estos para codificar con colores nuestras muestras.</p>
 <div class="cell" data-layout-align="center">
-<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>Bac.factorsDS <span class="ot">&lt;-</span> <span class="fu">select</span>(Bac.factors, Density, Species)</span>
-<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a><span class="fu">pheatmap</span>(Bac.Log10.counts500, <span class="at">annotation_col =</span> Bac.factorsDS)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>Bac.factorsDS <span class="ot">&lt;-</span> <span class="fu">select</span>(Bac.factors, Density, Species)</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a><span class="fu">pheatmap</span>(Bac.Log10.counts500, <span class="at">annotation_col =</span> Bac.factorsDS)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
@@ -719,24 +716,24 @@ Otu00007 1112 1042 1211 1060 1155 1103 1283 1198 1175 1485</code></pre>
 </div>
 <p>Los colores son bastante feos. Crear los tuyos propios es complicado, pero implica crear vectores de colores nombrados y luego agregarlos a una lista. Esto representa la información de <code>anotación de colores</code>. Debemos definir colores para las covariables categóricas (grupos de factores) y rangos de colores para las covariables numéricas (por ejemplo, concentración).</p>
 <div class="cell" data-layout-align="center">
-<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Reordenar los niveles de densidad a Esparcido, Denso, Otro</span></span>
-<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>Bac.factorsDS<span class="sc">$</span>Density <span class="ot">&lt;-</span> <span class="fu">factor</span>(Bac.factorsDS<span class="sc">$</span>Density, <span class="at">levels =</span> <span class="fu">c</span>(<span class="st">"Sparse"</span>, <span class="st">"Dense"</span>, <span class="st">"Other"</span>))</span>
-<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>DensityCol <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"darkorchid"</span>, <span class="st">"darkorange"</span>, <span class="st">"grey80"</span>)</span>
-<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(DensityCol) <span class="ot">&lt;-</span> <span class="fu">levels</span>(Bac.factorsDS<span class="sc">$</span>Density)</span>
-<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Reordenar las especies a Hierba marina, Caulerpa, Otro</span></span>
-<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a>Bac.factorsDS<span class="sc">$</span>Species <span class="ot">&lt;-</span> <span class="fu">factor</span>(Bac.factorsDS<span class="sc">$</span>Species, <span class="at">levels =</span> <span class="fu">c</span>(<span class="st">"Seagrass"</span>, <span class="st">"Caulerpa"</span>, <span class="st">"Other"</span>))</span>
-<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a>SpeciesCol <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"forestgreen"</span>, <span class="st">"blue3"</span>, <span class="st">"grey80"</span>)</span>
-<span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(SpeciesCol) <span class="ot">&lt;-</span> <span class="fu">levels</span>(Bac.factorsDS<span class="sc">$</span>Species)</span>
-<span id="cb14-10"><a href="#cb14-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-11"><a href="#cb14-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Agregar a una lista, donde los nombres coinciden con los del dataframe de factores</span></span>
-<span id="cb14-12"><a href="#cb14-12" aria-hidden="true" tabindex="-1"></a>AnnColour <span class="ot">&lt;-</span> <span class="fu">list</span>(</span>
-<span id="cb14-13"><a href="#cb14-13" aria-hidden="true" tabindex="-1"></a>  <span class="at">Density =</span> DensityCol,</span>
-<span id="cb14-14"><a href="#cb14-14" aria-hidden="true" tabindex="-1"></a>  <span class="at">Species =</span> SpeciesCol</span>
-<span id="cb14-15"><a href="#cb14-15" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb14-16"><a href="#cb14-16" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-17"><a href="#cb14-17" aria-hidden="true" tabindex="-1"></a><span class="co"># Verificar el resultado</span></span>
-<span id="cb14-18"><a href="#cb14-18" aria-hidden="true" tabindex="-1"></a>AnnColour</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Reordenar los niveles de densidad a Esparcido, Denso, Otro</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>Bac.factorsDS<span class="sc">$</span>Density <span class="ot">&lt;-</span> <span class="fu">factor</span>(Bac.factorsDS<span class="sc">$</span>Density, <span class="at">levels =</span> <span class="fu">c</span>(<span class="st">"Sparse"</span>, <span class="st">"Dense"</span>, <span class="st">"Other"</span>))</span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>DensityCol <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"darkorchid"</span>, <span class="st">"darkorange"</span>, <span class="st">"grey80"</span>)</span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(DensityCol) <span class="ot">&lt;-</span> <span class="fu">levels</span>(Bac.factorsDS<span class="sc">$</span>Density)</span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Reordenar las especies a Hierba marina, Caulerpa, Otro</span></span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>Bac.factorsDS<span class="sc">$</span>Species <span class="ot">&lt;-</span> <span class="fu">factor</span>(Bac.factorsDS<span class="sc">$</span>Species, <span class="at">levels =</span> <span class="fu">c</span>(<span class="st">"Seagrass"</span>, <span class="st">"Caulerpa"</span>, <span class="st">"Other"</span>))</span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>SpeciesCol <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"forestgreen"</span>, <span class="st">"blue3"</span>, <span class="st">"grey80"</span>)</span>
+<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(SpeciesCol) <span class="ot">&lt;-</span> <span class="fu">levels</span>(Bac.factorsDS<span class="sc">$</span>Species)</span>
+<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Agregar a una lista, donde los nombres coinciden con los del dataframe de factores</span></span>
+<span id="cb13-12"><a href="#cb13-12" aria-hidden="true" tabindex="-1"></a>AnnColour <span class="ot">&lt;-</span> <span class="fu">list</span>(</span>
+<span id="cb13-13"><a href="#cb13-13" aria-hidden="true" tabindex="-1"></a>  <span class="at">Density =</span> DensityCol,</span>
+<span id="cb13-14"><a href="#cb13-14" aria-hidden="true" tabindex="-1"></a>  <span class="at">Species =</span> SpeciesCol</span>
+<span id="cb13-15"><a href="#cb13-15" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb13-16"><a href="#cb13-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-17"><a href="#cb13-17" aria-hidden="true" tabindex="-1"></a><span class="co"># Verificar el resultado</span></span>
+<span id="cb13-18"><a href="#cb13-18" aria-hidden="true" tabindex="-1"></a>AnnColour</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>$Density
       Sparse        Dense        Other 
@@ -749,7 +746,7 @@ $Species
 </div>
 <p>Ahora podemos volver a dibujar el mapa de calor con los colores elegidos.</p>
 <div class="cell" data-layout-align="center">
-<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">pheatmap</span>(Bac.Log10.counts500, <span class="at">annotation_col =</span> Bac.factorsDS, <span class="at">annotation_colors =</span> AnnColour)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="fu">pheatmap</span>(Bac.Log10.counts500, <span class="at">annotation_col =</span> Bac.factorsDS, <span class="at">annotation_colors =</span> AnnColour)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
@@ -766,11 +763,11 @@ $Species
 <p>Algunos son mejores que otros, pero tendrás que consultar más en la literatura sobre esto. Sin embargo, para el agrupamiento, el método de agrupamiento ‘average’ parece superior en muchas aplicaciones de ciencias de la computación. Una vez más, la ventaja de los mapas de calor es que puedes ver qué están haciendo los datos en relación a las opciones que has elegido.</p>
 <p>Veamos qué se produce al utilizar la distancia de ‘Manhattan’ como medida de similitud entre filas y columnas, y el método de agrupamiento ‘average’.</p>
 <div class="cell" data-layout-align="center">
-<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="fu">pheatmap</span>(Bac.Log10.counts500,</span>
-<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">clustering_distance_rows =</span> <span class="st">"manhattan"</span>,</span>
-<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">clustering_distance_cols =</span> <span class="st">"manhattan"</span>, <span class="at">clustering_method =</span> <span class="st">"average"</span>,</span>
-<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">annotation_colors =</span> AnnColour, <span class="at">annotation_col =</span> Bac.factorsDS</span>
-<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">pheatmap</span>(Bac.Log10.counts500,</span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">clustering_distance_rows =</span> <span class="st">"manhattan"</span>,</span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">clustering_distance_cols =</span> <span class="st">"manhattan"</span>, <span class="at">clustering_method =</span> <span class="st">"average"</span>,</span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">annotation_colors =</span> AnnColour, <span class="at">annotation_col =</span> Bac.factorsDS</span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
@@ -785,11 +782,11 @@ $Species
 <h3 class="anchored" data-anchor-id="escalamiento-de-variables">Escalamiento de variables</h3>
 <p>Es posible que deseemos comparar la abundancia de cada OTU bacteriano solo entre las muestras en lugar de contrastar su abundancia con otras OTUs de abundancia variable. Para hacer esto, podemos escalar las abundancias dentro de cada OTU de manera que la escala de colores muestre solo el rango relativo de abundancia para cada OTU individual. En este ejemplo, eso implica escalar la abundancia para cada fila con <code>scale="row"</code>.</p>
 <div class="cell" data-layout-align="center">
-<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="fu">pheatmap</span>(Bac.Log10.counts500,</span>
-<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">scale =</span> <span class="st">"row"</span>, <span class="at">clustering_distance_rows =</span> <span class="st">"manhattan"</span>,</span>
-<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">clustering_method =</span> <span class="st">"average"</span>,</span>
-<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">annotation_colors =</span> AnnColour, <span class="at">annotation_col =</span> Bac.factorsDS</span>
-<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="fu">pheatmap</span>(Bac.Log10.counts500,</span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">scale =</span> <span class="st">"row"</span>, <span class="at">clustering_distance_rows =</span> <span class="st">"manhattan"</span>,</span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">clustering_method =</span> <span class="st">"average"</span>,</span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">annotation_colors =</span> AnnColour, <span class="at">annotation_col =</span> Bac.factorsDS</span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
@@ -804,12 +801,12 @@ $Species
 <h3 class="anchored" data-anchor-id="ordenar-por-grupo">Ordenar por grupo</h3>
 <p>También podemos ordenar las muestras por sus grupos o tratamientos en lugar de ordenar por similitud entre filas o columnas. Esto se hace ordenando los datos de entrada y desactivando el agrupamiento de las columnas con <code>cluster_cols=FALSE</code>.</p>
 <div class="cell" data-layout-align="center">
-<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>SampleOrder <span class="ot">&lt;-</span> <span class="fu">order</span>(Bac.factorsDS<span class="sc">$</span>Species, Bac.factorsDS<span class="sc">$</span>Density)</span>
-<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a><span class="fu">pheatmap</span>(Bac.Log10.counts500[, SampleOrder],</span>
-<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">cluster_cols =</span> <span class="cn">FALSE</span>,</span>
-<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">clustering_method =</span> <span class="st">"average"</span>, <span class="at">annotation_colors =</span> AnnColour, <span class="at">annotation_col =</span> Bac.factorsDS</span>
-<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>SampleOrder <span class="ot">&lt;-</span> <span class="fu">order</span>(Bac.factorsDS<span class="sc">$</span>Species, Bac.factorsDS<span class="sc">$</span>Density)</span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a><span class="fu">pheatmap</span>(Bac.Log10.counts500[, SampleOrder],</span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">cluster_cols =</span> <span class="cn">FALSE</span>,</span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">clustering_method =</span> <span class="st">"average"</span>, <span class="at">annotation_colors =</span> AnnColour, <span class="at">annotation_col =</span> Bac.factorsDS</span>
+<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
@@ -824,29 +821,29 @@ $Species
 <p>Si hemos analizado nuestros datos multivariados e identificado las variables que difieren entre tratamientos, podemos elegir mostrar solo esas variables en el mapa de calor. En este ejemplo, solo analizaremos los OTUs bacterianos que difieren entre los dos niveles del factor “Especie” después de eliminar las muestras no vegetadas.</p>
 <p>Analizaremos las abundancias de todos los OTUs con modelos lineales generalizados multivariados utilizando la función <code>manyglm</code> del paquete mvabund. Los detalles de ese análisis no se describen aquí (consulta la <a href="../../../statistics/mvabund/">Introducción a mvabund</a> para obtener ayuda con ese paquete). Ten en cuenta que ejecutar <code>anova.manyglm</code> puede ser bastante lento.</p>
 <div class="cell" data-layout-align="center">
-<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Crear factor y archivo de datos sin las muestras U1, U2 y U3</span></span>
-<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>Bac.factorsDS_noU <span class="ot">&lt;-</span> <span class="fu">filter</span>(Bac.factors, Treatment_ID <span class="sc">!=</span> <span class="st">"U"</span>)</span>
-<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>Bac.counts500DS_noU <span class="ot">&lt;-</span> <span class="fu">select</span>(Bac.counts500, <span class="sc">-</span><span class="fu">contains</span>(<span class="st">"U"</span>))</span>
-<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Mvabund</span></span>
-<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(mvabund)</span>
-<span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a>dat.mva <span class="ot">&lt;-</span> <span class="fu">mvabund</span>(<span class="fu">t</span>(Bac.counts500DS_noU))</span>
-<span id="cb20-8"><a href="#cb20-8" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(dat.mva)</span>
-<span id="cb20-9"><a href="#cb20-9" aria-hidden="true" tabindex="-1"></a>dat.nb <span class="ot">&lt;-</span> <span class="fu">manyglm</span>(dat.mva <span class="sc">~</span> Species <span class="sc">*</span> Density, <span class="at">data =</span> Bac.factorsDS_noU)</span>
-<span id="cb20-10"><a href="#cb20-10" aria-hidden="true" tabindex="-1"></a>dat.aov <span class="ot">&lt;-</span> <span class="fu">anova.manyglm</span>(dat.nb, <span class="at">p.uni =</span> <span class="st">"unadjusted"</span>, <span class="at">nBoot =</span> <span class="dv">500</span>)</span>
-<span id="cb20-11"><a href="#cb20-11" aria-hidden="true" tabindex="-1"></a>dat.aov<span class="sc">$</span>uni.p[, <span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>]</span>
-<span id="cb20-12"><a href="#cb20-12" aria-hidden="true" tabindex="-1"></a>SpeciesDiffs <span class="ot">&lt;-</span> <span class="fu">which</span>(dat.aov<span class="sc">$</span>uni.p[<span class="st">"Species"</span>, ] <span class="sc">&lt;</span> <span class="fl">0.05</span> <span class="sc">&amp;</span> dat.aov<span class="sc">$</span>uni.p[<span class="st">"Species:Density"</span>, ] <span class="sc">&gt;</span> <span class="fl">0.05</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Crear factor y archivo de datos sin las muestras U1, U2 y U3</span></span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>Bac.factorsDS_noU <span class="ot">&lt;-</span> <span class="fu">filter</span>(Bac.factors, Treatment_ID <span class="sc">!=</span> <span class="st">"U"</span>)</span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>Bac.counts500DS_noU <span class="ot">&lt;-</span> <span class="fu">select</span>(Bac.counts500, <span class="sc">-</span><span class="fu">contains</span>(<span class="st">"U"</span>))</span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Mvabund</span></span>
+<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(mvabund)</span>
+<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a>dat.mva <span class="ot">&lt;-</span> <span class="fu">mvabund</span>(<span class="fu">t</span>(Bac.counts500DS_noU))</span>
+<span id="cb19-8"><a href="#cb19-8" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(dat.mva)</span>
+<span id="cb19-9"><a href="#cb19-9" aria-hidden="true" tabindex="-1"></a>dat.nb <span class="ot">&lt;-</span> <span class="fu">manyglm</span>(dat.mva <span class="sc">~</span> Species <span class="sc">*</span> Density, <span class="at">data =</span> Bac.factorsDS_noU)</span>
+<span id="cb19-10"><a href="#cb19-10" aria-hidden="true" tabindex="-1"></a>dat.aov <span class="ot">&lt;-</span> <span class="fu">anova.manyglm</span>(dat.nb, <span class="at">p.uni =</span> <span class="st">"unadjusted"</span>, <span class="at">nBoot =</span> <span class="dv">500</span>)</span>
+<span id="cb19-11"><a href="#cb19-11" aria-hidden="true" tabindex="-1"></a>dat.aov<span class="sc">$</span>uni.p[, <span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>]</span>
+<span id="cb19-12"><a href="#cb19-12" aria-hidden="true" tabindex="-1"></a>SpeciesDiffs <span class="ot">&lt;-</span> <span class="fu">which</span>(dat.aov<span class="sc">$</span>uni.p[<span class="st">"Species"</span>, ] <span class="sc">&lt;</span> <span class="fl">0.05</span> <span class="sc">&amp;</span> dat.aov<span class="sc">$</span>uni.p[<span class="st">"Species:Density"</span>, ] <span class="sc">&gt;</span> <span class="fl">0.05</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Podemos incluir el argumento <code>cutree</code> para las filas y columnas, para dividir los datos en los dos grupos esperados. Cruzamos los dedos para que muestre lo que esperamos.</p>
 <div class="cell" data-layout-align="center">
-<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Crear un vector que se utilizará para seleccionar muestras que no son del sedimento</span></span>
-<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>DS <span class="ot">&lt;-</span> Bac.factors<span class="sc">$</span>Treatment_ID <span class="sc">!=</span> <span class="st">"U"</span></span>
-<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a><span class="fu">pheatmap</span>(Bac.Log10.counts500[SpeciesDiffs, DS],</span>
-<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">scale =</span> <span class="st">"row"</span>,</span>
-<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">clustering_method =</span> <span class="st">"average"</span>, <span class="at">annotation_col =</span> Bac.factorsDS,</span>
-<span id="cb21-7"><a href="#cb21-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">cutree_rows =</span> <span class="dv">2</span>, <span class="at">cutree_cols =</span> <span class="dv">2</span></span>
-<span id="cb21-8"><a href="#cb21-8" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Crear un vector que se utilizará para seleccionar muestras que no son del sedimento</span></span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>DS <span class="ot">&lt;-</span> Bac.factors<span class="sc">$</span>Treatment_ID <span class="sc">!=</span> <span class="st">"U"</span></span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a><span class="fu">pheatmap</span>(Bac.Log10.counts500[SpeciesDiffs, DS],</span>
+<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">scale =</span> <span class="st">"row"</span>,</span>
+<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">clustering_method =</span> <span class="st">"average"</span>, <span class="at">annotation_col =</span> Bac.factorsDS,</span>
+<span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">cutree_rows =</span> <span class="dv">2</span>, <span class="at">cutree_cols =</span> <span class="dv">2</span></span>
+<span id="cb20-8"><a href="#cb20-8" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">

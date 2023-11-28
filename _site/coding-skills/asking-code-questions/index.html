@@ -521,7 +521,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../statistics/time-series/index.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Predicción de series temporales</span></a>
+ <span class="menu-text">Series temporales</span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -666,7 +666,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>data</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code> [1]  7  5  1  6  4 10  3  8  2  9</code></pre>
+<pre><code> [1]  2 10  6  8  4  7  3  5  1  9</code></pre>
 </div>
 </div>
 <p>O, 10 números aleatorios con reemplazo:</p>
@@ -675,7 +675,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>data</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code> [1] 10  6  1  4  6  5  1  8  5  6</code></pre>
+<pre><code> [1] 10  3 10  2  3  7  4  6 10  2</code></pre>
 </div>
 </div>
 <p>Puedes crear un vector y luego realizar una muestra de él:</p>
@@ -686,7 +686,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>data</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] "a" "a" "e" "e" "e"</code></pre>
+<pre><code>[1] "e" "a" "d" "a" "a"</code></pre>
 </div>
 </div>
 <p>También puedes repetir el muestreo <code>n veces</code>. Por ejemplo, tomar muestras de cuatro palos de cartas, 100 veces:</p>
@@ -715,7 +715,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(data)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 0.6295493 0.2578639 0.2300029 0.9340646 0.6081261 0.4896559</code></pre>
+<pre><code>[1] 0.5420870 0.2306343 0.8789701 0.6870177 0.1381833 0.1761050</code></pre>
 </div>
 </div>
 <p>Al igual que rnorm, <code>runif</code> recupera valores de una distribución con <code>min = 0</code> y <code>max = 1</code>. Podemos cambiar esto a lo que queramos. Por ejemplo, para obtener 100 números aleatorios entre -10 y 5:</p>
@@ -838,7 +838,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="cell">
 <div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sessionInfo</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>R version 4.3.1 (2023-06-16 ucrt)
+<pre><code>R version 4.3.2 (2023-10-31 ucrt)
 Platform: x86_64-w64-mingw32/x64 (64-bit)
 Running under: Windows 11 x64 (build 22621)
 
@@ -861,10 +861,10 @@ loaded via a namespace (and not attached):
  [5] xfun_0.41         purrr_1.0.2       generics_0.1.3    jsonlite_1.8.7   
  [9] glue_1.6.2        htmltools_0.5.7   fansi_1.0.5       rmarkdown_2.25   
 [13] evaluate_0.23     tibble_3.2.1      fastmap_1.1.1     yaml_2.3.7       
-[17] lifecycle_1.0.4   compiler_4.3.1    dplyr_1.1.4       htmlwidgets_1.6.3
+[17] lifecycle_1.0.4   compiler_4.3.2    dplyr_1.1.4       htmlwidgets_1.6.3
 [21] pkgconfig_2.0.3   tidyr_1.3.0       rstudioapi_0.15.0 digest_0.6.33    
 [25] R6_2.5.1          tidyselect_1.2.0  utf8_1.2.4        pillar_1.9.0     
-[29] magrittr_2.0.3    tools_4.3.1      </code></pre>
+[29] magrittr_2.0.3    tools_4.3.2      </code></pre>
 </div>
 </div>
 <p><strong>Otros puntos importantes</strong></p>
