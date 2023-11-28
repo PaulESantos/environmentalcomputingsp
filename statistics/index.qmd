@@ -75,9 +75,9 @@ Los modelos mixtos son aquellos que tienen una mezcla de efectos fijos y aleator
 
 Algunas pruebas comúnmente utilizadas para contrastar las frecuencias de observaciones entre variables categóricas.
 
-* [Pruebas de bondad de ajuste](/categorical/goodness-of-fit/).
-* [Tablas de contingencia](/categorical/contingency-tables/).
-* [Prueba Exacta de Fisher](/categorical/Fishers-exact/).
+* [Pruebas de bondad de ajuste](statistics/categorical/goodness-of-fit/).
+* [Tablas de contingencia](statistics/categorical/contingency-tables/).
+* [Prueba Exacta de Fisher](statistics/categorical/Fishers-exact/).
 
 
 ## Meta-análisis:
