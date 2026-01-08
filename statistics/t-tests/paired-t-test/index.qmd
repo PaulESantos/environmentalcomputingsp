@@ -76,7 +76,11 @@ t.test(Performance ~ Treatment, data = Greenhouse, paired = TRUE)
 
 ```{r,echo=FALSE}
 Greenhouse <- read.csv(file = "Greenhouse.csv", header = TRUE)
-t.test(Performance ~ Treatment, data = Greenhouse, paired = TRUE)
+
+shady_vals <- Greenhouse$Performance[Greenhouse$Treatment == "Shady"]
+sunny_vals <- Greenhouse$Performance[Greenhouse$Treatment == "Sunny"]
+
+t.test(shady_vals, sunny_vals, paired = TRUE)
 ```
 
 El resultado importante de una prueba *t* pareada incluye la estadística de prueba *t*, en este caso 18.8, los grados de libertad (en este caso 9) y la probabilidad asociada con ese valor de *t*. En este caso, tenemos un valor de *p* muy bajo (*p* < 0.001) y podemos rechazar la hipótesis nula de que las plantas puedan realizar la fotosíntesis con el mismo rendimiento en los dos entornos de luz.

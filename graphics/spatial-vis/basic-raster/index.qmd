@@ -22,7 +22,7 @@ Instala los paquetes que vamos a necesitar: el paquete `raster` es la biblioteca
 
 
 ```{r, eval=FALSE}
-install.packages(c("raster", "dismo", "rgdal"))
+install.packages(c("raster", "dismo", "terra"))
 ```
 
 Verifica que puedas cargarlos
@@ -30,7 +30,7 @@ Verifica que puedas cargarlos
 ```{r, eval=TRUE, message=FALSE, warning=FALSE}
 library(raster)
 library(dismo)
-library(rgdal)
+library(terra)
 ```
 
 
